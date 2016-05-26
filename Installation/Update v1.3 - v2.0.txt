@@ -1,0 +1,79 @@
+Ersetze die Datei picupload.php; Beachte dabei, dass du deine Konfiguration in der Ausgangsdatei sicherst, und in die neue Datei einfügst!
+
+Ersetze den Inhalt des Templates "picupload" durch den Inhalt des mitgelieferten Templates.
+
+Templates: newthread, addreply, editpost (für alle drei durchführen)
+=========  ---------  --------  --------
+
+Suche:
+<input type="button" value="Bilder in dein Verzeichnis laden" class="input" onclick="window.open('picupload.php', '_blank');" />
+
+Ersetze mit:
+<input type="button" value="Bilder in dein Verzeichnis laden" class="input" onclick="open_picupload('');">
+
+
+
+Templates: newthread, addreply
+=========  ---------  --------
+
+Suche:
+<body>
+
+Ersetze mit:
+<body onload="$js_execute">
+
+
+
+Template: headinclude
+========  -----------
+
+Füge ganz am Ende ein:
+<script src="js/picupload.js" type="text/javascript"></script>
+
+
+Datei: addreply.php
+====== ------------
+
+Suche:
+eval("\$tpl->output(\"".$tpl->get("addreply")."\");");
+
+Füge darüber ein:
+if (isset($_GET['inhalt']) && trim($_GET['inhalt']) != '') {
+	if (isset($_GET['autosubmit']) && trim($_GET['autosubmit']) == "true") $autosubmit = 1;
+	else $autosubmit = 0;
+
+	$js_execute = "do_form_submit_newthread('','".htmlentities(str_replace("\n", '\n', trim(base64_decode(trim($_GET['inhalt'])))), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1')."', '{$autosubmit}');";
+}
+
+Datei: newthread.php
+====== -------------
+
+Suche:
+eval("\$tpl->output(\"".$tpl->get("newthread")."\");");
+
+Füge darüber ein:
+if (isset($_GET['inhalt']) && trim($_GET['inhalt']) != '' && isset($_GET['title']) && trim($_GET['title']) != '') {
+	if (isset($_GET['autosubmit']) && trim($_GET['autosubmit']) == "true") $autosubmit = 1;
+	else $autosubmit = 0;
+	$js_execute = "do_form_submit_newthread('".htmlentities(str_replace("\n", "", base64_decode(trim($_GET['title']))), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1')."','".htmlentities(str_replace("\n", '\n', trim(base64_decode(trim($_GET['inhalt'])))), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1')."', '{$autosubmit}');";
+}
+
+
+
+Konfiguration anpassen: picupload.php
+======================= -------------
+
+Füge in der Konfiguration (oben) folgende Zeile hinzu:
+$fotoalben_board_id = 1;
+
+Wenn du in deinem Forum ein Board bereitgestellt hast, in das die Fotoalben alle reinkommen, dann stelle hier die ID des Forums ein.
+Hast du soetwas nicht, lösche die Zeile, kommentiere sie aus oder setze den Wert auf 0.
+
+
+Fertig! :)
+
+
+Viel Spaß bei der Verwendung,
+kill0rz
+http://kill0rz.com/
+Stand: 26.01.2016
