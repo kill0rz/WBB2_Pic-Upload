@@ -64,6 +64,11 @@ if ($loggedin) {
 			];
 		}
 		echo json_encode($response);
+	} elseif (isset($_GET['action']) && trim($_GET['action']) == "getboardid") {
+		$response = (object) [
+			'boardid' => $fotoalben_board_id,
+		];
+		echo json_encode($response);
 	} else {
 		$ordner = strtr(strtolower(trim($_POST['ordner'])), $ersetzen);
 
