@@ -1,3 +1,13 @@
+//
+//
+
+//
+// Pic-Upload Script v3.0 by kill0rz
+//
+
+//
+//
+
 function open_picupload(threadname) {
 	var areaOption = document.getElementById("thread_title");
 	if (threadname.trim() !== '') {
@@ -12,11 +22,22 @@ function open_picupload(threadname) {
 }
 
 function addreplaytothread(inhalt, threadid) {
+	//autopost
 	window.location = './addreply.php?threadid=' + threadid + '&inhalt=' + inhalt + '&autosubmit=true';
 }
 
 function submittonewthread(inhalt, threadname) {
-	window.location = './newthread.php?boardid=1&inhalt=' + inhalt + '&title=' + threadname + '&autosubmit=true';
+	//autopost
+	var request = new XMLHttpRequest();
+	var formData = new FormData();
+	request.onreadystatechange = function() {
+		if (request.readyState === 4) {
+			window.location = './newthread.php?boardid=' + request.response.boardid + '&inhalt=' + inhalt + '&title=' + threadname + '&autosubmit=true';
+		}
+	}
+	request.open('GET', './picupload_process.php?action=getboardid');
+	request.responseType = 'json';
+	request.send(formData);
 }
 
 function do_form_submit_newthread(title, inhalt, autosubmit) {
@@ -89,9 +110,9 @@ function uploadFile(fileid) {
 		document.getElementById("prozent-" + fileid).innerHTML = p + "%";
 	};
 
-	client.onabort = function(e) {
-		alert("Upload abgebrochen");
-	};
+	// client.onabort = function(e) {
+	// 	alert("Upload abgebrochen");
+	// };
 
 	client.open("POST", "picupload.php");
 	client.send(formData);
