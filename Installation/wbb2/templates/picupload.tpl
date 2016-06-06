@@ -75,12 +75,16 @@
 								<div id="autopostbutton"></div>
 								<br />
 								<hr/>
-								<br /> Deine Ordner:
+								<br /> <h4>Deine Ordner:</h4>
 								<br />
 								<table border='none'>
 									<tr>
 										<th>Ordner</th>
-										<th>zum Randompic der Woche freigegeben?</th>
+										<if($use_randompic)>
+											<then>
+												<th>zum Randompic der Woche freigegeben?</th>
+											</then>
+										</if>
 									</tr>
 									$folders
 								</table>
@@ -94,8 +98,12 @@
 										<th>Nutzer</th>
 										<th>hochgeladene Bilder</th>
 										<th>Anteil hochgeladener Bilder</th>
-										<th>freigegebene Bilder</th>
-										<th>Anteil freigegebener Bilder</th>
+										<if($use_randompic)>
+											<then>
+												<th>freigegebene Bilder</th>
+												<th>Anteil freigegebener Bilder</th>
+											</then>
+										</if>
 									</tr>
 									$statsinhalt
 								</table>

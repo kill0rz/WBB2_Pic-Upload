@@ -1,6 +1,9 @@
+neues Formular
+--------------
 Ordnerübersicht soll sich nach Upload aktualisieren
 
-Ordner sollen schon dem Upload freigeben werden können
 
-Randompic in die Beschreibung includieren
 
+Beide Formulare
+---------------
+Ordner sollen schon dem vor Upload freigeben werden können

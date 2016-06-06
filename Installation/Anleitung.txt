@@ -76,9 +76,10 @@ v3.0 (25.06.2016)
 + Chenged: technische Änderungen
 + Added Randombild der Woche
 + Fixed: HTML5 Anpassungen
++ Added: Randompic der Woche
 
-Installtion
-###########
+Installation
+############
 
 Lade die alle Dateien in der Struktur von /Installation/wbb2/ in deinen Forenordner.
 Importiere das Template --> cachen --> nur neue Templates cachen
@@ -149,8 +150,8 @@ if (isset($_POST['inhalt']) && trim($_POST['inhalt']) != '' && isset($_POST['tit
 
 
 
-Konfiguration anpassen: picupload_process.php
-======================= ---------------------
+Konfiguration anpassen: picupload_config.php
+======================= --------------------
 
 Oben in der Datei findest du zwei Einträge, die angepasst werden müssen (nicht per ACP einstellbar).
 => $subordner = "Fotoalben"; //ohne / am Ende
@@ -163,6 +164,25 @@ Du findest die Gruppen-IDs im ACP --> Gruppen bearbeiten (dann ganz links)
 => $fotoalben_board_id = 1;
 Wenn du in deinem Forum ein Board bereitgestellt hast, in das die Fotoalben alle reinkommen, dann stelle hier die ID des Forums ein.
 Hast du soetwas nicht, setze den Wert auf 0.
+
+=> $use_randompic = false;
+true / false; siehe unten
+
+
+Randompic der Woche:
+====================
+
+Wenn du die XY Megashoutbox Version 1.3 installiert hast, kannst du es deinen Nutzern ermöglichen, dass jede Woche ein Zufallsbild in der Shoutbox erscheint.
+Jeder Nutzer hat die Möglichkeit, seine Alben für das Zufallsbild der Woche freizugeben.
+Du musst nun die Datei pic2shoutbox.php immer dann aufrufen, wenn das Bild gepostet werden soll. Dies kann z.B. per Cronjob jeden Sonntag erfolgen. Wichtig ist, dass du (aus Sicherheitsgründen) den ersten Parameter 1 setzt. Das sieht dann etwa so aus:
+
+:~# php pic2shoutbox.php 1
+
+Daraufhin wird zufällig einer von zwei Algorithmen gestartet, die wiederum zufällig das Bild bestimmen.
+Der erste Algorithmus nimmt sich alle freigegebenen Bilder und sucht davon zufällig ein Bild aus.
+Der zweite Algorithmus sucht zufällig einen Nutzer, danach zufällig ein Album und dann zufällig nach einem Bild.
+
+
 
 
 FERTIG!

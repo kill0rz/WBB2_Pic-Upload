@@ -60,8 +60,8 @@ if (isset($_POST['inhalt']) && trim($_POST['inhalt']) != '' && isset($_POST['tit
 	$js_execute = "do_form_submit_newthread('" . htmlentities(str_replace(array("'", "\n"), "", trim(base64_decode(trim($_POST['title'])))), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1') . "','" . htmlentities(str_replace("\n", '\n', trim(base64_decode(trim($_POST['inhalt'])))), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1') . "', '{$autosubmit}');";
 }
 
-Konfiguration anpassen: picupload_process.php
-======================= ---------------------
+Konfiguration anpassen: picupload_config.php
+======================= --------------------
 
 Du findets oben die Variable $fotoalben_board_id.
 Wenn du in deinem Forum ein Board bereitgestellt hast, in das die Fotoalben alle reinkommen, dann stelle hier die ID des Forums ein.

@@ -126,7 +126,7 @@ function resizeImage($filepath_old, $filepath_new, $image_dimension, $scale_mode
 }
 
 function generate_folderoverview($formular = "") {
-	global $_GET, $verzeichnishandle, $folders_hinweis, $vorschauen, $unterelinks, $folders, $url2board;
+	global $_GET, $verzeichnishandle, $folders_hinweis, $vorschauen, $unterelinks, $folders, $url2board, $use_randompic;
 
 	if (isset($_GET['action']) and $_GET['action'] == 'togglefreigabe') {
 		if (is_dir($verzeichnishandle . "/" . $_GET['folder'])) {
@@ -158,15 +158,20 @@ function generate_folderoverview($formular = "") {
 			foreach ($folder as $f) {
 				if ($f != '.' and $f != '..' and $f != 'index.php' && is_dir($verzeichnishandle . "/" . $f)) {
 					$folders .= "<tr><td><a href='?folder=" . $f . "&formular={$formular}#inhalt'>" . $f . "</a></td>";
-					if (file_exists($verzeichnishandle . "/" . $f . "/allowtorandompic")) {
-						//ist freigegeben?
-						$folders .= "<td><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/erledigt.gif' alt='erledigt' /></a></td></tr>";
-					} else {
-						$folders .= "<td><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/delete.png' /></a></td></tr>";
+					if ($use_randompic) {
+						if (file_exists($verzeichnishandle . "/" . $f . "/allowtorandompic")) {
+							//ist freigegeben?
+							$folders .= "<td><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/erledigt.gif' alt='erledigt' /></a></td>";
+						} else {
+							$folders .= "<td><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/delete.png' /></a></td>";
+						}
 					}
+					$folders .= "</tr>";
 				}
 			}
-			$folders_hinweis = "<img src='./images/erledigt.gif' alt='erledigt' /> = Album ist freigegeben, <img src='./images/delete.png' alt='delete' /> = nicht freigegeben";
+			if ($use_randompic) {
+				$folders_hinweis = "<img src='./images/erledigt.gif' alt='erledigt' /> = Album ist freigegeben, <img src='./images/delete.png' alt='delete' /> = nicht freigegeben";
+			}
 		}
 	} else {
 		$folders = "Noch keine vorhanden";
@@ -193,7 +198,7 @@ function generate_folderoverview($formular = "") {
 }
 
 function generate_stats() {
-	global $subordner, $db, $statsinhalt, $error;
+	global $subordner, $db, $statsinhalt, $error, $use_randompic;
 	$usersdata = array();
 	if (is_dir("./" . $subordner . "/")) {
 		$folder = scandir("./" . $subordner . "/");
@@ -239,10 +244,18 @@ function generate_stats() {
 			} else {
 				$prz_pic_allowed = round($data['pictures_allowed'] / $gesamtbilder_allowed, 2) * 100;
 			}
-			$statsinhalt .= "<tr><td>{$data['name']}</td><td>{$data['pictures']}</td><td>{$prz_pic}%</td><td>{$data['pictures_allowed']}</td><td>{$prz_pic_allowed}%</td></tr>";
+			$statsinhalt .= "<tr><td>{$data['name']}</td><td>{$data['pictures']}</td><td>{$prz_pic}%</td>";
+			if ($use_randompic) {
+				$statsinhalt .= "<td>{$data['pictures_allowed']}</td><td>{$prz_pic_allowed}%</td>";
+			}
+			$statsinhalt .= "</tr>";
 		}
 		$prz_all = round($gesamtbilder_allowed / $gesamtbilder, 2) * 100;
-		$statsinhalt .= "<tr><td><b>gesamt</b></td><td>{$gesamtbilder}</td><td>100%</td><td>{$gesamtbilder_allowed}</td><td>{$prz_all}%</td></tr>";
+		$statsinhalt .= "<tr><td><b>gesamt</b></td><td>{$gesamtbilder}</td><td>100%</td>";
+		if ($use_randompic) {
+			$statsinhalt .= "<td>{$gesamtbilder_allowed}</td><td>{$prz_all}%</td>";
+		}
+		$statsinhalt .= "</tr>";
 	} else {
 		$error .= "Error 9";
 	}
