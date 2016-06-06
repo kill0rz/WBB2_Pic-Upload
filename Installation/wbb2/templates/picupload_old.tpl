@@ -3,7 +3,7 @@
 	<html xmlns="http://www.w3.org/1999/xhtml" dir="{$lang->items['LANG_GLOBAL_DIRECTION']}" lang="{$lang->items['LANG_GLOBAL_LANGCODE']}" xml:lang="{$lang->items['LANG_GLOBAL_LANGCODE']}">
 
 	<head>
-		<title>$master_board_name | Pic-Upload v2</title>
+		<title>$master_board_name | Pic-Upload v3</title>
 		$headinclude
 	</head>
 
@@ -14,7 +14,7 @@
 				<td class="tablea">
 					<table cellpadding="0" cellspacing="0" border="0" style="width:100%">
 						<tr class="tablea_fc">
-							<td align="left"><span class="smallfont"><b><a href="index.php{$SID_ARG_1ST}">$master_board_name</a> &raquo; Pic-Upload v1</b></span></td>
+							<td align="left"><span class="smallfont"><b><a href="index.php{$SID_ARG_1ST}">$master_board_name</a> &raquo; Pic-Upload v3</b></span></td>
 							<td align="right"><span class="smallfont"><b>$usercbar</b></span></td>
 						</tr>
 					</table>

@@ -10,10 +10,13 @@
 //
 //
 
-error_reporting(E_ALL);
-
 $filename = "picupload_process.php";
 require './picupload_functions.php';
+
+// $db = mysqli_connect($sqlhost, $sqluser, $sqlpassword, $sqldb);
+// if (!$db) {
+// 	exit("Error.");
+// }
 
 $albenurl = $url2board . "/" . $subordner . "/";
 $error = "";

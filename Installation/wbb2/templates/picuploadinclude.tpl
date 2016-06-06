@@ -1,1 +1,0 @@
-<a href="picupload.php" target="_blank">Bilder auf den Server laden</a>

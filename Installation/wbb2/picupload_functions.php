@@ -1,13 +1,5 @@
 <?php
 
-// Konfiguration Anfang
-
-$subordner = "Fotoalben"; //ohne / am Ende
-$erlaubtegruppen = array("1", "4");
-$fotoalben_board_id = 1;
-
-// Konfiguration Ende
-
 //
 //
 
@@ -18,6 +10,7 @@ $fotoalben_board_id = 1;
 //
 //
 
+require './picupload_config.php';
 require './global.php';
 require './acp/lib/config.inc.php';
 require './acp/lib/class_parse.php';
@@ -25,11 +18,6 @@ require './acp/lib/options.inc.php';
 
 $ersetzen = array('ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'Ä' => 'ae', 'Ö' => 'oe', 'Ü' => 'ue', 'ß' => 'ss', ' ' => '_', '\\' => '-', '/' => '-', "http://" => "", "http" => "", "//" => "", ":" => "", ";" => "", "[" => "", "]" => "", "{" => "", "}" => "", "%" => "", "$" => "", "?" => "", "!" => "", "=" => "", "'" => "_", "(" => "_", ")" => "_");
 $wegarray = array("<", ">", "%3E", "alert(", "http://", "ftp://", "sftp://", "https://", "http%3A%2F%2", "https%3A%2F%2", "ftp%3A%2F%2", "sftp%3A%2F%2", "String.fromCharCode", "(", ")", "'", '"', ";", "<?php", "<?", "?>");
-
-$db = mysqli_connect($sqlhost, $sqluser, $sqlpassword, $sqldb);
-if (!$db) {
-	exit("Error.");
-}
 
 function inarray($array1, $array2) {
 	foreach ($array1 as $a1) {
@@ -172,13 +160,13 @@ function generate_folderoverview($formular = "") {
 					$folders .= "<tr><td><a href='?folder=" . $f . "&formular={$formular}#inhalt'>" . $f . "</a></td>";
 					if (file_exists($verzeichnishandle . "/" . $f . "/allowtorandompic")) {
 						//ist freigegeben?
-						$folders .= "<td><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/Chrysanica2/erledigt.gif' /></a></td></tr>";
+						$folders .= "<td><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/erledigt.gif' alt='erledigt' /></a></td></tr>";
 					} else {
 						$folders .= "<td><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/delete.png' /></a></td></tr>";
 					}
 				}
 			}
-			$folders_hinweis = "<img src='./images/Chrysanica2/erledigt.gif' /> = Album ist freigegeben, <img src='./images/delete.png' /> = nicht freigegeben";
+			$folders_hinweis = "<img src='./images/erledigt.gif' alt='erledigt' /> = Album ist freigegeben, <img src='./images/delete.png' alt='delete' /> = nicht freigegeben";
 		}
 	} else {
 		$folders = "Noch keine vorhanden";
@@ -191,7 +179,7 @@ function generate_folderoverview($formular = "") {
 			foreach ($folder as $f) {
 				if ($f != '.' and $f != '..' and $f != 'index.php' && $f != "allowtorandompic") {
 					$links .= "[IMG]" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "[/IMG]\n";
-					$vorschauen .= "<a href='" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "' target='_blank'><img src='" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "' alt='' width='150px' /></a>\n";
+					$vorschauen .= "<a href='" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "' target='_blank'><img src='" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "' alt='{$f}' width='150px' /></a>\n";
 				}
 			}
 			$linksarray = explode("\n", $links);
@@ -212,9 +200,9 @@ function generate_stats() {
 		foreach ($folder as $f) {
 			if (is_dir("./" . $subordner . "/" . $f) && $f != '.' && $f != '..') {
 				//username
-				$result = mysqli_query($db, "SELECT username FROM bb1_users WHERE userid={$f} LIMIT 1");
-				while ($row = mysqli_fetch_object($result)) {
-					$usersdata[$f]['name'] = $row->username;
+				$result = $db->query("SELECT username FROM bb1_users WHERE userid={$f} LIMIT 1");
+				while ($row = $db->fetch_array($result)) {
+					$usersdata[$f]['name'] = $row['username'];
 					$usersdata[$f]['pictures'] = 0;
 					$usersdata[$f]['pictures_allowed'] = 0;
 				}

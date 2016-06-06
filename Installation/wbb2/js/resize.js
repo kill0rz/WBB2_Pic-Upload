@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 								request2.send(formData);
 
 								//abschluss, freigeben
-								document.getElementById('resizeimgbeforeupload_status').innerHTML = "<img alt='ok' src='./images/Chrysanica2/erledigt.gif' />";
+								document.getElementById('resizeimgbeforeupload_status').innerHTML = "<img alt='ok' src='./images/erledigt.gif' />";
 								i_curr = 0;
 								i_names = 0;
 								document.getElementById("file_upload").value = "";

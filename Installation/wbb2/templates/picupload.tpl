@@ -41,6 +41,7 @@
 							<span class="smallfont">
 								<pre><b>neues Uploadformular</b> | <a href="./picupload.php?formular=old">altes Uploadformular</a></pre>
 								<h3>Hier hochgeladene Dateien werden <b>vor</b> dem Upload verkleinert und sofort nach dem Auswählen abgearbeitet!</h3>
+								<i>Hinweis:</i> Wenn du viele Bilder hochladen willst (&gt;100MB), dann nutze bitte Chrome oder Vivaldi. Firefox, Opera und co. stürzen dabei ab.<br /><br />
 								<div style="border: 1px solid red; padding: 5px; clear: both;" id="ordner">
 									In den Ordner:
 									<br />
