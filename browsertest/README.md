@@ -4,9 +4,9 @@ Upload at least 600MB of jpg pictures.
 
 Succesfully passed browsers:
 + Vivaldi 1.3
-+ Chrome 50+
++ Chrome 51
 
 
 Browsers that crash:
 + Opera 39
-+ Firefox 46s
++ Firefox 47
