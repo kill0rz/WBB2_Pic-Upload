@@ -3,6 +3,7 @@
 
 //
 // Pic-Upload Script v3.0 by kill0rz
+// browsertest version
 //
 
 //

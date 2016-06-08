@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div style="border: 1px solid black; padding: 5px; clear: both;" id="links">
-		<br />Es sind nur Bilder folgender Formate erlaubt: jpg, jpeg, png, gif
+		<br />formats allowed: jpg, jpeg, png, gif
 		<br />
 		<form id="resizeimgbeforeupload">
 			<input type="file" accept="image/jpeg, image/gif, image/x-png" id="file_upload" multiple/>
@@ -22,7 +22,5 @@
 	<div style="border: 1px solid black; padding: 5px; clear: both;">
 		<textarea rows=10 cols=150 id="linksammlung"></textarea>
 	</div>
-	<div id="autopostbutton"></div>
-
 </body>
 </html>
