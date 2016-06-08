@@ -12,4 +12,4 @@ Browsers that crash:
 + Firefox 47
 
 
-Link to Mozilla Firfox bugtracker: https://bugzilla.mozilla.org/show_bug.cgi?id=1278960
+Link to Mozilla Firefox bugtracker: https://bugzilla.mozilla.org/show_bug.cgi?id=1278960
