@@ -10,3 +10,6 @@ Succesfully passed browsers:
 Browsers that crash:
 + Opera 39
 + Firefox 47
+
+
+Link to Mozilla Firfox bugtracker: https://bugzilla.mozilla.org/show_bug.cgi?id=1278960
