@@ -13,7 +13,10 @@
 $filename = "picupload_process.php";
 require './picupload_functions.php';
 
-$ersetzen = array('ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'Ä' => 'ae', 'Ö' => 'oe', 'Ü' => 'ue', 'ß' => 'ss', ' ' => '_', '\\' => '-', '/' => '-', "http://" => "", "http" => "", "//" => "", ":" => "", ";" => "", "[" => "", "]" => "", "{" => "", "}" => "", "%" => "", "$" => "", "?" => "", "!" => "", "=" => "", "'" => "_", "(" => "_", ")" => "_");
+// $db = mysqli_connect($sqlhost, $sqluser, $sqlpassword, $sqldb);
+// if (!$db) {
+// 	exit("Error.");
+// }
 
 $albenurl = $url2board . "/" . $subordner . "/";
 $error = "";
@@ -33,21 +36,28 @@ if ($loggedin) {
 			$ordner_orig = $ordner;
 			$ordner = strtr(strtolower(trim(base64_decode(trim($_GET['folder'])))), $ersetzen);
 
-			getfolder();
+			$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $fotoalben_board_id . ";";
+			$result = $db->unbuffered_query($sql);
+			while ($row = $db->fetch_array($result)) {
+				$name = strtr(strtolower($row['topic']), $ersetzen);
+				if ($name == $ordner) {
+					$usenumber = $row['threadid'];
+					$usetopic = $row['topic'];
+				}
+			}
 
 			if ($usenumber > 0) {
 				//we got a thread
 				$response = (object) [
 					'action' => 'addreplaytothread',
-					'boardid' => $fotoalben_board_id,
 					'usenumber' => $usenumber,
 					'usetopic' => $usetopic,
 				];
 			} else {
 				//newthread
 				$response = (object) [
-					'action' => 'submittonewthread',
 					'boardid' => $fotoalben_board_id,
+					'action' => 'submittonewthread',
 					'usetopic' => htmlentities($ordner, ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
 				];
 			}
@@ -103,6 +113,8 @@ if ($loggedin) {
 		];
 		if ($status) {
 			$response->links = $links;
+			$response->post = $_POST;
+			$response->files = $_FILES;
 		}
 		echo json_encode($response);
 	}

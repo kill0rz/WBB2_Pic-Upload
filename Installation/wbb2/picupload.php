@@ -200,7 +200,6 @@ if ($loggedin) {
 
 				if ($usenumber > 0) {
 					//we got a thread
-					// $dowithbutton = "<button id='addreplaytothread' onclick=\"addreplaytothread('" . base64_encode($links) . "', {$usenumber});\">Antworte auf Thread '{$usetopic}'</button>";
 					$dowithbutton = "<form action='./addreply.php' method='post'>";
 					$dowithbutton .= "<input type='hidden' name='threadid' value='{$usenumber}' />";
 					$dowithbutton .= "<input type='hidden' name='inhalt' value='" . base64_encode($links) . "' />";
@@ -209,7 +208,6 @@ if ($loggedin) {
 					$dowithbutton .= "</form>";
 				} else {
 					//newthread
-					// $dowithbutton = "<button id='submittonewthread' onclick=\"submittonewthread('" . base64_encode($links) . "', '" . base64_encode($ordner_orig) . "')\">Eröffne neuen Thread '" . htmlentities($ordner_orig, ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1') . "'</button>";
 					$dowithbutton = "<form action='./newthread.php?boardid=" . $fotoalben_board_id . "' method='post'>";
 					$dowithbutton .= "<input type='hidden' name='inhalt' value='" . base64_encode($links) . "' />";
 
@@ -265,6 +263,9 @@ if ($loggedin) {
 		} else {
 			$ordner_anz = '';
 		}
+
+		$ordner = strtr(strtolower(trim($ordner)), $ersetzen);
+		echo $ordner;
 
 		$verzeichnishandle = $subordner . "/" . $wbbuserdata['userid'];
 		$options = "<option>default</option>";
