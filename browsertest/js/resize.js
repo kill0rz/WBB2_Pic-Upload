@@ -79,14 +79,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 		// wenn feld unten dann das sonst
 
-		if ($('#ordner_name_new').val().trim() != "") {
-			ordner = $('#ordner_name_new').val().trim();
-		} else {
-			$('#ordner_name_old option:selected').each(function() {
-				ordner = this.value.replace("<option>", "");
-			})
-		}
-
 		formData.append('ordner', ordner);
 		formData.append('filename', filename);
 		formData.append('photo', photo);
@@ -96,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 				callback(request.response);
 			}
 		}
-		request.open('POST', './picupload_process.php');
+		request.open('POST', './process.php');
 		request.responseType = 'json';
 		request.send(formData);
 	};
@@ -129,9 +121,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 					var initialSize = files[i].size;
 					resize.photo(files[i], 1300, 'file', function(resizedFile, file, i_names) {
 						var resizedSize = resizedFile.size;
-						$('#links').find('input, textarea, button, select').prop("disabled", true);
-						$('#linksammlung').prop("disabled", true);
-						$('#changedivs').prop("disabled", true);
 
 						upload(resizedFile, function(response) {
 							i_curr++;
@@ -152,43 +141,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
 									textarea.value = array.sort().join("\n");
 								}
 
-								//autopost
-								var request2 = new XMLHttpRequest();
-								var formData = new FormData();
-								request2.onreadystatechange = function() {
-									if (request2.readyState === 4 && request2.response.boardid > 0) {
-										if (request2.response.action == "addreplaytothread") {
-											inhalt = "<form action='./addreply.php' method='post'>";
-											inhalt += "<input type='hidden' name='threadid' value='" + request2.response.usenumber + "' />";
-											inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
-											inhalt += "<input type='hidden' name='autosubmit' value='true' />";
-											inhalt += "<input type='submit' id='addreplaytothread' value=\"Antworte auf Thread '" + request2.response.usetopic + "'\" />";
-											inhalt += "</form>";
-											document.getElementById('autopostbutton').innerHTML = inhalt;
-										} else {
-											inhalt = "<form action='./newthread.php?boardid=" + request2.response.boardid + "' method='post'>";
-											inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
-
-											inhalt += "<input type='hidden' name='title' value='" + btoa(ordner) + "' />";
-											inhalt += "<input type='hidden' name='autosubmit' value='true' />";
-											inhalt += "<input type='submit' id='submittonewthread' value=\"Er&ouml;ffne neuen Thread '" + ordner + "'\" />";
-											inhalt += "</form>";
-											document.getElementById('autopostbutton').innerHTML = inhalt;
-										}
-									}
-								}
-								request2.open('GET', './picupload_process.php?action=autopost&folder=' + btoa(ordner));
-								request2.responseType = 'json';
-								request2.send(formData);
-
 								//abschluss, freigeben
 								document.getElementById('resizeimgbeforeupload_status').innerHTML = "<img alt='ok' src='./images/erledigt.gif' />";
 								i_curr = 0;
 								i_names = 0;
 								document.getElementById("file_upload").value = "";
-								$('#links').find('input, textarea, button, select').prop("disabled", false);
-								$('#linksammlung').prop("disabled", false);
-								$('#changedivs').prop("disabled", false);
 							}
 						}, files_length, names[i_names - 1]);
 					}, files_length, i_names);
@@ -197,23 +154,3 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		});
 	}
 });
-
-var toggle = 1;
-
-function changedivs() {
-	if (toggle == 1) {
-		$('#changedivs').html("&darr; Bilder ausw&auml;hlen");
-		$('#ordner').css('border-color', 'black');
-		$('#links').css('border-color', 'red');
-		$('#ordner').find('input, textarea, button, select').prop("disabled", true);
-		$('#links').find('input, textarea, button, select').prop("disabled", false);
-		toggle = 2;
-	} else {
-		$('#changedivs').html("&uarr; Ordner ausw&auml;hlen");
-		$('#ordner').find('input, textarea, button, select').prop("disabled", false);
-		$('#links').find('input, textarea, button, select').prop("disabled", true);
-		$('#ordner').css('border-color', 'red');
-		$('#links').css('border-color', 'black');
-		toggle = 1;
-	}
-};

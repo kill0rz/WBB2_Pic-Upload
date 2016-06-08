@@ -196,15 +196,7 @@ if ($loggedin) {
 
 				$ausgabe = "<textarea rows=10 cols=150>" . $links . "</textarea>";
 
-				$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $fotoalben_board_id . ";";
-				$result = $db->unbuffered_query($sql);
-				while ($row = $db->fetch_array($result)) {
-					$name = strtr(strtolower($row['topic']), $ersetzen);
-					if ($name == $ordner) {
-						$usenumber = $row['threadid'];
-						$usetopic = $row['topic'];
-					}
-				}
+				getfolder();
 
 				if ($usenumber > 0) {
 					//we got a thread

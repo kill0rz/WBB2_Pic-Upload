@@ -1,9 +1,21 @@
 neues Formular
 --------------
 Ordnerübersicht soll sich nach Upload aktualisieren
+antworte auf thread funzt nich mehr
 
 
 
 Beide Formulare
 ---------------
 Ordner sollen schon dem vor Upload freigeben werden können
+Bilder automatisch drehen lassen
+
+2016 gegen 16 prüfen und umgekehrt
+	[0-9]{2}\.[0-9]{2}\.[0-9]{4}
+	[0-9]{2}\.[0-9]{2}\.[0-9]{2}
+
+
+
+
+-----
+Browsertest schreiben

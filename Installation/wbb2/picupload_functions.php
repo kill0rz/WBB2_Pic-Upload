@@ -161,9 +161,9 @@ function generate_folderoverview($formular = "") {
 					if ($use_randompic) {
 						if (file_exists($verzeichnishandle . "/" . $f . "/allowtorandompic")) {
 							//ist freigegeben?
-							$folders .= "<td><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/erledigt.gif' alt='erledigt' /></a></td>";
+							$folders .= "<td align='center'><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/erledigt.gif' alt='erledigt' /></a></td>";
 						} else {
-							$folders .= "<td><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/delete.png' /></a></td>";
+							$folders .= "<td align='center'><a href='picupload.php?folder={$f}&action=togglefreigabe&formular={$formular}'><img src='./images/delete.png' /></a></td>";
 						}
 					}
 					$folders .= "</tr>";
@@ -258,5 +258,18 @@ function generate_stats() {
 		$statsinhalt .= "</tr>";
 	} else {
 		$error .= "Error 9";
+	}
+}
+
+function getfolder() {
+	global $db, $fotoalben_board_id, $ersetzen, $usenumber, $usetopic, $ordner;
+	$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $fotoalben_board_id . ";";
+	$result = $db->unbuffered_query($sql);
+	while ($row = $db->fetch_array($result)) {
+		$name = strtr(strtolower($row['topic']), $ersetzen);
+		if ($name == $ordner) {
+			$usenumber = $row['threadid'];
+			$usetopic = $row['topic'];
+		}
 	}
 }

@@ -36,15 +36,7 @@ if ($loggedin) {
 			$ordner_orig = $ordner;
 			$ordner = strtr(strtolower(trim(base64_decode(trim($_GET['folder'])))), $ersetzen);
 
-			$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $fotoalben_board_id . ";";
-			$result = $db->unbuffered_query($sql);
-			while ($row = $db->fetch_array($result)) {
-				$name = strtr(strtolower($row['topic']), $ersetzen);
-				if ($name == $ordner) {
-					$usenumber = $row['threadid'];
-					$usetopic = $row['topic'];
-				}
-			}
+			getfolder();
 
 			if ($usenumber > 0) {
 				//we got a thread
@@ -113,8 +105,6 @@ if ($loggedin) {
 		];
 		if ($status) {
 			$response->links = $links;
-			$response->post = $_POST;
-			$response->files = $_FILES;
 		}
 		echo json_encode($response);
 	}
