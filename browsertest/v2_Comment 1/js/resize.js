@@ -49,6 +49,8 @@ window.resize = (function() {
 				canvas.height = height;
 				canvas.getContext('2d').drawImage(image, 0, 0, width, height);
 				_this.output(canvas, outputType, callback, i_names);
+				canvas.width = 0;
+				canvas.height = 0;
 			}
 			image.src = dataURL;
 		},
