@@ -1,15 +1,17 @@
 neues Formular
 --------------
 Ordnerübersicht soll sich nach Upload aktualisieren
-antworte auf thread funzt nich mehr
+antworte auf thread funzt nich mehr -> will immer neuen erstellen
 
 
 
 Beide Formulare
 ---------------
 Ordner sollen schon dem vor Upload freigeben werden können
-Bilder automatisch drehen lassen
+Bilder automatisch drehen lassen bei Upload (JS/PHP)
 
-2016 gegen 16 prüfen und umgekehrt
+
+2016 gegen 16 prüfen und umgekehrt -> find thread
 	[0-9]{2}\.[0-9]{2}\.[0-9]{4}
 	[0-9]{2}\.[0-9]{2}\.[0-9]{2}
+hierbei ggf. auch anderes Muster YYYY-mm-dd gegenchecken
