@@ -8,6 +8,8 @@
 //
 //
 
+'use strict';
+
 function open_picupload(threadname) {
 	var areaOption = document.getElementById("thread_title");
 	if (threadname.trim() !== '') {
@@ -34,7 +36,7 @@ function submittonewthread(inhalt, threadname) {
 		if (request.readyState === 4) {
 			window.location = './newthread.php?boardid=' + request.response.boardid + '&inhalt=' + inhalt + '&title=' + threadname + '&autosubmit=true';
 		}
-	}
+	};
 	request.open('GET', './picupload_process.php?action=getboardid');
 	request.responseType = 'json';
 	request.send(formData);
@@ -42,7 +44,7 @@ function submittonewthread(inhalt, threadname) {
 
 function do_form_submit_newthread(title, inhalt, autosubmit) {
 	document.getElementById("tbmessage").value = inhalt.trim();
-	if (title.trim() != '') document.getElementById("thread_title").value = title.trim();
+	if (title.trim() !== "") document.getElementById("thread_title").value = title.trim();
 	if (autosubmit == 1) document.forms["bbform"].submit();
 }
 
@@ -59,7 +61,7 @@ $(document).ready(function() {
 		if (userinput && !submitted) {
 			return 'Sie haben das Formular noch nicht abgesendet.\nMöchten Sie die Seite wirklich verlassen?';
 		}
-	}
+	};
 });
 
 function fileChange(fileid) {

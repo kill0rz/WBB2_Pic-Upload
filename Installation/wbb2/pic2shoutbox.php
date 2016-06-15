@@ -29,11 +29,9 @@ $phpversion = phpversion();
 require './acp/lib/config.inc.php';
 require './acp/lib/class_db_mysql.php';
 require './acp/lib/class_parse.php';
-require('./acp/lib/class_parsecode.php');
+// require('./acp/lib/class_parsecode.php');
 require './acp/lib/options.inc.php';
-require './picupload_config.php';
-
-$db = new db($sqlhost, $sqluser, $sqlpassword, $sqldb, $phpversion);
+include './picupload_functions.php';
 
 // -------
 
@@ -102,8 +100,6 @@ if (rand(0, 1) == 1) {
 
 if (!count($useralbums) > 0) {
 	die("Keine Alben zum indexieren!");
-}else{
-	echo count($useralbums);
 }
 
 $result = $db->unbuffered_query("SELECT username FROM bb1_users WHERE userid='{$userid}'");

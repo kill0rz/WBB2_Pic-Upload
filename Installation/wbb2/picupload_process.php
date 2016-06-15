@@ -25,15 +25,13 @@ if ($wbbuserdata['userid'] != "0" && inarray($erlaubtegruppen, $wbbuserdata['gro
 }
 
 if ($loggedin) {
-
 	if (isset($_GET['action']) && trim($_GET['action']) == "autopost" && isset($_GET['folder']) && trim($_GET['folder']) != "") {
 		//autopost
+		$ordner_orig = $ordner;
+		$ordner = strtr(strtolower(trim(base64_decode(trim($_GET['folder'])))), $ersetzen);
 		if (isset($fotoalben_board_id) && $fotoalben_board_id > 0) {
 			$usenumber = 0;
-			$ordner_orig = $ordner;
-			$ordner = strtr(strtolower(trim(base64_decode(trim($_GET['folder'])))), $ersetzen);
-
-			getfolder();
+			get_thread();
 
 			if ($usenumber > 0) {
 				//we got a thread
@@ -42,6 +40,7 @@ if ($loggedin) {
 					'boardid' => $fotoalben_board_id,
 					'usenumber' => $usenumber,
 					'usetopic' => $usetopic,
+					'ordner_shrink' => $ordner,
 				];
 			} else {
 				//newthread
@@ -49,17 +48,35 @@ if ($loggedin) {
 					'action' => 'submittonewthread',
 					'boardid' => $fotoalben_board_id,
 					'usetopic' => htmlentities($ordner, ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
+					'ordner_shrink' => $ordner,
 				];
 			}
 		} else {
 			$response = (object) [
 				'boardid' => 0,
+				'ordner_shrink' => $ordner,
 			];
 		}
 		echo json_encode($response);
-	} elseif (isset($_GET['action']) && trim($_GET['action']) == "getboardid") {
+	} elseif (isset($_GET['action']) && trim($_GET['action']) == "setallowrandompic" && isset($_GET['folder']) && trim($_GET['folder']) != "") {
+		$ordner_to_allow = base64_decode(trim($_GET['folder']));
+		if (is_dir($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow)) {
+			if (!file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow)) {
+				try {
+					file_put_contents($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow, "");
+					chmod($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow, 0755);
+					$status = 1;
+				} catch (Exception $e) {
+					$status = 0;
+				}
+			} else {
+				$status = 1;
+			}
+		} else {
+			$status = 0;
+		}
 		$response = (object) [
-			'boardid' => $fotoalben_board_id,
+			'status' => $status,
 		];
 		echo json_encode($response);
 	} else {

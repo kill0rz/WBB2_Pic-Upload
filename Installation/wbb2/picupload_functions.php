@@ -261,12 +261,12 @@ function generate_stats() {
 	}
 }
 
-function getfolder() {
+function get_thread() {
 	global $db, $fotoalben_board_id, $ersetzen, $usenumber, $usetopic, $ordner;
 	$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $fotoalben_board_id . ";";
 	$result = $db->unbuffered_query($sql);
 	while ($row = $db->fetch_array($result)) {
-		$name = strtr(strtolower($row['topic']), $ersetzen);
+		$name = trim(strtr(strtolower(utf8_encode($row['topic'])), $ersetzen));
 		if ($name == $ordner) {
 			$usenumber = $row['threadid'];
 			$usetopic = $row['topic'];

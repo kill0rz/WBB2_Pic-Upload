@@ -77,7 +77,7 @@
 								<hr/>
 								<br /> <h4>Deine Ordner:</h4>
 								<br />
-								<table border='none'>
+								<table border='none' id='ordneruebersicht'>
 									<tr>
 										<th>Ordner</th>
 										<if($use_randompic)>

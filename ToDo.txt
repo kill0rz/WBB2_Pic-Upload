@@ -1,7 +1,12 @@
 neues Formular
 --------------
 Ordnerübersicht soll sich nach Upload aktualisieren
-antworte auf thread funzt nich mehr -> will immer neuen erstellen
+bilder nach upload wieder hochladen können
+
+
+process.php
+-----------
+antworte auf thread scheint probleme mit umlauten zu haben
 
 
 

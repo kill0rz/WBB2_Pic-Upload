@@ -196,7 +196,7 @@ if ($loggedin) {
 
 				$ausgabe = "<textarea rows=10 cols=150>" . $links . "</textarea>";
 
-				getfolder();
+				get_thread();
 
 				if ($usenumber > 0) {
 					//we got a thread
@@ -241,12 +241,8 @@ if ($loggedin) {
 		}
 
 		generate_folderoverview("old");
-
-		//now the statistics
-
-		//build id-name-array
-
 		generate_stats("old");
+
 		$ordner_anz = htmlentities($ordner_anz);
 		eval("\$tpl->output(\"" . $tpl->get("picupload_old") . "\");");
 	} else {
@@ -265,7 +261,6 @@ if ($loggedin) {
 		}
 
 		$ordner = strtr(strtolower(trim($ordner)), $ersetzen);
-		echo $ordner;
 
 		$verzeichnishandle = $subordner . "/" . $wbbuserdata['userid'];
 		$options = "<option>default</option>";
