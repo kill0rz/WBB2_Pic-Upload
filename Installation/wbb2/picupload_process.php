@@ -27,8 +27,8 @@ if ($wbbuserdata['userid'] != "0" && inarray($erlaubtegruppen, $wbbuserdata['gro
 if ($loggedin) {
 	if (isset($_GET['action']) && trim($_GET['action']) == "autopost" && isset($_GET['folder']) && trim($_GET['folder']) != "") {
 		//autopost
-		$ordner_orig = $ordner;
-		$ordner = strtr(strtolower(trim(base64_decode(trim($_GET['folder'])))), $ersetzen);
+		$ordner_orig = trim(base64_decode(trim($_GET['folder'])));
+		$ordner = strtr(strtolower(trim(base74_decode(trim($_GET['folder'])))), $ersetzen);
 		if (isset($fotoalben_board_id) && $fotoalben_board_id > 0) {
 			$usenumber = 0;
 			get_thread();
@@ -106,7 +106,7 @@ if ($loggedin) {
 
 			$DateiName = $name . "_" . time() . "." . $endung;
 		}
-		$status = (boolean) move_uploaded_file($_FILES['photo']['tmp_name'], $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName);
+		$status = (boolean)move_uploaded_file($_FILES['photo']['tmp_name'], $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName);
 		if ($status) {
 			$links = "[IMG]" . $albenurl . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName . "[/IMG]\n";
 			@chmod($DateiName, 0755);

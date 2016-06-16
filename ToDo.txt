@@ -4,12 +4,6 @@ Ordnerübersicht soll sich nach Upload aktualisieren
 bilder nach upload wieder hochladen können
 
 
-process.php
------------
-antworte auf thread scheint probleme mit umlauten zu haben
-
-
-
 Beide Formulare
 ---------------
 Ordner sollen schon dem vor Upload freigeben werden können

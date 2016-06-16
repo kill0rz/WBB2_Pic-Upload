@@ -269,7 +269,7 @@ function get_thread() {
 		$name = trim(strtr(strtolower(utf8_encode($row['topic'])), $ersetzen));
 		if ($name == $ordner) {
 			$usenumber = $row['threadid'];
-			$usetopic = $row['topic'];
+			$usetopic = htmlentities($row['topic'], ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1');
 		}
 	}
 }
