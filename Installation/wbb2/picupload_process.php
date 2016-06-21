@@ -28,7 +28,7 @@ if ($loggedin) {
 	if (isset($_GET['action']) && trim($_GET['action']) == "autopost" && isset($_GET['folder']) && trim($_GET['folder']) != "") {
 		//autopost
 		$ordner_orig = trim(base64_decode(trim($_GET['folder'])));
-		$ordner = strtr(strtolower(trim(base74_decode(trim($_GET['folder'])))), $ersetzen);
+		$ordner = strtr(strtolower(trim(base64_decode(trim($_GET['folder'])))), $ersetzen);
 		if (isset($fotoalben_board_id) && $fotoalben_board_id > 0) {
 			$usenumber = 0;
 			get_thread();
@@ -47,8 +47,9 @@ if ($loggedin) {
 				$response = (object) [
 					'action' => 'submittonewthread',
 					'boardid' => $fotoalben_board_id,
-					'usetopic' => htmlentities($ordner, ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
-					'ordner_shrink' => $ordner,
+					// 'usetopic' => htmlentities(utf8_decode($ordner_orig), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
+ 					'usetopic' => htmlentities($ordner_orig, ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
+					'ordner_shrink' => htmlentities($ordner, ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
 				];
 			}
 		} else {
@@ -59,7 +60,7 @@ if ($loggedin) {
 		}
 		echo json_encode($response);
 	} elseif (isset($_GET['action']) && trim($_GET['action']) == "setallowrandompic" && isset($_GET['folder']) && trim($_GET['folder']) != "") {
-		$ordner_to_allow = base64_decode(trim($_GET['folder']));
+		$ordner_to_allow = strtr(strtolower(utf8_encode(trim(base64_decode(trim($_GET['folder']))))), $ersetzen);
 		if (is_dir($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow)) {
 			if (!file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow)) {
 				try {
@@ -76,6 +77,7 @@ if ($loggedin) {
 			$status = 0;
 		}
 		$response = (object) [
+			'boardid' => $fotoalben_board_id,
 			'status' => $status,
 		];
 		echo json_encode($response);
