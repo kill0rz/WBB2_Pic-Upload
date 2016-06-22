@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 												"<tr>" +
 												"<td>" +
 												"<a href='./picupload.php?folder=" + request2.response.ordner_shrink + "&formular=#inhalt'>" +
-												ordner +
+												request2.response.ordner_shrink +
 												"</a>" +
 												"</td>" +
 												"<td align='center'>" +

@@ -29,6 +29,7 @@ if ($loggedin) {
 		//autopost
 		$ordner_orig = trim(base64_decode(trim($_GET['folder'])));
 		$ordner = strtr(strtolower(trim(base64_decode(trim($_GET['folder'])))), $ersetzen);
+		$ordner_utf8 = strtr(strtolower(utf8_encode(trim(base64_decode(trim($_GET['folder']))))), $ersetzen);
 		if (isset($fotoalben_board_id) && $fotoalben_board_id > 0) {
 			$usenumber = 0;
 			get_thread();
@@ -47,9 +48,8 @@ if ($loggedin) {
 				$response = (object) [
 					'action' => 'submittonewthread',
 					'boardid' => $fotoalben_board_id,
-					// 'usetopic' => htmlentities(utf8_decode($ordner_orig), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
- 					'usetopic' => htmlentities($ordner_orig, ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
-					'ordner_shrink' => htmlentities($ordner, ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
+					'usetopic' => htmlentities($ordner_orig, ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
+					'ordner_shrink' => htmlentities($ordner_utf8, ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1'),
 				];
 			}
 		} else {
