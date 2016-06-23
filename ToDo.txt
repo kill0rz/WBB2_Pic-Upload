@@ -9,6 +9,9 @@ bilder nach upload wieder hochladen können
 altes Formular
 --------------
 Testen, ob getfolder(); noch geht
+und überhaupt ob alles noch geht
+	+ vor allem wegen utf_encode
+
 
 Beide Formulare
 ---------------
