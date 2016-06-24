@@ -15,10 +15,10 @@ window.resize = (function() {
 		init: function(outputQuality) {
 			this.outputQuality = (outputQuality === 'undefined' ? 0.8 : outputQuality);
 		},
-		photo: function(file, maxSize, outputType, callback, files_length, i_names) {
+		photo: function(file, maxSize, outputType, callback, i_names) {
 			var _this = this;
 			var reader = new FileReader();
-			reader.onload = function(readerEvent, files_length) {
+			reader.onload = function(readerEvent) {
 				_this.resize(readerEvent.target.result, maxSize, outputType, callback, i_names);
 			};
 			reader.readAsDataURL(file);
@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		request.send(formData);
 	};
 
-	var files_length;
 	var i_curr = 0;
 	var i_names = 0;
 	var files_input;
@@ -113,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 		document.querySelector('form#resizeimgbeforeupload input[type=file]').addEventListener('change', function(event) {
 			event.preventDefault();
 			var files = event.target.files;
-			files_length = files.length;
 			files_input = $('#file_upload').prop("files");
 			names = $.map(files, function(val) {
 				return val.name;
@@ -126,9 +124,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 					if (document.getElementById('resizeimgbeforeupload_status').innerHTML != "<img alt=\"ok\" src=\"./images/sanduhr.gif\">") {
 						document.getElementById('resizeimgbeforeupload_status').innerHTML = "<img alt=\"ok\" src=\"./images/sanduhr.gif\">";
 					}
-					var initialSize = files[i].size;
 					resize.photo(files[i], 1300, 'file', function(resizedFile, file, i_names) {
-						var resizedSize = resizedFile.size;
 						$('#links').find('input, textarea, button, select').prop("disabled", true);
 						$('#linksammlung').prop("disabled", true);
 						$('#changedivs').prop("disabled", true);
@@ -161,14 +157,15 @@ document.addEventListener('DOMContentLoaded', function(event) {
 										if ($('#allowrandompic').is(':checked')) {
 											var request3 = new XMLHttpRequest();
 											var formData3 = new FormData();
+											var freigabeicon;
 											request3.onreadystatechange = function() {
 												if (request3.readyState === 4 && request3.response.boardid > 0) {
 													if (request3.response.status == "1") {
 														//ok, freigabe erfolgt
-														var freigabeicon = "<img src='./images/erledigt.gif' alt='erledigt' />";
+														freigabeicon = "<img src='./images/erledigt.gif' alt='erledigt' />";
 													} else {
 														//gab irgendwie einen fehler
-														var freigabeicon = "<img src='./images/delete.png' alt='delete' />";
+														freigabeicon = "<img src='./images/delete.png' alt='delete' />";
 													}
 												}
 
@@ -227,30 +224,10 @@ document.addEventListener('DOMContentLoaded', function(event) {
 								$('#linksammlung').prop("disabled", false);
 								$('#changedivs').prop("disabled", false);
 							}
-						}, files_length, names[i_names - 1]);
-					}, files_length, i_names);
+						}, names[i_names - 1]);
+					}, i_names);
 				}());
 			}
 		});
 	}
 });
-
-var toggle = 1;
-
-function changedivs() {
-	if (toggle == 1) {
-		$('#changedivs').html("&darr; Bilder ausw&auml;hlen");
-		$('#ordner').css('border-color', 'black');
-		$('#links').css('border-color', 'red');
-		$('#ordner').find('input, textarea, button, select').prop("disabled", true);
-		$('#links').find('input, textarea, button, select').prop("disabled", false);
-		toggle = 2;
-	} else {
-		$('#changedivs').html("&uarr; Ordner ausw&auml;hlen");
-		$('#ordner').find('input, textarea, button, select').prop("disabled", false);
-		$('#links').find('input, textarea, button, select').prop("disabled", true);
-		$('#ordner').css('border-color', 'red');
-		$('#links').css('border-color', 'black');
-		toggle = 1;
-	}
-}
