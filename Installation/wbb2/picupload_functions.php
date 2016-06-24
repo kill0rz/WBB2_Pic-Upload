@@ -55,7 +55,7 @@ function resizeImage($filepath_old, $filepath_new, $image_dimension, $scale_mode
 	$image_height_old = $image_attributes[1];
 	$image_filetype = $image_attributes[2];
 
-	if ($image_width_old <= $image_dimension or !(isset($_POST['compress']) and $_POST['compress'] == "true")) {
+	if ($image_width_old <= $image_dimension || !(isset($_POST['compress']) && $_POST['compress'] == "true")) {
 		if (copy($filepath_old, $filepath_new)) {
 			return true;
 		} else {
@@ -128,7 +128,7 @@ function resizeImage($filepath_old, $filepath_new, $image_dimension, $scale_mode
 function generate_folderoverview($formular = "") {
 	global $_GET, $verzeichnishandle, $folders_hinweis, $vorschauen, $unterelinks, $folders, $url2board, $use_randompic;
 
-	if (isset($_GET['action']) and $_GET['action'] == 'togglefreigabe') {
+	if (isset($_GET['action']) && $_GET['action'] == 'togglefreigabe') {
 		$get_folder = trim($_GET['folder']);
 		if (is_dir($verzeichnishandle . "/" . $get_folder)) {
 			$folder = scandir($verzeichnishandle . "/" . $get_folder);
@@ -157,7 +157,7 @@ function generate_folderoverview($formular = "") {
 			$folders = "Noch keine Vorhanden!";
 		} else {
 			foreach ($folder as $f) {
-				if ($f != '.' and $f != '..' and $f != 'index.php' && is_dir($verzeichnishandle . "/" . $f)) {
+				if ($f != '.' && $f != '..' && $f != 'index.php' && is_dir($verzeichnishandle . "/" . $f)) {
 					$folders .= "<tr><td><a href='?folder=" . $f . "&formular={$formular}#inhalt'>" . $f . "</a></td>";
 					if ($use_randompic) {
 						if (file_exists($verzeichnishandle . "/" . $f . "/allowtorandompic")) {
@@ -179,11 +179,11 @@ function generate_folderoverview($formular = "") {
 	}
 	$links = '';
 	$vorschauen = '';
-	if (isset($_GET['folder']) and $_GET['folder'] != '' && !isset($_GET['action'])) {
+	if (isset($_GET['folder']) && $_GET['folder'] != '' && !isset($_GET['action'])) {
 		if (is_dir($verzeichnishandle . "/" . $_GET['folder'])) {
 			$folder = scandir($verzeichnishandle . "/" . $_GET['folder']);
 			foreach ($folder as $f) {
-				if ($f != '.' and $f != '..' and $f != 'index.php' && $f != "allowtorandompic") {
+				if ($f != '.' && $f != '..' && $f != 'index.php' && $f != "allowtorandompic") {
 					$links .= "[IMG]" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "[/IMG]\n";
 					$vorschauen .= "<a href='" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "' target='_blank'><img src='" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "' alt='{$f}' width='150px' /></a>\n";
 				}
