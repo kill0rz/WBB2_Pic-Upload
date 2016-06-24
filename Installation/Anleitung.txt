@@ -108,9 +108,10 @@ Template: headinclude
 ========  -----------
 
 Füge ganz am Ende ein:
-<script src="js/jquery.js" type="text/javascript"></script>
-<script src="js/picupload.js" type="text/javascript"></script>
-<script src="js/resize.js" type="text/javascript"></script>
+<script src="./js/jquery.js" type="text/javascript"></script>
+<script src="./js/upload.js" type="text/javascript"></script>
+<script src="./js/resize.js" type="text/javascript"></script>
+<script src="./js/picupload.js" type="text/javascript"></script>
 
 
 Datei: addreply.php
@@ -153,7 +154,7 @@ if (isset($_POST['inhalt']) && trim($_POST['inhalt']) != '' && isset($_POST['tit
 Konfiguration anpassen: picupload_config.php
 ======================= --------------------
 
-Oben in der Datei findest du zwei Einträge, die angepasst werden müssen (nicht per ACP einstellbar).
+Oben in der Datei findest du mehrere Einträge, die angepasst werden müssen (nicht per ACP einstellbar).
 => $subordner = "Fotoalben"; //ohne / am Ende
 Hier trägst du den Namen für den ordner ein, in dem später einmal alle Bilder gespeichert werden sollen.
 
@@ -192,4 +193,4 @@ Alle Ordner werden vom Script angelegt, wenn sie gebraucht werden.
 Viel Spaß bei der Verwendung,
 kill0rz
 http://kill0rz.com/
-Stand: 05.06.2016
+Stand: 24.06.2016

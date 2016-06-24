@@ -22,3 +22,10 @@ Bilder automatisch drehen lassen bei Upload (JS/PHP)
 	[0-9]{2}\.[0-9]{2}\.[0-9]{4} --> das letzte ist dann das Jahr, was gemappt werden muss
 	[0-9]{2}\.[0-9]{2}\.[0-9]{2} --> das letzte ist dann das Jahr, was gemappt werden muss
 hierbei ggf. auch anderes Muster YYYY-mm-dd gegenchecken --> das erste ist dann das Jahr, was gemappt werden muss
+
+
+
+Anleitung
+---------
+
+Demobilder aktualisieren
