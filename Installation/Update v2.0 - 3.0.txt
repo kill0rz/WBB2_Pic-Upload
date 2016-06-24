@@ -1,6 +1,6 @@
 Ersetze die Datei picupload.php; Beachte dabei, dass du deine Konfiguration in der Ausgangsdatei sicherst, und in die neue Datei picupload_functions.php einfügst!
 
-Lade danach alle anderen Dateien in der vorgegebenen Ordnersturktur hoch.
+Lade danach alle anderen Dateien in der vorgegebenen Ordnersturktur hoch. Überschreibe dabei ggf. schon vorhandene Dateien.
 
 Ersetze den Inhalt des Templates "picupload" durch den Inhalt des mitgelieferten Templates.
 
@@ -14,6 +14,7 @@ Suche:
 
 Füge darüber ein:
 <script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/upload.js" type="text/javascript"></script>
 <script src="js/resize.js" type="text/javascript"></script>
 
 
@@ -74,4 +75,4 @@ Fertig! :)
 Viel Spaß bei der Verwendung,
 kill0rz
 http://kill0rz.com/
-Stand: 05.06.2016
+Stand: 24.06.2016
