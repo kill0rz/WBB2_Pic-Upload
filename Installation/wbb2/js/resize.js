@@ -9,7 +9,6 @@
 //
 
 'use strict';
-!function(a){var b=a.HTMLCanvasElement&&a.HTMLCanvasElement.prototype,c=a.Blob&&function(){try{return Boolean(new Blob)}catch(a){return!1}}(),d=c&&a.Uint8Array&&function(){try{return 100===new Blob([new Uint8Array(100)]).size}catch(a){return!1}}(),e=a.BlobBuilder||a.WebKitBlobBuilder||a.MozBlobBuilder||a.MSBlobBuilder,f=(c||e)&&a.atob&&a.ArrayBuffer&&a.Uint8Array&&function(a){var b,f,g,h,i,j;for(b=a.split(",")[0].indexOf("base64")>=0?atob(a.split(",")[1]):decodeURIComponent(a.split(",")[1]),f=new ArrayBuffer(b.length),g=new Uint8Array(f),h=0;h<b.length;h+=1)g[h]=b.charCodeAt(h);return i=a.split(",")[0].split(":")[1].split(";")[0],c?new Blob([d?g:f],{type:i}):(j=new e,j.append(f),j.getBlob(i))};a.HTMLCanvasElement&&!b.toBlob&&(b.mozGetAsFile?b.toBlob=function(a,c,d){d&&b.toDataURL&&f?a(f(this.toDataURL(c,d))):a(this.mozGetAsFile("blob",c))}:b.toDataURL&&f&&(b.toBlob=function(a,b,c){a(f(this.toDataURL(b,c)))})),"function"==typeof define&&define.amd?define(function(){return f}):a.dataURLtoBlob=f}(this);
 window.resize = (function() {
 	function Resize() {}
 	Resize.prototype = {
@@ -153,11 +152,14 @@ document.addEventListener('DOMContentLoaded', function(event) {
 									textarea.value = array.sort().join("\n");
 								}
 
+								console.log('test1');
+
 								//autopost
 								var request2 = new XMLHttpRequest();
 								var formData2 = new FormData();
 								request2.onreadystatechange = function() {
 									if (request2.readyState === 4 && request2.response.boardid > 0) {
+										console.log('test2');
 										// Ordner freigeben?
 										if ($('#allowrandompic').is(':checked')) {
 											var request3 = new XMLHttpRequest();
@@ -171,24 +173,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
 														//gab irgendwie einen fehler
 														var freigabeicon = "<img src='./images/delete.png' alt='delete' />";
 													}
-												}
-
-												if (request2.response.action == "addreplaytothread") {
-													inhalt = "<form action='./addreply.php' method='post'>";
-													inhalt += "<input type='hidden' name='threadid' value='" + request2.response.usenumber + "' />";
-													inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
-													inhalt += "<input type='hidden' name='autosubmit' value='true' />";
-													inhalt += "<input type='submit' id='addreplaytothread' value=\"Antworte auf Thread '" + request2.response.usetopic + "'\" />";
-													inhalt += "</form>";
-													document.getElementById('autopostbutton').innerHTML = inhalt;
-												} else {
-													inhalt = "<form action='./newthread.php?boardid=" + request2.response.boardid + "' method='post'>";
-													inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
-													inhalt += "<input type='hidden' name='title' value='" + btoa(ordner) + "' />";
-													inhalt += "<input type='hidden' name='autosubmit' value='true' />";
-													inhalt += "<input type='submit' id='submittonewthread' value=\"Er&ouml;ffne neuen Thread '" + ordner + "'\" />";
-													inhalt += "</form>";
-													document.getElementById('autopostbutton').innerHTML = inhalt;
 												}
 
 												if (append && request2.response.ordner_shrink !== "") {
@@ -208,11 +192,30 @@ document.addEventListener('DOMContentLoaded', function(event) {
 														"</tr>"
 													);
 												}
-											};
-											request3.open('GET', './picupload_process.php?action=setallowrandompic&folder=' + btoa(ordner));
-											request3.responseType = 'json';
-											request3.send(formData3);
+											}
+										};
+
+										if (request2.response.action == "addreplaytothread") {
+											inhalt = "<form action='./addreply.php' method='post'>";
+											inhalt += "<input type='hidden' name='threadid' value='" + request2.response.usenumber + "' />";
+											inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
+											inhalt += "<input type='hidden' name='autosubmit' value='true' />";
+											inhalt += "<input type='submit' id='addreplaytothread' value=\"Antworte auf Thread '" + request2.response.usetopic + "'\" />";
+											inhalt += "</form>";
+											document.getElementById('autopostbutton').innerHTML = inhalt;
+										} else {
+											inhalt = "<form action='./newthread.php?boardid=" + request2.response.boardid + "' method='post'>";
+											inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
+											inhalt += "<input type='hidden' name='title' value='" + btoa(ordner) + "' />";
+											inhalt += "<input type='hidden' name='autosubmit' value='true' />";
+											inhalt += "<input type='submit' id='submittonewthread' value=\"Er&ouml;ffne neuen Thread '" + ordner + "'\" />";
+											inhalt += "</form>";
+											document.getElementById('autopostbutton').innerHTML = inhalt;
 										}
+
+										request3.open('GET', './picupload_process.php?action=setallowrandompic&folder=' + btoa(ordner));
+										request3.responseType = 'json';
+										request3.send(formData3);
 									}
 								};
 								request2.open('GET', './picupload_process.php?action=autopost&folder=' + btoa(ordner));
