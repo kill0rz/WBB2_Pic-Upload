@@ -152,14 +152,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
 									textarea.value = array.sort().join("\n");
 								}
 
-								console.log('test1');
-
 								//autopost
 								var request2 = new XMLHttpRequest();
 								var formData2 = new FormData();
 								request2.onreadystatechange = function() {
 									if (request2.readyState === 4 && request2.response.boardid > 0) {
-										console.log('test2');
 										// Ordner freigeben?
 										if ($('#allowrandompic').is(':checked')) {
 											var request3 = new XMLHttpRequest();
@@ -173,6 +170,24 @@ document.addEventListener('DOMContentLoaded', function(event) {
 														//gab irgendwie einen fehler
 														var freigabeicon = "<img src='./images/delete.png' alt='delete' />";
 													}
+												}
+
+												if (request2.response.action == "addreplaytothread") {
+													inhalt = "<form action='./addreply.php' method='post'>";
+													inhalt += "<input type='hidden' name='threadid' value='" + request2.response.usenumber + "' />";
+													inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
+													inhalt += "<input type='hidden' name='autosubmit' value='true' />";
+													inhalt += "<input type='submit' id='addreplaytothread' value=\"Antworte auf Thread '" + request2.response.usetopic + "'\" />";
+													inhalt += "</form>";
+													document.getElementById('autopostbutton').innerHTML = inhalt;
+												} else {
+													inhalt = "<form action='./newthread.php?boardid=" + request2.response.boardid + "' method='post'>";
+													inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
+													inhalt += "<input type='hidden' name='title' value='" + btoa(ordner) + "' />";
+													inhalt += "<input type='hidden' name='autosubmit' value='true' />";
+													inhalt += "<input type='submit' id='submittonewthread' value=\"Er&ouml;ffne neuen Thread '" + ordner + "'\" />";
+													inhalt += "</form>";
+													document.getElementById('autopostbutton').innerHTML = inhalt;
 												}
 
 												if (append && request2.response.ordner_shrink !== "") {
@@ -192,30 +207,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
 														"</tr>"
 													);
 												}
-											}
-										};
-
-										if (request2.response.action == "addreplaytothread") {
-											inhalt = "<form action='./addreply.php' method='post'>";
-											inhalt += "<input type='hidden' name='threadid' value='" + request2.response.usenumber + "' />";
-											inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
-											inhalt += "<input type='hidden' name='autosubmit' value='true' />";
-											inhalt += "<input type='submit' id='addreplaytothread' value=\"Antworte auf Thread '" + request2.response.usetopic + "'\" />";
-											inhalt += "</form>";
-											document.getElementById('autopostbutton').innerHTML = inhalt;
-										} else {
-											inhalt = "<form action='./newthread.php?boardid=" + request2.response.boardid + "' method='post'>";
-											inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
-											inhalt += "<input type='hidden' name='title' value='" + btoa(ordner) + "' />";
-											inhalt += "<input type='hidden' name='autosubmit' value='true' />";
-											inhalt += "<input type='submit' id='submittonewthread' value=\"Er&ouml;ffne neuen Thread '" + ordner + "'\" />";
-											inhalt += "</form>";
-											document.getElementById('autopostbutton').innerHTML = inhalt;
+											};
+											request3.open('GET', './picupload_process.php?action=setallowrandompic&folder=' + btoa(ordner));
+											request3.responseType = 'json';
+											request3.send(formData3);
 										}
-
-										request3.open('GET', './picupload_process.php?action=setallowrandompic&folder=' + btoa(ordner));
-										request3.responseType = 'json';
-										request3.send(formData3);
 									}
 								};
 								request2.open('GET', './picupload_process.php?action=autopost&folder=' + btoa(ordner));
@@ -257,4 +253,4 @@ function changedivs() {
 		$('#links').css('border-color', 'black');
 		toggle = 1;
 	}
-};
+}
