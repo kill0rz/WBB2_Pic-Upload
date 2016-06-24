@@ -158,65 +158,66 @@ document.addEventListener('DOMContentLoaded', function(event) {
 								var formData2 = new FormData();
 								request2.onreadystatechange = function() {
 									if (request2.readyState === 4 && request2.response.boardid > 0) {
-										if (request2.response.action == "addreplaytothread") {
-											inhalt = "<form action='./addreply.php' method='post'>";
-											inhalt += "<input type='hidden' name='threadid' value='" + request2.response.usenumber + "' />";
-											inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
-											inhalt += "<input type='hidden' name='autosubmit' value='true' />";
-											inhalt += "<input type='submit' id='addreplaytothread' value=\"Antworte auf Thread '" + request2.response.usetopic + "'\" />";
-											inhalt += "</form>";
-											document.getElementById('autopostbutton').innerHTML = inhalt;
-										} else {
-											inhalt = "<form action='./newthread.php?boardid=" + request2.response.boardid + "' method='post'>";
-											inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
-											inhalt += "<input type='hidden' name='title' value='" + btoa(ordner) + "' />";
-											inhalt += "<input type='hidden' name='autosubmit' value='true' />";
-											inhalt += "<input type='submit' id='submittonewthread' value=\"Er&ouml;ffne neuen Thread '" + ordner + "'\" />";
-											inhalt += "</form>";
-											document.getElementById('autopostbutton').innerHTML = inhalt;
-										}
+										// Ordner freigeben?
+										if ($('#allowrandompic').is(':checked')) {
+											var request3 = new XMLHttpRequest();
+											var formData3 = new FormData();
+											request3.onreadystatechange = function() {
+												if (request3.readyState === 4 && request3.response.boardid > 0) {
+													if (request3.response.status == "1") {
+														//ok, freigabe erfolgt
+														var freigabeicon = "<img src='./images/erledigt.gif' alt='erledigt' />";
+													} else {
+														//gab irgendwie einen fehler
+														var freigabeicon = "<img src='./images/delete.png' alt='delete' />";
+													}
+												}
 
-										if (append && request2.response.ordner_shrink !== "") {
-											// ordneruebersicht aktualisieren
-											$("#ordneruebersicht").append(
-												"<tr>" +
-												"<td>" +
-												"<a href='./picupload.php?folder=" + request2.response.ordner_shrink + "&formular=#inhalt'>" +
-												request2.response.ordner_shrink +
-												"</a>" +
-												"</td>" +
-												"<td align='center'>" +
-												"<a href='./picupload.php?folder=" + encodeURI(ordner) + "&amp;action=togglefreigabe&amp;formular='>" + 
-												"<img src='./images/delete.png' alt='delete' />" +
-												"</a>" +
-												"</td>" +
-												"</tr>"
-											);
+												if (request2.response.action == "addreplaytothread") {
+													inhalt = "<form action='./addreply.php' method='post'>";
+													inhalt += "<input type='hidden' name='threadid' value='" + request2.response.usenumber + "' />";
+													inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
+													inhalt += "<input type='hidden' name='autosubmit' value='true' />";
+													inhalt += "<input type='submit' id='addreplaytothread' value=\"Antworte auf Thread '" + request2.response.usetopic + "'\" />";
+													inhalt += "</form>";
+													document.getElementById('autopostbutton').innerHTML = inhalt;
+												} else {
+													inhalt = "<form action='./newthread.php?boardid=" + request2.response.boardid + "' method='post'>";
+													inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
+													inhalt += "<input type='hidden' name='title' value='" + btoa(ordner) + "' />";
+													inhalt += "<input type='hidden' name='autosubmit' value='true' />";
+													inhalt += "<input type='submit' id='submittonewthread' value=\"Er&ouml;ffne neuen Thread '" + ordner + "'\" />";
+													inhalt += "</form>";
+													document.getElementById('autopostbutton').innerHTML = inhalt;
+												}
+
+												if (append && request2.response.ordner_shrink !== "") {
+													// Ordneruebersicht aktualisieren
+													$("#ordneruebersicht").append(
+														"<tr>" +
+														"<td>" +
+														"<a href='./picupload.php?folder=" + request2.response.ordner_shrink + "&formular=#inhalt'>" +
+														request2.response.ordner_shrink +
+														"</a>" +
+														"</td>" +
+														"<td align='center'>" +
+														"<a href='./picupload.php?folder=" + encodeURI(ordner) + "&amp;action=togglefreigabe&amp;formular='>" +
+														freigabeicon +
+														"</a>" +
+														"</td>" +
+														"</tr>"
+													);
+												}
+											};
+											request3.open('GET', './picupload_process.php?action=setallowrandompic&folder=' + btoa(ordner));
+											request3.responseType = 'json';
+											request3.send(formData3);
 										}
 									}
 								};
 								request2.open('GET', './picupload_process.php?action=autopost&folder=' + btoa(ordner));
 								request2.responseType = 'json';
 								request2.send(formData2);
-
-								// Ordner freigeben?
-								if ($('#allowrandompic').is(':checked')) {
-									var request3 = new XMLHttpRequest();
-									var formData3 = new FormData();
-									request3.onreadystatechange = function() {
-										if (request3.readyState === 4 && request3.response.boardid > 0) {
-											console.log(request3.response.status);
-											if (request3.response.status == "1") {
-												//ok, freigabe erfolgt
-											}else{
-												//gab irgendwie einen fehler
-											}
-										}
-									};
-									request3.open('GET', './picupload_process.php?action=setallowrandompic&folder=' + btoa(ordner));
-									request3.responseType = 'json';
-									request3.send(formData3);
-								}
 
 								//abschluss, freigeben
 								document.getElementById('resizeimgbeforeupload_status').innerHTML = "<img alt='ok' src='./images/erledigt.gif' />";
