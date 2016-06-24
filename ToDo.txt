@@ -1,8 +1,7 @@
 neues Formular
 --------------
 Ordnerübersicht soll sich nach Upload aktualisieren
-	+ Ordner in Tabelle soll strtr sein
-	+ setallowrandompic funktioniert nicht
+	+ aktualisiert sich 4mal?! --> nur das letzte ist korrekt
 bilder nach upload wieder hochladen können
 
 

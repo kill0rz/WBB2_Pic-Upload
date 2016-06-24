@@ -12,12 +12,13 @@
 
 function open_picupload(threadname) {
 	var areaOption = document.getElementById("thread_title");
+	var title;
 	if (threadname.trim() !== '') {
-		var title = threadname.trim();
+		title = threadname.trim();
 	} else if (areaOption) {
-		var title = document.getElementById("thread_title").value;
+		title = document.getElementById("thread_title").value;
 	} else {
-		var title = '';
+		title = '';
 	}
 	var d = new Date();
 	window.open('picupload.php?title=' + title, 'picupload' + d.getTime());
@@ -122,4 +123,24 @@ function uploadFile(fileid) {
 
 function uploadAbort() {
 	if (client instanceof XMLHttpRequest) client.abort();
+}
+
+var toggle = 1;
+
+function changedivs() {
+	if (toggle == 1) {
+		$('#changedivs').html("&darr; Bilder ausw&auml;hlen");
+		$('#ordner').css('border-color', 'black');
+		$('#links').css('border-color', 'red');
+		$('#ordner').find('input, textarea, button, select').prop("disabled", true);
+		$('#links').find('input, textarea, button, select').prop("disabled", false);
+		toggle = 2;
+	} else {
+		$('#changedivs').html("&uarr; Ordner ausw&auml;hlen");
+		$('#ordner').find('input, textarea, button, select').prop("disabled", false);
+		$('#links').find('input, textarea, button, select').prop("disabled", true);
+		$('#ordner').css('border-color', 'red');
+		$('#links').css('border-color', 'black');
+		toggle = 1;
+	}
 }

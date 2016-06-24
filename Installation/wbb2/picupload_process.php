@@ -62,16 +62,16 @@ if ($loggedin) {
 	} elseif (isset($_GET['action']) && trim($_GET['action']) == "setallowrandompic" && isset($_GET['folder']) && trim($_GET['folder']) != "") {
 		$ordner_to_allow = strtr(strtolower(utf8_encode(trim(base64_decode(trim($_GET['folder']))))), $ersetzen);
 		if (is_dir($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow)) {
-			if (!file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow)) {
+			if (file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow . "/allowtorandompic")) {
+				$status = 1;
+			} else {
 				try {
-					file_put_contents($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow, "");
+					file_put_contents($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow . "/allowtorandompic", "");
 					chmod($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow, 0755);
 					$status = 1;
 				} catch (Exception $e) {
 					$status = 0;
 				}
-			} else {
-				$status = 1;
 			}
 		} else {
 			$status = 0;

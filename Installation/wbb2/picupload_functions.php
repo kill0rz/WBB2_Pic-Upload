@@ -129,8 +129,9 @@ function generate_folderoverview($formular = "") {
 	global $_GET, $verzeichnishandle, $folders_hinweis, $vorschauen, $unterelinks, $folders, $url2board, $use_randompic;
 
 	if (isset($_GET['action']) and $_GET['action'] == 'togglefreigabe') {
-		if (is_dir($verzeichnishandle . "/" . $_GET['folder'])) {
-			$folder = scandir($verzeichnishandle . "/" . $_GET['folder']);
+		$get_folder = trim($_GET['folder']);
+		if (is_dir($verzeichnishandle . "/" . $get_folder)) {
+			$folder = scandir($verzeichnishandle . "/" . $get_folder);
 			$delete = false;
 			foreach ($folder as $f) {
 				if ($f == 'allowtorandompic') {
@@ -139,10 +140,10 @@ function generate_folderoverview($formular = "") {
 
 			}
 			if ($delete) {
-				unlink($verzeichnishandle . "/" . $_GET['folder'] . "/allowtorandompic");
+				unlink($verzeichnishandle . "/" . $get_folder . "/allowtorandompic");
 			} else {
-				file_put_contents($verzeichnishandle . "/" . $_GET['folder'] . "/allowtorandompic", "");
-				chmod($verzeichnishandle . "/" . $_GET['folder'] . "/allowtorandompic", 0755);
+				file_put_contents($verzeichnishandle . "/" . $get_folder . "/allowtorandompic", "");
+				chmod($verzeichnishandle . "/" . $get_folder . "/allowtorandompic", 0755);
 			}
 		} else {
 			$error .= "Error 7";
