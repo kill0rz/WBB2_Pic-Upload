@@ -16,6 +16,7 @@ Beide Formulare
 ---------------
 Ordner sollen schon dem vor Upload freigeben werden können
 Bilder automatisch drehen lassen bei Upload (JS/PHP)
+Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
 
 
 2016 gegen 16 prüfen und umgekehrt -> find thread
