@@ -5,11 +5,12 @@ Upload at least 600MB of jpg pictures.
 Succesfully passed browsers:
 + Vivaldi 1.3
 + Chrome 51
++ Firefox 47 (64 Bit)
 
 
 Browsers that crash:
 + Opera 39
-+ Firefox 47
++ Firefox 47 (32 Bit)
 
 
 Link to Mozilla Firefox bugtracker: https://bugzilla.mozilla.org/show_bug.cgi?id=1278960
