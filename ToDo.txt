@@ -19,13 +19,6 @@ Bilder automatisch drehen lassen bei Upload (JS/PHP)
 Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
 
 
-2016 gegen 16 prüfen und umgekehrt -> find thread
-	[0-9]{2}\.[0-9]{2}\.[0-9]{4} --> das letzte ist dann das Jahr, was gemappt werden muss
-	[0-9]{2}\.[0-9]{2}\.[0-9]{2} --> das letzte ist dann das Jahr, was gemappt werden muss
-hierbei ggf. auch anderes Muster YYYY-mm-dd gegenchecken --> das erste ist dann das Jahr, was gemappt werden muss
-
-
-
 Anleitung
 ---------
 
