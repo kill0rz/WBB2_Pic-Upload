@@ -262,13 +262,56 @@ function generate_stats() {
 	}
 }
 
+function parse_dateformats($ordnername) {
+	$mode = 0;
+	preg_match_all("/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/", $ordnername, $matches);
+	if (count($matches[0])) {
+		$mode = 1;
+	} else {
+		preg_match_all("/[0-9]{2}\.[0-9]{2}\.[0-9]{2}/", $ordnername, $matches);
+		if (count($matches[0])) {
+			$mode = 2;
+		} else {
+			preg_match_all("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", $ordnername, $matches);
+			if (count($matches[0])) {
+				$mode = 3;
+			}
+		}
+	}
+
+	if ($mode > 0) {
+		switch ($mode) {
+			case 1:
+				$teile = explode(".", $matches[0][0]);
+				$year = $teile[2];
+				$month = $teile[1];
+				$day = $teile[0];
+				return preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/", $day . $month . $year, $ordnername);
+			case 2:
+				$teile = explode(".", $matches[0][0]);
+				$year = "20" . $teile[2];
+				$month = $teile[1];
+				$day = $teile[0];
+				return preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{2}/", $day . $month . $year, $ordnername);
+			case 3:
+				$teile = explode("-", $matches[0][0]);
+				$year = $teile[0];
+				$month = $teile[1];
+				$day = $teile[2];
+				return preg_replace("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", $day . $month . $year, $ordnername);
+		}
+	}
+
+	return $ordnername;
+}
+
 function get_thread() {
 	global $db, $fotoalben_board_id, $ersetzen, $usenumber, $usetopic, $ordner;
 	$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $fotoalben_board_id . ";";
 	$result = $db->unbuffered_query($sql);
 	while ($row = $db->fetch_array($result)) {
 		$name = trim(strtr(strtolower(utf8_encode($row['topic'])), $ersetzen));
-		if ($name == $ordner) {
+		if (parse_dateformats($name) == parse_dateformats($ordner)) {
 			$usenumber = $row['threadid'];
 			$usetopic = htmlentities($row['topic'], ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1');
 		}
