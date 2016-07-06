@@ -19,6 +19,14 @@ Beide Formulare
 Bilder automatisch drehen lassen bei Upload (JS/PHP)
 Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
 Vorschau: Autopost + Wenn gefunden wurde: Link zum Thread
+Datumsformat speichern können
+	+ Datum automatisch umwandeln
+	+ Haken (soll auto umgewandelt werden) oben, der instant togglet --> haken daneben mit einblendeinformation
+	+ dropdown für verschiedene formate oben
+		+ --- --> führt automatisch zum toggle disable
+		+ dd.mm.YY
+		+ dd.mm.YYYY
+		+ YYYY-mm-dd
 
 
 Anleitung
