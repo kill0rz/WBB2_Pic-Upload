@@ -18,6 +18,7 @@ Beide Formulare
 ---------------
 Bilder automatisch drehen lassen bei Upload (JS/PHP)
 Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
+Vorschau: Autopost + Wenn gefunden wurde: Link zum Thread
 
 
 Anleitung
