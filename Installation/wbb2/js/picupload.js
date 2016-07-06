@@ -21,7 +21,6 @@ function open_picupload(threadname) {
 		title = '';
 	}
 	var d = new Date();
-	console.log(encodeURI(title));
 	window.open('picupload.php?title=' + encodeURI(title), 'picupload' + d.getTime());
 }
 
