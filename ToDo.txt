@@ -1,4 +1,4 @@
-neues Formular
+pgneues Formular
 --------------
 Ordner sollen schon dem vor Upload freigeben werden können
 Ordnerübersicht soll sich nach Upload aktualisieren
@@ -19,7 +19,8 @@ Beide Formulare
 ---------------
 Bilder automatisch drehen lassen bei Upload (JS/PHP)
 Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
-Vorschau: Autopost + Wenn gefunden wurde: Link zum Thread
+Vorschau: Autopost 
+	+ Wenn gefunden wurde: Link zum Thread
 Datum überall finden können: Test 1.2.16 = 1.2.2016 Test usw.
 Datumsformat speichern können
 	+ Datum automatisch umwandeln
