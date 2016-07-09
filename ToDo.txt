@@ -1,4 +1,4 @@
-pgneues Formular
+neues Formular
 --------------
 Ordner sollen schon dem vor Upload freigeben werden können
 Ordnerübersicht soll sich nach Upload aktualisieren
