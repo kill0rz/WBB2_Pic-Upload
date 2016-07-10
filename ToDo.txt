@@ -1,4 +1,4 @@
-neues Formular
+git neues Formular
 --------------
 Ordner sollen schon dem vor Upload freigeben werden können
 Ordnerübersicht soll sich nach Upload aktualisieren
@@ -30,6 +30,7 @@ Datumsformat speichern können
 		+ dd.mm.YY
 		+ dd.mm.YYYY
 		+ YYYY-mm-dd
++ Möglichkeit, bereits vorhandene Bilder zu überschreiben
 
 
 Anleitung
