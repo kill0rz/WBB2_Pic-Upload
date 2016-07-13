@@ -6,11 +6,6 @@ Ordnerübersicht soll sich nach Upload aktualisieren
 	+ siehe Kommentar: used out of scope
 bilder nach upload wieder hochladen können
 
-$_GET['title'] soll base64 codiert werden
-	+ übernahme in neuem und alten formular
-	+ abgabe in allen templates
-	+ anleitung anpassen
-
 
 altes Formular
 --------------

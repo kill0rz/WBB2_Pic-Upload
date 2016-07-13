@@ -20,6 +20,7 @@ function open_picupload(threadname) {
 	} else {
 		title = '';
 	}
+	title = btoa(title);
 	var d = new Date();
 	window.open('picupload.php?title=' + encodeURI(title), 'picupload' + d.getTime());
 }

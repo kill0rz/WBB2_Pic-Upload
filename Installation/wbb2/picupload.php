@@ -33,7 +33,7 @@ if ($loggedin) {
 		} elseif (isset($_POST['ordner']) and trim($_POST['ordner']) != '') {
 			$ordner = trim($_POST['ordner']);
 		} elseif (isset($_GET['title']) and trim($_GET['title']) != '') {
-			$ordner = trim($_GET['title']);
+			$ordner = trim(base64_decode(urldecode(trim($_GET['title']))));
 		} else {
 			$ordner = '';
 		}
@@ -249,7 +249,7 @@ if ($loggedin) {
 		//neues Uploadformular
 
 		if (isset($_GET['title']) and trim($_GET['title']) != '') {
-			$ordner = trim($_GET['title']);
+			$ordner = trim(base64_decode(urldecode(trim($_GET['title']))));
 		} else {
 			$ordner = "default";
 		}
