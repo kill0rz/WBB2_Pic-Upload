@@ -66,7 +66,8 @@
 										<span id="resizeimgbeforeupload_ladebalken">
 										</span>
 									</form>
-									<input type="checkbox" id="sortlinks" disabled checked/> Linkliste sortieren?
+									<input type="checkbox" id="sortlinks" disabled checked/> Linkliste sortieren? |
+									<input type="checkbox" id="allowrandompic" disabled checked/> Zum Zufallsbild der Woche freigeben?
 								</div>
 								<br />
 								<div style="border: 1px solid black; padding: 5px; clear: both;">

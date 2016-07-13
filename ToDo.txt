@@ -3,6 +3,7 @@ neues Formular
 Ordnerübersicht soll sich nach Upload aktualisieren
 	+ aktualisiert sich 4mal?! --> nur das letzte ist korrekt
 	+ siehe Kommentar: used out of scope
+alles testen
 -> checkpoint für transport
 
 bilder nach upload wieder hochladen können
@@ -10,10 +11,7 @@ bilder nach upload wieder hochladen können
 
 altes Formular
 --------------
-Ordner sollen schon dem vor Upload freigeben werden können
-Testen, ob getfolder(); noch geht
-und überhaupt ob alles noch geht
-	+ vor allem wegen utf_encode
+alles testen
 -> checkpoint für transport
 
 

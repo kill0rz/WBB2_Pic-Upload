@@ -28,11 +28,11 @@ if ($loggedin) {
 	if (isset($_GET['formular']) && trim($_GET['formular']) == "old") {
 		$done = false;
 		$dowithbutton = '';
-		if (isset($_POST['newdir']) and trim($_POST['newdir']) != '') {
+		if (isset($_POST['newdir']) && trim($_POST['newdir']) != '') {
 			$ordner = trim($_POST['newdir']);
-		} elseif (isset($_POST['ordner']) and trim($_POST['ordner']) != '') {
+		} elseif (isset($_POST['ordner']) && trim($_POST['ordner']) != '') {
 			$ordner = trim($_POST['ordner']);
-		} elseif (isset($_GET['title']) and trim($_GET['title']) != '') {
+		} elseif (isset($_GET['title']) && trim($_GET['title']) != '') {
 			$ordner = trim(base64_decode(urldecode(trim($_GET['title']))));
 		} else {
 			$ordner = '';
@@ -51,7 +51,7 @@ if ($loggedin) {
 
 		$ordner = strtr(strtolower(trim($ordner)), $ersetzen);
 
-		if (isset($_POST['sent']) and $_POST['sent'] == 1) {
+		if (isset($_POST['sent']) && $_POST['sent'] == 1) {
 			if (trim($_POST['links']) != '') {
 				$links = trim($_POST['links']) . "\n";
 			} else {
@@ -93,7 +93,7 @@ if ($loggedin) {
 
 			//URL-Felder
 			for ($feld = 1; $feld < 6; $feld++) {
-				if (isset($_POST["url" . $feld]) and substr(strtolower($_POST["url" . $feld]), -5) == '.jpeg' || substr(strtolower($_POST["url" . $feld]), -4) == '.jpg' || substr(strtolower($_POST["url" . $feld]), -4) == '.gif' || substr(strtolower($_POST["url" . $feld]), -4) == '.bmp' || substr(strtolower($_POST["url" . $feld]), -4) == '.png') {
+				if (isset($_POST["url" . $feld]) && substr(strtolower($_POST["url" . $feld]), -5) == '.jpeg' || substr(strtolower($_POST["url" . $feld]), -4) == '.jpg' || substr(strtolower($_POST["url" . $feld]), -4) == '.gif' || substr(strtolower($_POST["url" . $feld]), -4) == '.bmp' || substr(strtolower($_POST["url" . $feld]), -4) == '.png') {
 					$stripped = trim($_POST["url" . $feld]);
 					$stripped = strip_tags($stripped);
 					for ($j = 1; $j < count($wegarray); $j++) {
@@ -135,7 +135,7 @@ if ($loggedin) {
 			}
 
 			//ZIP-Datei
-			if (isset($_FILES['filezip']) and substr(strtolower($_FILES['filezip']['name']), -4) == '.zip') {
+			if (isset($_FILES['filezip']) && substr(strtolower($_FILES['filezip']['name']), -4) == '.zip') {
 				for ($j = 1; $j < count($wegarray); $j++) {
 					$wegarray[$j] = trim($wegarray[$j]);
 				}
@@ -146,7 +146,7 @@ if ($loggedin) {
 					$zip->close();
 					if ($handle = opendir('/tmp/picupload')) {
 						while (false !== ($file = readdir($handle))) {
-							if ($file != "." and $file != "..") {
+							if ($file != "." && $file != "..") {
 								if (substr(strtolower($file), -5) == '.jpeg' || substr(strtolower($file), -4) == '.jpg' || substr(strtolower($file), -4) == '.gif' || substr(strtolower($file), -4) == '.bmp' || substr(strtolower($file), -4) == '.png') {
 									if (!is_dir($subordner . "/" . $wbbuserdata['userid'])) {
 										mkdir($subordner . "/" . $wbbuserdata['userid'], 0777);
@@ -185,10 +185,24 @@ if ($loggedin) {
 				unlink("/tmp/" . $_FILES['filezip']['name']);
 			}
 
-			if (isset($_POST['sort']) and trim($_POST['sort']) == "true") {
+			//linkliste sortieren
+			if (isset($_POST['sort']) && trim($_POST['sort']) == "true") {
 				$linksarray = explode("\n", $links);
 				natsort($linksarray);
 				$links = implode($linksarray, "\n");
+			}
+
+			//allowrandompic
+			if (isset($_POST['sort']) && trim($_POST['sort']) == "true") {
+				$ordner_to_allow = $ordner . "/";
+				if (is_dir($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow)) {
+					try {
+						file_put_contents($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow . "/allowtorandompic", "");
+						chmod($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_allow, 0755);
+					} catch (Exception $e) {
+						$error .= "Fehler Freigabe!\n";
+					}
+				}
 			}
 
 			if ($links != "" && isset($fotoalben_board_id) && $fotoalben_board_id > 0) {
@@ -228,8 +242,8 @@ if ($loggedin) {
 		if (is_dir($verzeichnishandle)) {
 			$inhalt = scandir($verzeichnishandle);
 			foreach ($inhalt as $verzeichnis) {
-				if ($verzeichnis != '.' and $verzeichnis != '..' and $verzeichnis != 'index.php' and $verzeichnis != 'default' && is_dir($verzeichnishandle . "/" . $verzeichnis)) {
-					if (isset($ordner) and trim($ordner) == $verzeichnis) {
+				if ($verzeichnis != '.' && $verzeichnis != '..' && $verzeichnis != 'index.php' && $verzeichnis != 'default' && is_dir($verzeichnishandle . "/" . $verzeichnis)) {
+					if (isset($ordner) && trim($ordner) == $verzeichnis) {
 						$selected = " selected";
 						$ordner_anz = '';
 					} else {
@@ -248,7 +262,7 @@ if ($loggedin) {
 	} else {
 		//neues Uploadformular
 
-		if (isset($_GET['title']) and trim($_GET['title']) != '') {
+		if (isset($_GET['title']) && trim($_GET['title']) != '') {
 			$ordner = trim(base64_decode(urldecode(trim($_GET['title']))));
 		} else {
 			$ordner = "default";
@@ -267,8 +281,8 @@ if ($loggedin) {
 		if (is_dir($verzeichnishandle)) {
 			$inhalt = scandir($verzeichnishandle);
 			foreach ($inhalt as $verzeichnis) {
-				if ($verzeichnis != '.' and $verzeichnis != '..' and $verzeichnis != 'index.php' and $verzeichnis != 'default' && is_dir($verzeichnishandle . "/" . $verzeichnis)) {
-					if (isset($ordner) and trim($ordner) == $verzeichnis) {
+				if ($verzeichnis != '.' && $verzeichnis != '..' && $verzeichnis != 'index.php' && $verzeichnis != 'default' && is_dir($verzeichnishandle . "/" . $verzeichnis)) {
+					if (isset($ordner) && trim($ordner) == $verzeichnis) {
 						$selected = " selected";
 						$ordner_anz = '';
 					} else {

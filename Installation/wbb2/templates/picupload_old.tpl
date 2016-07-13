@@ -87,7 +87,8 @@
 										<input type="hidden" name="links" value="$ausgabelinks" />
 										<br />
 										<input type="checkbox" name="compress" value="true" checked /> Bilder komprimieren? |
-										<input type="checkbox" name="sort" value="true" checked /> Links sortieren?
+										<input type="checkbox" name="sort" value="true" checked /> Links sortieren? |
+										<input type="checkbox" name="allowrandompic" value="true" checked/> Zum Zufallsbild der Woche freigeben?
 										<br />
 										<input type="submit" name="submit" value="Upload" onclick="call_all_uploads();" />
 										<input name="abort" value="Abbrechen" type="button" onclick="uploadAbort();" />
