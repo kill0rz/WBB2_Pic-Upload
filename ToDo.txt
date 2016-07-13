@@ -6,10 +6,10 @@ Ordnerübersicht soll sich nach Upload aktualisieren
 	+ siehe Kommentar: used out of scope
 bilder nach upload wieder hochladen können
 
-UMALUTE GEHEN NICHT
-	+ Bei Übergabe in URL (encodiert?) steht Bullshit im Textfeld
-	+ Autopost geht mal wieder nicht -_-
-	+ Oder doch? TESTEN!
+$_GET['title'] soll base64 codiert werden
+	+ übernahme in neuem und alten formular
+	+ abgabe in allen templates
+	+ anleitung anpassen
 
 
 altes Formular
