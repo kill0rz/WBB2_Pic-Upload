@@ -1,9 +1,10 @@
 neues Formular
 --------------
-Ordner sollen schon dem vor Upload freigeben werden können
 Ordnerübersicht soll sich nach Upload aktualisieren
 	+ aktualisiert sich 4mal?! --> nur das letzte ist korrekt
 	+ siehe Kommentar: used out of scope
+-> checkpoint für transport
+
 bilder nach upload wieder hochladen können
 
 
@@ -13,13 +14,15 @@ Ordner sollen schon dem vor Upload freigeben werden können
 Testen, ob getfolder(); noch geht
 und überhaupt ob alles noch geht
 	+ vor allem wegen utf_encode
+-> checkpoint für transport
 
 
 Beide Formulare
 ---------------
+-> checkpoint für transport
 Bilder automatisch drehen lassen bei Upload (JS/PHP)
 Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
-Vorschau: Autopost 
+Vorschau: Autopost
 	+ Wenn gefunden wurde: Link zum Thread
 Datum überall finden können: Test 1.2.16 = 1.2.2016 Test usw.
 Datumsformat speichern können
