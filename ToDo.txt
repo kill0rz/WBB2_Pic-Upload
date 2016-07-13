@@ -9,6 +9,7 @@ bilder nach upload wieder hochladen können
 UMALUTE GEHEN NICHT
 	+ Bei Übergabe in URL (encodiert?) steht Bullshit im Textfeld
 	+ Autopost geht mal wieder nicht -_-
+	+ Oder doch? TESTEN!
 
 
 altes Formular
