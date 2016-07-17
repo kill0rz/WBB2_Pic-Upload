@@ -11,12 +11,11 @@ bilder nach upload wieder hochladen können
 
 altes Formular
 --------------
-alles testen
--> checkpoint für transport
 
 
 Beide Formulare
 ---------------
+- geht nicht: antworte in autopost, aber nur bei Umlauten im Namen
 -> checkpoint für transport
 Bilder automatisch drehen lassen bei Upload (JS/PHP)
 Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
