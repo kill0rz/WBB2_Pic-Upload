@@ -286,19 +286,19 @@ function parse_dateformats($ordnername) {
 				$year = $teile[2];
 				$month = $teile[1];
 				$day = $teile[0];
-				return preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/", $day . $month . $year, $ordnername);
+				return preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/", $day . "." . $month . "." . $year, $ordnername);
 			case 2:
 				$teile = explode(".", $matches[0][0]);
 				$year = "20" . $teile[2];
 				$month = $teile[1];
 				$day = $teile[0];
-				return preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{2}/", $day . $month . $year, $ordnername);
+				return preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{2}/", $day . "." . $month . "." . $year, $ordnername);
 			case 3:
 				$teile = explode("-", $matches[0][0]);
 				$year = $teile[0];
 				$month = $teile[1];
 				$day = $teile[2];
-				return preg_replace("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", $day . $month . $year, $ordnername);
+				return preg_replace("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", $day . "." . $month . "." . $year, $ordnername);
 		}
 	}
 
@@ -306,12 +306,12 @@ function parse_dateformats($ordnername) {
 }
 
 function get_thread() {
-	global $db, $fotoalben_board_id, $ersetzen, $usenumber, $usetopic, $ordner;
+	global $db, $fotoalben_board_id, $ersetzen, $usenumber, $usetopic, $ordner_utf8;
 	$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $fotoalben_board_id . ";";
 	$result = $db->unbuffered_query($sql);
 	while ($row = $db->fetch_array($result)) {
 		$name = trim(strtr(strtolower(utf8_encode($row['topic'])), $ersetzen));
-		if (parse_dateformats($name) == parse_dateformats($ordner)) {
+		if (parse_dateformats($name) == parse_dateformats($ordner_utf8)) {
 			$usenumber = $row['threadid'];
 			$usetopic = htmlentities($row['topic'], ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1');
 		}

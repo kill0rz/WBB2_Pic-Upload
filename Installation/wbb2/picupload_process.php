@@ -30,6 +30,7 @@ if ($loggedin) {
 		$ordner_orig = trim(base64_decode(trim($_GET['folder'])));
 		$ordner = strtr(strtolower(trim(base64_decode(trim($_GET['folder'])))), $ersetzen);
 		$ordner_utf8 = strtr(strtolower(utf8_encode(trim(base64_decode(trim($_GET['folder']))))), $ersetzen);
+
 		if (isset($fotoalben_board_id) && $fotoalben_board_id > 0) {
 			$usenumber = 0;
 			get_thread();
@@ -41,7 +42,7 @@ if ($loggedin) {
 					'boardid' => $fotoalben_board_id,
 					'usenumber' => $usenumber,
 					'usetopic' => $usetopic,
-					'ordner_shrink' => $ordner,
+					'ordner_shrink' => $ordner_utf8,
 				];
 			} else {
 				//newthread

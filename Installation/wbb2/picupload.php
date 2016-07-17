@@ -50,6 +50,7 @@ if ($loggedin) {
 		}
 
 		$ordner = strtr(strtolower(trim($ordner)), $ersetzen);
+		$ordner_utf8 = $ordner;
 
 		if (isset($_POST['sent']) && $_POST['sent'] == 1) {
 			if (trim($_POST['links']) != '') {
