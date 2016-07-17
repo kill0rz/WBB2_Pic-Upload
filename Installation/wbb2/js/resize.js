@@ -197,13 +197,6 @@ document.addEventListener('DOMContentLoaded', function() {
 														document.getElementById('autopostbutton').innerHTML = inhalt;
 													}
 
-													///todo
-													//hier jetzt noch ne request rein, die abfragt, ob es den ordner schon gibt
-													//müsste aber weiter hoch, da der ordner ja beim ersten bild ggf. erstellet wird
-													//also irgendwie in die varaibale schreiben oben
-													//bedingt neue action in der process.php
-													// table_append = true;
-
 													if (table_append && request2.response.ordner_shrink !== "") {
 														// Ordneruebersicht aktualisieren
 														$("#ordneruebersicht").append(
