@@ -18,7 +18,7 @@ window.resize = (function() {
 		photo: function(file, maxSize, outputType, callback, files_length, i_names) {
 			var _this = this;
 			var reader = new FileReader();
-			reader.onload = function(readerEvent, files_length) {
+			reader.onload = function(readerEvent) {
 				_this.resize(readerEvent.target.result, maxSize, outputType, callback, i_names);
 			};
 			reader.readAsDataURL(file);
@@ -26,7 +26,7 @@ window.resize = (function() {
 		resize: function(dataURL, maxSize, outputType, callback, i_names) {
 			var _this = this;
 			var image = new Image();
-			image.onload = function(imageEvent) {
+			image.onload = function() {
 				// Resize image
 				var canvas = document.createElement('canvas'),
 					width = image.width,
@@ -66,8 +66,8 @@ window.resize = (function() {
 }());
 
 var ordner = "default";
-var append;
-document.addEventListener('DOMContentLoaded', function(event) {
+var table_append = true;
+document.addEventListener('DOMContentLoaded', function() {
 	// Initialise resize library
 	var resize = new window.resize();
 	resize.init();
@@ -79,13 +79,23 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 		if ($('#ordner_name_new').val().trim() !== "") {
 			ordner = $('#ordner_name_new').val().trim();
-			append = true;
 		} else {
 			$('#ordner_name_old option:selected').each(function() {
 				ordner = this.value.replace("<option>", "");
 			});
-			append = false;
 		}
+
+		//check if folder already exists on disk
+		var request5 = new XMLHttpRequest();
+		var formData5 = new FormData();
+		request5.onreadystatechange = function() {
+			if (request5.readyState === 4 && request5.response.status == 1) {
+				table_append = false;
+			}
+		};
+		request5.open('GET', './picupload_process.php?action=checkexistingfolder&folder=' + btoa(ordner));
+		request5.responseType = 'json';
+		request5.send(formData5);
 
 		formData.append('ordner', ordner);
 		formData.append('filename', filename);
@@ -126,9 +136,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 					if (document.getElementById('resizeimgbeforeupload_status').innerHTML != "<img alt=\"ok\" src=\"./images/sanduhr.gif\">") {
 						document.getElementById('resizeimgbeforeupload_status').innerHTML = "<img alt=\"ok\" src=\"./images/sanduhr.gif\">";
 					}
-					var initialSize = files[i].size;
 					resize.photo(files[i], 1300, 'file', function(resizedFile, file, i_names) {
-						var resizedSize = resizedFile.size;
 						$('#links').find('input, textarea, button, select').prop("disabled", true);
 						$('#linksammlung').prop("disabled", true);
 						$('#changedivs').prop("disabled", true);
@@ -168,46 +176,52 @@ document.addEventListener('DOMContentLoaded', function(event) {
 														//ok, freigabe erfolgt
 														freigabeicon = "<img src='./images/erledigt.gif' alt='erledigt' />";
 													} else {
-														//gab irgendwie einen fehler
 														freigabeicon = "<img src='./images/delete.png' alt='delete' />";
 													}
-												}
 
-												if (request2.response.action == "addreplaytothread") {
-													inhalt = "<form action='./addreply.php' method='post'>";
-													inhalt += "<input type='hidden' name='threadid' value='" + request2.response.usenumber + "' />";
-													inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
-													inhalt += "<input type='hidden' name='autosubmit' value='true' />";
-													inhalt += "<input type='submit' id='addreplaytothread' value=\"Antworte auf Thread '" + request2.response.usetopic + "'\" />";
-													inhalt += "</form>";
-													document.getElementById('autopostbutton').innerHTML = inhalt;
-												} else {
-													inhalt = "<form action='./newthread.php?boardid=" + request2.response.boardid + "' method='post'>";
-													inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
-													inhalt += "<input type='hidden' name='title' value='" + btoa(ordner) + "' />";
-													inhalt += "<input type='hidden' name='autosubmit' value='true' />";
-													inhalt += "<input type='submit' id='submittonewthread' value=\"Er&ouml;ffne neuen Thread '" + ordner + "'\" />";
-													inhalt += "</form>";
-													document.getElementById('autopostbutton').innerHTML = inhalt;
-												}
+													if (request2.response.action == "addreplaytothread") {
+														inhalt = "<form action='./addreply.php' method='post'>";
+														inhalt += "<input type='hidden' name='threadid' value='" + request2.response.usenumber + "' />";
+														inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
+														inhalt += "<input type='hidden' name='autosubmit' value='true' />";
+														inhalt += "<input type='submit' id='addreplaytothread' value=\"Antworte auf Thread '" + request2.response.usetopic + "'\" />";
+														inhalt += "</form>";
+														document.getElementById('autopostbutton').innerHTML = inhalt;
+													} else {
+														inhalt = "<form action='./newthread.php?boardid=" + request2.response.boardid + "' method='post'>";
+														inhalt += "<input type='hidden' name='inhalt' value='" + btoa(textarea.value) + "' />";
+														inhalt += "<input type='hidden' name='title' value='" + btoa(ordner) + "' />";
+														inhalt += "<input type='hidden' name='autosubmit' value='true' />";
+														inhalt += "<input type='submit' id='submittonewthread' value=\"Er&ouml;ffne neuen Thread '" + ordner + "'\" />";
+														inhalt += "</form>";
+														document.getElementById('autopostbutton').innerHTML = inhalt;
+													}
 
-												if (append && request2.response.ordner_shrink !== "") {
-													// Ordneruebersicht aktualisieren
-													$("#ordneruebersicht").append(
-														"<tr>" +
-														"<td>" +
-														"<a href='./picupload.php?folder=" + request2.response.ordner_shrink + "&formular=#inhalt'>" +
-														request2.response.ordner_shrink +
-														"</a>" +
-														"</td>" +
-														"<td align='center'>" +
-														"<a href='./picupload.php?folder=" + encodeURI(ordner) + "&amp;action=togglefreigabe&amp;formular='>" +
-														//used out of scope
-														freigabeicon +
-														"</a>" +
-														"</td>" +
-														"</tr>"
-													);
+													///todo
+													//hier jetzt noch ne request rein, die abfragt, ob es den ordner schon gibt
+													//müsste aber weiter hoch, da der ordner ja beim ersten bild ggf. erstellet wird
+													//also irgendwie in die varaibale schreiben oben
+													//bedingt neue action in der process.php
+													// table_append = true;
+
+													if (table_append && request2.response.ordner_shrink !== "") {
+														// Ordneruebersicht aktualisieren
+														$("#ordneruebersicht").append(
+															"<tr>" +
+															"<td>" +
+															"<a href='./picupload.php?folder=" + request2.response.ordner_shrink + "&formular=#inhalt'>" +
+															request2.response.ordner_shrink +
+															"</a>" +
+															"</td>" +
+															"<td align='center'>" +
+															"<a href='./picupload.php?folder=" + encodeURI(ordner) + "&amp;action=togglefreigabe&amp;formular='>" +
+															//used out of scope
+															freigabeicon +
+															"</a>" +
+															"</td>" +
+															"</tr>"
+														);
+													}
 												}
 											};
 											request3.open('GET', './picupload_process.php?action=setallowrandompic&folder=' + btoa(ordner));

@@ -82,6 +82,17 @@ if ($loggedin) {
 			'status' => $status,
 		];
 		echo json_encode($response);
+	} elseif (isset($_GET['action']) && trim($_GET['action']) == "checkexistingfolder" && isset($_GET['folder']) && trim($_GET['folder']) != "") {
+		$ordner_to_check = strtr(strtolower(utf8_encode(trim(base64_decode(trim($_GET['folder']))))), $ersetzen);
+		if (is_dir($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner_to_check)) {
+			$status = true;
+		} else {
+			$status = false;
+		}
+		$response = (object) [
+			'status' => $status,
+		];
+		echo json_encode($response);
 	} else {
 		$ordner = strtr(strtolower(trim($_POST['ordner'])), $ersetzen);
 
