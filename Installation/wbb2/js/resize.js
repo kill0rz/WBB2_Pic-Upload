@@ -225,9 +225,9 @@ document.addEventListener('DOMContentLoaded', function(event) {
 								i_curr = 0;
 								i_names = 0;
 								document.getElementById("file_upload").value = "";
-								$('#links').find('input, textarea, button, select').prop("disabled", false);
+								// $('#links').find('input, textarea, button, select').prop("disabled", false);
 								$('#linksammlung').prop("disabled", false);
-								$('#changedivs').prop("disabled", false);
+								// $('#changedivs').prop("disabled", false);
 							}
 						}, files_length, names[i_names - 1]);
 					}, files_length, i_names);
