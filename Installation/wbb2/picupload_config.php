@@ -16,7 +16,7 @@
 $subordner = "Fotoalben"; //ohne / am Ende
 
 // IDs der Benutzergruppen, die auf den Hack zugreifen dürfen
-$erlaubtegruppen = array("1");
+$erlaubtegruppen = array("1", "2", "3");
 
 // ID des Boards, in das alle Bilder gepostet werden sollen. 0 zum Deaktivieren
 $fotoalben_board_id = 1;

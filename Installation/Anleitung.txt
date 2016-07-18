@@ -66,17 +66,18 @@ v2.0 (26.01.2016)
 + fixed: besseres Filename-Handling
 * Design-Update
 
-v3.0 (25.06.2016)
+v3.0 (19.07.2016)
 ----
 + Massives Update
 + Fixed: Falsche Benamsung doppelter Dateien
-+ Fixed: etliche kleinere Sachen
++ Fixed: Etliche kleinere Sachen
 + Fixed: Falsche Erkennung von Ordnern
 + Added: Neues Uploadformular (Kompression VOR dem Upload)
-+ Chenged: technische Änderungen
-+ Added Randombild der Woche
-+ Fixed: HTML5 Anpassungen
+	+ Tabelle der Alben aktualisiert sich ohne Seitenreload
++ Changed: technische Änderungen
 + Added: Randompic der Woche
++ Fixed: HTML5 Anpassungen
++ Added: Bilder können zum Randompic der Woche vor dem Upload freigegeben werden
 
 Installation
 ############
@@ -193,4 +194,4 @@ Alle Ordner werden vom Script angelegt, wenn sie gebraucht werden.
 Viel Spaß bei der Verwendung,
 kill0rz
 http://kill0rz.com/
-Stand: 24.06.2016
+Stand: 19.07.2016
