@@ -1,6 +1,5 @@
 neues Formular
 --------------
-alles testen
 -> checkpoint für Transport
 
 bilder nach upload wieder hochladen können
@@ -29,6 +28,7 @@ Datumsformat speichern können
 		+ dd.mm.YYYY
 		+ YYYY-mm-dd
 + Möglichkeit, bereits vorhandene Bilder zu überschreiben
++ Vorschaubilder zur Galerie umbauen
 
 
 Anleitung
