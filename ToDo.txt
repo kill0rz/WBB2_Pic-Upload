@@ -4,6 +4,7 @@ alles testen
 -> checkpoint für Transport
 
 bilder nach upload wieder hochladen können
+neue ordner nicht einfach appenden, sondern in tabelle alphabetisch einsortieren
 
 
 altes Formular
