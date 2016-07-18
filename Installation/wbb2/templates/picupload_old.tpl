@@ -96,17 +96,7 @@
 									</form>
 									<br /> <h4>Deine Ordner:</h4>
 									<br />
-									<table border='none'>
-										<tr>
-											<th>Ordner</th>
-											<if($use_randompic)>
-												<then>
-													<th>zum Randompic der Woche freigegeben?</th>
-												</then>
-											</if>
-										</tr>
-										$folders
-									</table>
+									$folders
 									$folders_hinweis
 									<br /> $unterelinks
 									<br />
