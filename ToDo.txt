@@ -9,7 +9,7 @@ bilder nach upload wieder hochladen können
 altes Formular
 --------------
 -> checkpoint für Transport
-
+alte bilder tatsächlich nicht resizen, wenn haken nicht gesetzt
 
 Beide Formulare
 ---------------
