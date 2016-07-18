@@ -41,7 +41,7 @@
 							<span class="smallfont">
 								<pre><b>neues Uploadformular</b> | <a href="./picupload.php?formular=old">altes Uploadformular</a></pre>
 								<h3>Hier hochgeladene Dateien werden <b>vor</b> dem Upload verkleinert und sofort nach dem Auswählen abgearbeitet!</h3>
-								<i>Hinweis:</i> Wenn du viele Bilder hochladen willst (&gt;100MB), dann achte darauf, dass du einen 64Bit-Browser nutzt. 32Bit-Browser stürzen dabei ab.<br /><br />
+								<i>Hinweis:</i> Wenn du viele Bilder hochladen willst (&gt;100MB), dann nutze bitte Chrome oder Vivaldi. Firefox, Opera und co. stürzen dabei ab.<br /><br />
 								<div style="border: 1px solid red; padding: 5px; clear: both;" id="ordner">
 									In den Ordner:
 									<br />
@@ -78,17 +78,7 @@
 								<hr/>
 								<br /> <h4>Deine Ordner:</h4>
 								<br />
-								<table border='none' id='ordneruebersicht'>
-									<tr>
-										<th>Ordner</th>
-										<if($use_randompic)>
-											<then>
-												<th>zum Randompic der Woche freigegeben?</th>
-											</then>
-										</if>
-									</tr>
-									$folders
-								</table>
+								$folders
 								$folders_hinweis
 								<br /> $unterelinks
 								<br />

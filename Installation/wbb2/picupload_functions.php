@@ -25,7 +25,6 @@ function inarray($array1, $array2) {
 			if ($a1 == $a2) {
 				return true;
 			}
-
 		}
 	}
 	return false;
@@ -154,8 +153,9 @@ function generate_folderoverview($formular = "") {
 	if (is_dir($verzeichnishandle)) {
 		$folder = scandir($verzeichnishandle);
 		if (count($folder) < 1) {
-			$folders = "Noch keine Vorhanden!";
+			$folders = "Noch keine vorhanden!";
 		} else {
+			$folders = "<table border='none' id='ordneruebersicht'> <tr> <th>Ordner</th> <if($use_randompic)> <then> <th>zum Randompic der Woche freigegeben?</th> </then> </if> </tr>";
 			foreach ($folder as $f) {
 				if ($f != '.' && $f != '..' && $f != 'index.php' && is_dir($verzeichnishandle . "/" . $f)) {
 					$folders .= "<tr><td><a href='?folder=" . $f . "&formular={$formular}#inhalt'>" . $f . "</a></td>";
@@ -170,22 +170,24 @@ function generate_folderoverview($formular = "") {
 					$folders .= "</tr>";
 				}
 			}
+			$folders .= "</table>";
 			if ($use_randompic) {
 				$folders_hinweis = "<img src='./images/erledigt.gif' alt='erledigt' /> = Album ist freigegeben, <img src='./images/delete.png' alt='delete' /> = nicht freigegeben";
 			}
 		}
 	} else {
-		$folders = "Noch keine vorhanden";
+		$folders = "Noch keine vorhanden!";
 	}
 	$links = '';
 	$vorschauen = '';
 	if (isset($_GET['folder']) && $_GET['folder'] != '' && !isset($_GET['action'])) {
-		if (is_dir($verzeichnishandle . "/" . $_GET['folder'])) {
-			$folder = scandir($verzeichnishandle . "/" . $_GET['folder']);
+		$getfolder = trim($_GET['folder']);
+		if (is_dir($verzeichnishandle . "/" . $getfolder)) {
+			$folder = scandir($verzeichnishandle . "/" . $getfolder);
 			foreach ($folder as $f) {
 				if ($f != '.' && $f != '..' && $f != 'index.php' && $f != "allowtorandompic") {
-					$links .= "[IMG]" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "[/IMG]\n";
-					$vorschauen .= "<a href='" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "' target='_blank'><img src='" . $url2board . "/" . $verzeichnishandle . "/" . $_GET['folder'] . "/" . $f . "' alt='{$f}' width='150px' /></a>\n";
+					$links .= "[IMG]" . $url2board . "/" . $verzeichnishandle . "/" . $getfolder . "/" . $f . "[/IMG]\n";
+					$vorschauen .= "<a href='" . $url2board . "/" . $verzeichnishandle . "/" . $getfolder . "/" . $f . "' target='_blank'><img src='" . $url2board . "/" . $verzeichnishandle . "/" . $getfolder . "/" . $f . "' alt='{$f}' width='150px' /></a>\n";
 				}
 			}
 			$linksarray = explode("\n", $links);
@@ -251,8 +253,15 @@ function generate_stats() {
 			}
 			$statsinhalt .= "</tr>";
 		}
-		$prz_all = round($gesamtbilder_allowed / $gesamtbilder, 2) * 100;
-		$statsinhalt .= "<tr><td><b>gesamt</b></td><td>{$gesamtbilder}</td><td>100%</td>";
+		if ($gesamtbilder_allowed > 0 && $gesamtbilder > 0) {
+			$prz_all = round($gesamtbilder_allowed / $gesamtbilder, 2) * 100;
+			$ges_prz = "100%";
+		} else {
+			$prz_all = 0;
+			$ges_prz = "0%";
+		}
+
+		$statsinhalt .= "<tr><td><b>gesamt</b></td><td>{$gesamtbilder}</td><td>{$ges_prz}</td>";
 		if ($use_randompic) {
 			$statsinhalt .= "<td>{$gesamtbilder_allowed}</td><td>{$prz_all}%</td>";
 		}

@@ -1,5 +1,15 @@
 <?php
 
+//
+//
+
+//
+// Pic-Upload Script v3.0 by kill0rz
+//
+
+//
+//
+
 if (!(isset($argv[1]) && trim($argv[1]) == "1")) {
 	die("nein.");
 }
@@ -29,7 +39,6 @@ $phpversion = phpversion();
 require './acp/lib/config.inc.php';
 require './acp/lib/class_db_mysql.php';
 require './acp/lib/class_parse.php';
-// require('./acp/lib/class_parsecode.php');
 require './acp/lib/options.inc.php';
 include './picupload_functions.php';
 
