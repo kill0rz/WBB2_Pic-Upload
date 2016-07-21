@@ -1,26 +1,26 @@
 neues Formular
 --------------
--> checkpoint für Transport
+-> Checkpoint für Transport
 
-bilder nach upload wieder hochladen können
-neue ordner nicht einfach appenden, sondern in tabelle alphabetisch einsortieren
++ bilder nach upload wieder hochladen können
++ neue ordner nicht einfach appenden, sondern in tabelle alphabetisch einsortieren
 
 
 altes Formular
 --------------
-alte bilder tatsächlich nicht resizen, wenn haken nicht gesetzt
--> checkpoint für Transport
++ alte bilder tatsächlich nicht resizen, wenn haken nicht gesetzt
+-> Checkpoint für Transport
 
 Beide Formulare
 ---------------
-Vorschau: Autopost
++ Vorschau: Autopost
 	+ Wenn gefunden wurde: Link zum Thread
 + Möglichkeit, bereits vorhandene Bilder zu überschreiben
-Datum überall finden können: Test 1.2.16 = 1.2.2016 Test usw.
--> checkpoint für Transport
-Bilder automatisch drehen lassen bei Upload (JS/PHP)
-Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
-Datumsformat speichern können
++ Datum überall finden können: Test 1.2.16 = 1.2.2016 Test usw.
+-> Checkpoint für Transport
++ Bilder automatisch drehen lassen bei Upload (JS/PHP)
++ Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
++ Datumsformat speichern können
 	+ Datum automatisch umwandeln
 	+ Haken (soll auto umgewandelt werden) oben, der instant togglet --> haken daneben mit einblendeinformation
 	+ dropdown für verschiedene formate oben
@@ -33,5 +33,3 @@ Datumsformat speichern können
 
 Anleitung
 ---------
-
-Demobilder aktualisieren
