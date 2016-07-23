@@ -10,11 +10,11 @@
 //
 //
 
+error_reporting(E_ALL);
 if (!(isset($argv[1]) && trim($argv[1]) == "1")) {
 	die("nein.");
 }
 
-error_reporting(E_ALL);
 function getgentime() {
 
 }
@@ -31,7 +31,6 @@ function is_allowed_type($file) {
 	} else {
 		return false;
 	}
-
 }
 
 $phpversion = phpversion();
@@ -40,7 +39,9 @@ require './acp/lib/config.inc.php';
 require './acp/lib/class_db_mysql.php';
 require './acp/lib/class_parse.php';
 require './acp/lib/options.inc.php';
-include './picupload_functions.php';
+require './picupload_config.php';
+
+$db = new db($sqlhost, $sqluser, $sqlpassword, $sqldb, $phpversion);
 
 // -------
 
@@ -119,3 +120,4 @@ while ($row = $db->fetch_array($result)) {
 $imgurl_encoded = str_replace("https%3A%2F%2F", "https://", urlencode($imgurl));
 $message = "Das Zufallsbild der Woche kommt heute von [b]{$nutzername}[/b] aus dem Album [b]{$albumname}[/b]: [url={$imgurl_encoded}]{$imgurl}[/url]";
 $result = $db->query("INSERT INTO bb" . $n . "_xy_shoutbox SET `name`='Random-Bot',`comment`='" . addslashes($message) . "',`date`='" . time() . "'");
+die();
