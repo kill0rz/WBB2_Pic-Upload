@@ -15,6 +15,7 @@ Beide Formulare
 ---------------
 + Vorschau: Autopost
 	+ Wenn gefunden wurde: Link zum Thread
+	+ Epic Feature: Finde, ob die Bilder bereits gepostet wurden
 + Möglichkeit, bereits vorhandene Bilder zu überschreiben
 + Datum überall finden können: Test 1.2.16 = 1.2.2016 Test usw.
 -> Checkpoint für Transport
