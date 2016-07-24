@@ -1,5 +1,6 @@
 neues Formular
 --------------
++ YYYY-MM-DD geht nicht
 -> Checkpoint für Transport
 
 + bilder nach upload wieder hochladen können
