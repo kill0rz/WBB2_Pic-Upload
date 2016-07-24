@@ -10,6 +10,7 @@ neues Formular
 altes Formular
 --------------
 + alte bilder tatsächlich nicht resizen, wenn haken nicht gesetzt
++ autopost kaputt (umlaute only?)
 -> Checkpoint für Transport
 
 Beide Formulare
