@@ -9,7 +9,6 @@ neues Formular
 
 altes Formular
 --------------
-+ alte bilder tatsächlich nicht resizen, wenn Haken nicht gesetzt
 + nach Klick auf Upload, buttons usw. deaktivieren
 + autopost kaputt (umlaute only?)
 -> Checkpoint für Transport

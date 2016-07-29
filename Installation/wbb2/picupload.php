@@ -81,11 +81,22 @@ if ($loggedin) {
 						sleep(1);
 						$DateiName = time() . $DateiName;
 					}
-					if (resizeImage($_FILES["file" . $feld]['tmp_name'], $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, 1300, 1, 1)) {
-						$links .= "[IMG]" . $albenurl . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName . "[/IMG]\n";
-						@chmod($DateiName, 0755);
+					if (isset($_POST['compress']) && trim($_POST['compress']) == "true") {
+						// Bilder sollen resized werden
+						if (resizeImage($_FILES["file" . $feld]['tmp_name'], $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, 1300, 1, 1)) {
+							$links .= "[IMG]" . $albenurl . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName . "[/IMG]\n";
+							@chmod($DateiName, 0755);
+						} else {
+							$error .= "Error 1<br>";
+						}
 					} else {
-						$error .= "Error 1<br>";
+						// Bilder sollen 1:1 durchgewunken werden
+						if (move_uploaded_file($_FILES["file" . $feld]['tmp_name'], $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
+							$links .= "[IMG]" . $albenurl . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName . "[/IMG]\n";
+							@chmod($DateiName, 0755);
+						} else {
+							$error .= "Error 1<br>";
+						}
 					}
 					@umask($umaskold);
 					$done = true;
@@ -124,12 +135,16 @@ if ($loggedin) {
 						$DateiName = time() . $DateiName;
 					}
 					if (@copy($stripped, $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
-						resizeImage($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, 1300, 1, 1);
+						if (isset($_POST['compress']) && trim($_POST['compress']) == "true") {
+							resizeImage($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, 1300, 1, 1);
+						}
+
 						$links .= "[IMG]" . $albenurl . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName . "[/IMG]\n";
 						@chmod($DateiName, 0755);
 					} else {
 						$error .= "Error 2<br>";
 					}
+
 					@umask($umaskold);
 					$done = true;
 				}
@@ -167,8 +182,10 @@ if ($loggedin) {
 
 									if (@copy('/tmp/picupload/' . $file, $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
 										@chmod($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, 0777);
+										if (isset($_POST['compress']) && trim($_POST['compress']) == "true") {
+											resizeImage($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, 1300, 1, 1);
+										}
 										$links .= "[IMG]" . $albenurl . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName . "[/IMG]\n";
-										resizeImage($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, 1300, 1, 1);
 									} else {
 										$error .= "Error 2<br>";
 									}
