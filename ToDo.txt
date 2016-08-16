@@ -36,3 +36,7 @@ Beide Formulare
 
 Anleitung
 ---------
+
+
+EXTRA HACK??
++ Alle Bilde,r die in einem Post/Thread vorkommen als ZIP downloaden
