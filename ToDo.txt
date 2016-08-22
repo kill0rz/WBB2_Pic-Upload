@@ -1,6 +1,7 @@
 neues Formular
 --------------
 + YYYY-MM-DD geht nicht
++ sanduhr nur einmal schreiben (check obs schon so ist)
 -> Checkpoint für Transport
 
 + bilder nach upload wieder hochladen können
