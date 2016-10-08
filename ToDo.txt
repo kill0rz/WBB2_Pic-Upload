@@ -32,6 +32,7 @@ Beide Formulare
 		+ dd.mm.YYYY
 		+ YYYY-mm-dd
 + Vorschaubilder zur Galerie umbauen
++ Link in Profil, der eine Suche durchführt, der alle geposteten Bilder sucht
 
 
 Anleitung
@@ -39,4 +40,4 @@ Anleitung
 
 
 EXTRA HACK??
-+ Alle Bilde,r die in einem Post/Thread vorkommen als ZIP downloaden
++ Alle Bilder die in einem Post/Thread vorkommen als ZIP downloaden
