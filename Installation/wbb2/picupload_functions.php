@@ -307,10 +307,9 @@ function parse_dateformats($ordnername) {
 				$year = $teile[0];
 				$month = $teile[1];
 				$day = $teile[2];
-				return preg_replace("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", $day . "." . $month . "." . $year, $ordnername);
+				return substr(preg_replace("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", "", $ordnername), 1) . "_" . $day . "." . $month . "." . $year;
 		}
 	}
-
 	return $ordnername;
 }
 
