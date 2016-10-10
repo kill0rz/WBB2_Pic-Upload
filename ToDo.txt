@@ -1,5 +1,6 @@
 neues Formular
 --------------
++ Datumsformate -> Datum ans Ende replacen bei dd.mm.YYYY und dd.mm.YY
 -> Checkpoint für Transport
 
 + bilder nach upload wieder hochladen können
@@ -33,7 +34,7 @@ Beide Formulare
 		+ YYYY-mm-dd
 + Vorschaubilder zur Galerie umbauen
 + Link in Profil, der eine Suche durchführt, der alle geposteten Bilder sucht
-	+ done, Anleitung fehlt noch
+	+ done, Anleitung fehlt noch, integration ins profil
 
 
 Anleitung
