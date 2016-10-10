@@ -33,8 +33,6 @@ Beide Formulare
 		+ dd.mm.YYYY
 		+ YYYY-mm-dd
 + Vorschaubilder zur Galerie umbauen
-+ Link in Profil, der eine Suche durchführt, der alle geposteten Bilder sucht
-	+ done, Anleitung fehlt noch, integration ins profil
 
 
 Anleitung

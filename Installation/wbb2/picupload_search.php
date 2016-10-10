@@ -54,7 +54,7 @@ if ($loggedin) {
 		}
 
 		$db->query("INSERT INTO bb" . $n . "_searchs (searchhash,searchstring,searchuserid,postids,showposts,sortby,sortorder,searchtime,userid,ipaddress)
-				VALUES ('" . getQueryHash($savepostids, 0, "lastpost", "desc", $wbbuserdata['userid'], $REMOTE_ADDR) . "'") . "','','" . ((!strstr($userids, ',')) ? (intval($userids)) : (0)) . "','$savepostids{','0','lastpost','desc','" . time() . "','{$wbbuserdata['userid']}','$REMOTE_ADDR')");
+				VALUES ('" . getQueryHash($savepostids, 0, "lastpost", "desc", $wbbuserdata['userid'], $REMOTE_ADDR . "'") . "','','" . ((!strstr($userids, ',')) ? (intval($userids)) : (0)) . "','$savepostids','0','lastpost','desc','" . time() . "','{$wbbuserdata['userid']}','$REMOTE_ADDR');");
 		$searchid = $db->insert_id();
 
 		header("Location: search.php?searchid=$searchid" . $SID_ARG_2ND_UN);

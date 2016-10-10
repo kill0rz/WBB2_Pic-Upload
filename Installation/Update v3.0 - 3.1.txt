@@ -1,0 +1,51 @@
+Ersetze die Datei picupload.php; Beachte dabei, dass du deine Konfiguration in der Ausgangsdatei sicherst, und in die neue Datei picupload_functions.php einfügst!
+
+Lade danach alle anderen Dateien in der vorgegebenen Ordnersturktur hoch. Überschreibe dabei ggf. schon vorhandene Dateien.
+
+Ersetze den Inhalt des Templates "picupload" durch den Inhalt des mitgelieferten Templates.
+
+Importiere das Template picupload_search.tpl
+Lade die Datei /wbb2/picupload_search.php hoch
+
+
+
+Datei: profile.php
+====== -------------
+
+Suche:
+eval("\$tpl->output(\"" . $tpl->get("profile") . "\");");
+
+Füge darunter ein:
+/* Picupload-Suchlink by kill0rz 10.10.2016 */
+require './picupload_config.php';
+$picupload_searchlink = '';
+if (isset($fotoalben_board_id) && $fotoalben_board_id > 0) {
+	eval("\$picupload_searchlink .= \"" . $tpl->get("picupload_searchlink") . "\";");
+}
+/* Picupload-Suchlink by kill0rz 10.10.2016 */
+
+Template: profile.tpl
+========  -----------
+
+Suche:
+<if($showlanguageinprofile==1)>
+<then>
+<tr align="left">
+ <td><span class="normalfont"><b>{$lang->items['LANG_MEMBERS_PROFILE_LANGUAGE']}</b></span></td>
+ <td><span class="normalfont">$languagepackname</span></td>
+</tr>
+</then>
+</if>
+
+Füge darunter ein:
+$picupload_searchlink
+
+
+
+Fertig! :)
+
+
+Viel Spaß bei der Verwendung,
+kill0rz
+http://kill0rz.com/
+Stand: 10.10.2016

@@ -79,6 +79,13 @@ v3.0 (19.07.2016)
 + Fixed: HTML5 Anpassungen
 + Added: Bilder können zum Randompic der Woche vor dem Upload freigegeben werden
 
+v3.1 (XX.XX.XXXX)
+----
++ Added: Möglichkeit der Suche nach geposteten Bildern eines Users
++ Fixed: Fixes beim Suchen von gleichen Alben mit anderen Datumsformaten
++ Fixed: Fehler beim Randompic, wenn keine Bilder freigegeben wurden
++ Fixed: Kein Resize, wenn Haken nicht gesetzt
+
 Installation
 ############
 
@@ -150,7 +157,36 @@ if (isset($_POST['inhalt']) && trim($_POST['inhalt']) != '' && isset($_POST['tit
 	$js_execute = "do_form_submit_newthread('" . htmlentities(str_replace(array("'", "\n"), "", trim(base64_decode(trim($_POST['title'])))), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1') . "','" . htmlentities(str_replace("\n", '\n', trim(base64_decode(trim($_POST['inhalt'])))), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1') . "', '{$autosubmit}');";
 }
 
+Datei: profile.php
+====== -------------
 
+Suche:
+eval("\$tpl->output(\"" . $tpl->get("profile") . "\");");
+
+Füge darunter ein:
+/* Picupload-Suchlink by kill0rz 10.10.2016 */
+require './picupload_config.php';
+$picupload_searchlink = '';
+if (isset($fotoalben_board_id) && $fotoalben_board_id > 0) {
+	eval("\$picupload_searchlink .= \"" . $tpl->get("picupload_searchlink") . "\";");
+}
+/* Picupload-Suchlink by kill0rz 10.10.2016 */
+
+Template: profile.tpl
+========  -----------
+
+Suche:
+<if($showlanguageinprofile==1)>
+<then>
+<tr align="left">
+ <td><span class="normalfont"><b>{$lang->items['LANG_MEMBERS_PROFILE_LANGUAGE']}</b></span></td>
+ <td><span class="normalfont">$languagepackname</span></td>
+</tr>
+</then>
+</if>
+
+Füge darunter ein:
+$picupload_searchlink
 
 Konfiguration anpassen: picupload_config.php
 ======================= --------------------
@@ -194,4 +230,4 @@ Alle Ordner werden vom Script angelegt, wenn sie gebraucht werden.
 Viel Spaß bei der Verwendung,
 kill0rz
 http://kill0rz.com/
-Stand: 19.07.2016
+Stand: 10.10.2016
