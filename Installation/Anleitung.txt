@@ -82,7 +82,7 @@ v3.0 (19.07.2016)
 v3.1 (XX.XX.XXXX)
 ----
 + Added: Möglichkeit der Suche nach geposteten Bildern eines Users
-+ Fixed: Fixes beim Suchen von gleichen Alben mit anderen Datumsformaten
++ Fixed: Fixes beim Suchen von gleichen Alben mit anderen Datumsformaten (Positionen und Formate)
 + Fixed: Fehler beim Randompic, wenn keine Bilder freigegeben wurden
 + Fixed: Kein Resize, wenn Haken nicht gesetzt
 + Fixed: Buttons bei altem Uploadformular deaktivieren, wenn Upload getriggert wurde
