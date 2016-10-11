@@ -85,6 +85,7 @@ v3.1 (XX.XX.XXXX)
 + Fixed: Fixes beim Suchen von gleichen Alben mit anderen Datumsformaten
 + Fixed: Fehler beim Randompic, wenn keine Bilder freigegeben wurden
 + Fixed: Kein Resize, wenn Haken nicht gesetzt
++ Fixed: Buttons bei altem Uploadformular deaktivieren, wenn Upload getriggert wurde
 
 Installation
 ############
