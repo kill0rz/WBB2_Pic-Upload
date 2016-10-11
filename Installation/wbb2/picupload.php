@@ -77,10 +77,16 @@ if ($loggedin) {
 					makeindex($subordner . "/");
 					$umaskold = umask(0);
 					$DateiName = strtr($lowername, $ersetzen);
-					if (file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
-						sleep(1);
-						$DateiName = time() . $DateiName;
+
+					//Bild überschreiben?
+					if (!isset($_POST['overwrite']) or trim($_POST['overwrite']) != "true") {
+						//Überschreiben verhindern
+						while (file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
+							sleep(1);
+							$DateiName = time() . $DateiName;
+						}
 					}
+
 					if (isset($_POST['compress']) && trim($_POST['compress']) == "true") {
 						// Bilder sollen resized werden
 						if (resizeImage($_FILES["file" . $feld]['tmp_name'], $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, 1300, 1, 1)) {
@@ -130,10 +136,16 @@ if ($loggedin) {
 					$umaskold = umask(0);
 					$stranfang = strripos($stripped, "/");
 					$DateiName = strtr(strtolower(substr($stripped, $stranfang + 1)), $ersetzen);
-					if (file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
-						sleep(1);
-						$DateiName = time() . $DateiName;
+
+					//Bild überschreiben?
+					if (!isset($_POST['overwrite']) or trim($_POST['overwrite']) != "true") {
+						//Überschreiben verhindern
+						while (file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
+							sleep(1);
+							$DateiName = time() . $DateiName;
+						}
 					}
+
 					if (@copy($stripped, $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
 						if (isset($_POST['compress']) && trim($_POST['compress']) == "true") {
 							resizeImage($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName, 1300, 1, 1);
@@ -175,9 +187,14 @@ if ($loggedin) {
 									$umaskold = umask(0);
 									$DateiName = str_replace($wegarray, "", $file);
 									$DateiName = strtr(strtolower($DateiName), $ersetzen);
-									while (file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
-										sleep(1);
-										$DateiName = time() . $DateiName;
+
+									//Bild überschreiben?
+									if (!isset($_POST['overwrite']) or trim($_POST['overwrite']) != "true") {
+										//Überschreiben verhindern
+										while (file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
+											sleep(1);
+											$DateiName = time() . $DateiName;
+										}
 									}
 
 									if (@copy('/tmp/picupload/' . $file, $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
@@ -207,6 +224,8 @@ if ($loggedin) {
 			if (isset($_POST['sort']) && trim($_POST['sort']) == "true") {
 				$linksarray = explode("\n", $links);
 				natsort($linksarray);
+				$linksarray = array_map('trim', $linksarray);
+				$linksarray = array_unique($linksarray);
 				$links = implode($linksarray, "\n");
 			}
 

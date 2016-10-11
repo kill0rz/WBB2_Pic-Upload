@@ -1,5 +1,6 @@
 neues Formular
 --------------
++ Möglichkeit, bereits vorhandene Bilder zu überschreiben
 -> Checkpoint für Transport
 
 
@@ -14,7 +15,6 @@ Beide Formulare
 	+ Wenn gefunden wurde: Link zum Thread
 	+ Epic Feature: Finde, ob die Bilder bereits gepostet wurden
 		+ jedes Bild per BBCode suchen, dann die aussortieren, die es noch nicht im Thread gibt
-+ Möglichkeit, bereits vorhandene Bilder zu überschreiben
 -> Checkpoint für Transport
 + Bilder automatisch drehen lassen bei Upload (JS/PHP)
 	+ zurückgestellt
