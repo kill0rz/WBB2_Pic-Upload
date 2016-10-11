@@ -85,6 +85,9 @@ function call_all_uploads() {
 	uploadFile('file4');
 	uploadFile('file5');
 	uploadFile('filezip');
+
+	//deactivate all input fields
+	$('form[name="uploadform"]').find('input[type="text"], button, select').prop("disabled", true);
 }
 
 function uploadFile(fileid) {

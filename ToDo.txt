@@ -6,7 +6,6 @@ gineues Formular
 
 altes Formular
 --------------
-+ nach Klick auf Upload, buttons usw. deaktivieren
 + autopost kaputt (umlaute only?)
 -> Checkpoint für Transport
 
