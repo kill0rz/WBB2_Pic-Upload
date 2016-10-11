@@ -28,6 +28,7 @@ Beide Formulare
 		+ dd.mm.YYYY
 		+ YYYY-mm-dd
 + Vorschaubilder zur Galerie umbauen
+	+ innerhalb der Vorschau Bilder löschen können
 
 
 Anleitung
