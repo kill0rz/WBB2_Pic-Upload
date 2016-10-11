@@ -111,14 +111,16 @@ if ($loggedin) {
 		$umaskold = umask(0);
 		$DateiName = strtr(strtolower($_POST['filename']), $ersetzen);
 		$DateiName_merk = $DateiName;
-		while (file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
-			sleep(1);
+		if (!isset($_POST['overwrite']) or trim($_POST['overwrite']) != "true") {
+			while (file_exists($subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName)) {
+				sleep(1);
 
-			$parts = explode('.', $DateiName_merk);
-			$endung = array_pop($parts);
-			$name = join('.', $parts);
+				$parts = explode('.', $DateiName_merk);
+				$endung = array_pop($parts);
+				$name = join('.', $parts);
 
-			$DateiName = $name . "_" . time() . "." . $endung;
+				$DateiName = $name . "_" . time() . "." . $endung;
+			}
 		}
 		$status = (boolean)move_uploaded_file($_FILES['photo']['tmp_name'], $subordner . "/" . $wbbuserdata['userid'] . "/" . $ordner . "/" . $DateiName);
 		if ($status) {

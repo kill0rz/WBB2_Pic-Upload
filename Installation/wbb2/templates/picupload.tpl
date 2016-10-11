@@ -67,7 +67,7 @@
 										</span>
 									</form>
 									<input type="checkbox" id="sortlinks" disabled checked/> Linkliste sortieren? |
-									<input type="checkbox" id="allowrandompic" disabled checked/> Zum Zufallsbild der Woche freigeben?
+									<input type="checkbox" id="allowrandompic" disabled checked/> Zum Zufallsbild der Woche freigeben? |
 									<input type="checkbox" id="overwrite" disabled/> ggf. vorhandene Bilder überschreiben?
 								</div>
 								<br />

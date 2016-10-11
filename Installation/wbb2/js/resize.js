@@ -75,8 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var upload = function(photo, callback, files, filename) {
 		var formData = new FormData();
 
-		// wenn feld unten dann das sonst
-
+		// wenn Freifeld unten gesetzt, dann das sonst Dropdown
 		if ($('#ordner_name_new').val().trim() !== "") {
 			ordner = $('#ordner_name_new').val().trim();
 		} else {
@@ -100,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		formData.append('ordner', ordner);
 		formData.append('filename', filename);
 		formData.append('photo', photo);
+		formData.append('overwrite', $('#overwrite').is(':checked'));
 		var request = new XMLHttpRequest();
 		request.onreadystatechange = function() {
 			if (request.readyState === 4) {

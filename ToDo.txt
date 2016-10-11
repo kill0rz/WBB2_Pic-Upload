@@ -1,6 +1,5 @@
 neues Formular
 --------------
-+ Möglichkeit, bereits vorhandene Bilder zu überschreiben
 -> Checkpoint für Transport
 
 
