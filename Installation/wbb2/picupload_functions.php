@@ -295,19 +295,40 @@ function parse_dateformats($ordnername) {
 				$year = $teile[2];
 				$month = $teile[1];
 				$day = $teile[0];
-				return preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/", $day . "." . $month . "." . $year, $ordnername);
+				if (preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/", "", $ordnername) == "") {
+					return $ordnername;
+				} else {
+					if (substr(preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/", "", $ordnername), 0, 1) == "_") {
+						return substr(preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/", "", $ordnername), 1) . "_" . $day . "." . $month . "." . $year;
+					} else {
+						return substr(preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/", "", $ordnername), 0, -1) . "_" . $day . "." . $month . "." . $year;
+					}
+				}
 			case 2:
 				$teile = explode(".", $matches[0][0]);
 				$year = "20" . $teile[2];
 				$month = $teile[1];
 				$day = $teile[0];
-				return preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{2}/", $day . "." . $month . "." . $year, $ordnername);
+				if (preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{2}/", "", $ordnername) == "") {
+					return $day . "." . $month . "." . $year;
+				} else {
+					if (substr(preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{2}/", "", $ordnername), 0, 1) == "_") {
+						return substr(preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{2}/", "", $ordnername), 1) . "_" . $day . "." . $month . "." . $year;
+					} else {
+						return substr(preg_replace("/[0-9]{2}\.[0-9]{2}\.[0-9]{2}/", "", $ordnername), 0, -1) . "_" . $day . "." . $month . "." . $year;
+					}
+				}
 			case 3:
 				$teile = explode("-", $matches[0][0]);
 				$year = $teile[0];
 				$month = $teile[1];
 				$day = $teile[2];
-				return substr(preg_replace("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", "", $ordnername), 1) . "_" . $day . "." . $month . "." . $year;
+				if (preg_replace("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", "", $ordnername) == "") {
+					return $day . "." . $month . "." . $year;
+				} else {
+					return substr(preg_replace("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", "", $ordnername), 1) . "_" . $day . "." . $month . "." . $year;
+				}
+
 		}
 	}
 	return $ordnername;

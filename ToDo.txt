@@ -1,6 +1,5 @@
 neues Formular
 --------------
-+ Datumsformate -> Datum ans Ende replacen bei dd.mm.YYYY und dd.mm.YY
 -> Checkpoint für Transport
 
 
