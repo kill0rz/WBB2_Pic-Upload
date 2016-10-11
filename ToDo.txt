@@ -1,10 +1,7 @@
-neues Formular
+gineues Formular
 --------------
 + Datumsformate -> Datum ans Ende replacen bei dd.mm.YYYY und dd.mm.YY
 -> Checkpoint für Transport
-
-+ bilder nach upload wieder hochladen können
-+ neue ordner nicht einfach appenden, sondern in tabelle alphabetisch einsortieren
 
 
 altes Formular
@@ -20,13 +17,14 @@ Beide Formulare
 	+ Epic Feature: Finde, ob die Bilder bereits gepostet wurden
 		+ jedes Bild per BBCode suchen, dann die aussortieren, die es noch nicht im Thread gibt
 + Möglichkeit, bereits vorhandene Bilder zu überschreiben
-+ Datum überall finden können: Test 1.2.16 = 1.2.2016 Test usw.
 -> Checkpoint für Transport
 + Bilder automatisch drehen lassen bei Upload (JS/PHP)
+	+ zurückgestellt
 + Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
+	+ Textfeld muss angepasst werden; ID setzen
 + Datumsformat speichern können
 	+ Datum automatisch umwandeln
-	+ Haken (soll auto umgewandelt werden) oben, der instant togglet --> haken daneben mit einblendeinformation
+	+ Haken (soll auto umgewandelt werden) oben, der instant togglet --> Haken daneben mit einblendeinformation
 	+ dropdown für verschiedene formate oben
 		+ --- --> führt automatisch zum toggle disable
 		+ dd.mm.YY
@@ -37,6 +35,8 @@ Beide Formulare
 
 Anleitung
 ---------
+
+
 
 
 EXTRA HACK??
