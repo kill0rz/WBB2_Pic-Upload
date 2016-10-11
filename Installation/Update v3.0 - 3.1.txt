@@ -2,11 +2,11 @@ Ersetze die Datei picupload.php; Beachte dabei, dass du deine Konfiguration in d
 
 Lade danach alle anderen Dateien in der vorgegebenen Ordnersturktur hoch. Überschreibe dabei ggf. schon vorhandene Dateien.
 
-Ersetze den Inhalt des Templates "picupload" durch den Inhalt des mitgelieferten Templates.
+Ersetze den Inhalt der Templates "picupload" und "picupload_old" durch den Inhalt der mitgelieferten Templates.
 
 Importiere das Template picupload_search.tpl
-Lade die Datei /wbb2/picupload_search.php hoch
-
+Lade die Datei /wbb2/picupload_search.php hoch.
+Ersetze die Dateien /wbb2/js/picupload.js und /wbb2/js/resize.js, /wbb2/picupload.php, /wbb2/picupload_functions.php, /wbb2/picupload_process.php
 
 
 Datei: profile.php

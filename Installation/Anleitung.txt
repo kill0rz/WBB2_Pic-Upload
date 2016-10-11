@@ -79,7 +79,7 @@ v3.0 (19.07.2016)
 + Fixed: HTML5 Anpassungen
 + Added: Bilder können zum Randompic der Woche vor dem Upload freigegeben werden
 
-v3.1 (XX.XX.XXXX)
+v3.1 (11.10.2016)
 ----
 + Added: Möglichkeit der Suche nach geposteten Bildern eines Users
 + Added: Möglichkeit, Bilder auf dem Server zu überschreiben
@@ -232,4 +232,4 @@ Alle Ordner werden vom Script angelegt, wenn sie gebraucht werden.
 Viel Spaß bei der Verwendung,
 kill0rz
 http://kill0rz.com/
-Stand: 10.10.2016
+Stand: 11.10.2016

@@ -4,7 +4,7 @@
 //
 
 //
-// Pic-Upload Script v3.0 by kill0rz
+// Pic-Upload Script v3.1 by kill0rz
 //
 
 //
