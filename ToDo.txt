@@ -1,11 +1,11 @@
 neues Formular
 --------------
++ Wenn der Ordner, in dem die Bilder geschrieben werden sollen, nicht existiert kommt als Link nur ein undefined zurück.
 -> Checkpoint für Transport
 
 
 altes Formular
 --------------
-+ autopost kaputt (umlaute only?)
 -> Checkpoint für Transport
 
 Beide Formulare
@@ -15,8 +15,6 @@ Beide Formulare
 	+ Epic Feature: Finde, ob die Bilder bereits gepostet wurden
 		+ jedes Bild per BBCode suchen, dann die aussortieren, die es noch nicht im Thread gibt
 -> Checkpoint für Transport
-+ Bilder automatisch drehen lassen bei Upload (JS/PHP)
-	+ zurückgestellt
 + Integration in PNs: Action, die das in das Textfeld der PN einträgt, anstatt autopost
 	+ Textfeld muss angepasst werden; ID setzen
 + Datumsformat speichern können
