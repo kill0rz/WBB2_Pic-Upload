@@ -71,7 +71,7 @@
 									<input type="checkbox" id="overwrite" disabled/> ggf. vorhandene Bilder überschreiben?
 								</div>
 								<br />
-								<div style="border: 1px solid black; padding: 5px; clear: both;">
+								<div style="border: 1px solid black; padding: 5px; clear: both;" id="linksammlungcontainer">
 									<textarea rows=10 cols=150 id="linksammlung"></textarea>
 								</div>
 								<div id="autopostbutton"></div>

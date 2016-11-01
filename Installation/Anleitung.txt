@@ -88,6 +88,10 @@ v3.1 (11.10.2016)
 + Fixed: Kein Resize, wenn Haken nicht gesetzt
 + Fixed: Buttons bei altem Uploadformular deaktivieren, wenn Upload getriggert wurde
 
+v3.2 (XX.XX.XXXX)
+----
++ Changed: roter Rand bei neuem Uploadformular verschiebt sich weiter nach unten
+
 Installation
 ############
 

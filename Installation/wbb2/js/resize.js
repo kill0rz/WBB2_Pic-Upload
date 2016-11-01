@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	resize.init();
 	// Upload photo
 	var upload = function(photo, callback, files, filename) {
+
 		var formData = new FormData();
 
 		// wenn Freifeld unten gesetzt, dann das sonst Dropdown
@@ -130,6 +131,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 
 			for (var i in files) {
+				// roten Rand weiterschieben
+				$('#links').css('border-color', 'black');
+				$('#linksammlungcontainer').css('border-color', 'red');
+
 				if (typeof files[i] !== 'object') return false;
 				i_names++;
 				(function() {
