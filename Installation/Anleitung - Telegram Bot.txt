@@ -1,0 +1,24 @@
+WICHTIG!
+Diese Anleitung ist optional und wird zur Ausführung des Hacks NICHT gebraucht!
+
+
+About
+-----
+
+Telegram ist - ähnlich wie WhatsApp - ein Plattformunabhängiger Messanger.
+Dieser Bot hier überwacht einen oder mehrere Chats oder Gruppen und merkt sich Bilder, die dort gepostet wurden.
+Später können diese über den Bot bequem in ein (bereits vorhandenes) Fotoalbum importiert und im Forum gepostet werden.
+
+
+Bot erstellen
+-------------
+
+Wie ihr einen Telegram-Bot via WebHook erstellt, entnehmt ihr bitte der offiziellen Dokumentation.
+
+
+Bot installieren und konfigurieren
+----------------------------------
+
+Wo du die Dateien deines Bots (aus dem Verzeichnis html) ablegst, ist egal. Es empfielt sich, diese im selben Verzeichnis wie den wbb2/-Ordner abzulegen, ist aber keine Pflicht.
+Erstelle eine neue Datenbank und importiere die mitgelieferte .sql-Datei.
+Öffne die config.php des Bots und passe die Konfiguration an. Beachte hierbei die unterschiedlichen Datenbanken!

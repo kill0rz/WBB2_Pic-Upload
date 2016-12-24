@@ -1,0 +1,239 @@
+Pic-Upload v3 by kill0rz (C) 2016 - visit kill0rz.com
+
+Copyright
+#########
+
+Dieser Hack wurde unter "kill0rz' Unilecence v1.0 vom 08.08.2014" veröfentlicht. Diese liegt bei.
+
+Beschreibung
+############
+
+Das Script ermöglicht es, Fotoalben einfach zu erstellen.
+Die Bilder werden in ein angegebenes Verzeichnis, sortiert nach User und Albenname auf dem Server gespeichert.
+Das Script legt die Ordner an und sichert diese gleichzeitig gegen Zugriff von außen.
+In diesem Muster werden die Bilder abgelegt:
+http://sub.domain.tld/hier/koennen/beliebig/viele/ordner/angegeben/werden/USERID/ORDNER-VOM-USER-ANGELEGT/NAME.ENDUNG
+Bsp:
+http://sub.domain.tld/wbb2/Fotoalben/1/Urlaub2013/pic219.jpg
+oder
+http://sub.domain.tld/wbb2/images/usercontent/Fotoalben/1/Urlaub2013/pic219.jpg
+
+Bereits angelegte Alben können mit nur einem Mausklick aufgelistet werden.
+Nach jedem Upload werden die BB-Codes in einem extra Textfeld ausgegeben, man muss nur noch via copy&paste den Inhalt in den Beitrag einfügen.
+Sowohl per normalem http-Upload als auch via Web-remote können die Bilder auf den Server geladen werden. (Es können beide Upload-Methoden gleichzeitig genutzt werden)
+Existiert eine Datei im Ordner schon, wird das Script die neuere umbenennen (Dateiname+aktueller timestamp+Endung).
+Beim Upload mehrerer Bilder werden diese in Serie hochgeladenen in der oberen Textarea alle aufgelistet!
+Ein Button um auf das Script zu gelangen wird im Editorfenster hinzugefügt.
+
+Changelog
+#########
+
+v1.0 (01.01.2014)
+----
+Grundskript
+
+v1.2 (28.01.2014)
+----
+
++ Added: Bis zu 5 Webremotes gleichzeitig
++ Added: Bis zu 5 Localuploads gleichzeitig
++ Added: Ordner bleibt erhalten und wird nach Upload vorausgewählt
+* fixed: kleine Darstellungsprobleme
+* fixed: Remote von Bildern gleichen Namens kann Original überschreiebn
+
+v1.3 (06.11.2014)
+----
+
++ Added: Bilder-Resize: Bilder werden auf 1300px Breite reskaliert, wenn größer (3MB --> ca. 120KB)
++ Added: ZIP-Datei hochladen: beliebig viele Bilder in eine ZIP-Datei packen und hochladen; alle Bilder werden verarbeitet
++ Added: Links sortieren: Links können alphabetisch sortiert werden (sonst wird Upload-Reihenfolge benutzt; sinnvoll bei ZIP-Upload)
+* fixed: Probleme beim Überschreiben
+* fixed: Neues Fenster bei Button-Klick, nicht das alte neu laden
+
+v2.0 (26.01.2016)
+----
+
++ Added: Ladebalken pro Upload
++ Added: Vorschaufunktion der Bilder
++ Added: Auto-Posten eines neues Fotoalbums
++ Added: Auto-Posten einer Antwort auf ein Fotoalbum
++ Added: Übernahme des Ordnernamens auf einen Thread
++ Added: Auswahl der Dateien: Eingeschränkte Wahl der Dateitypen
++ Added: Statistik hochgeladener Bilder pro Nutzer
++ Added: "Abbrechen" Button um den Upload abzubrechen
++ fixed: "Links sortieren?" standardmäßig checked
++ fixed: Example-URLs durch Platzhalter ersetzt
++ fixed: besseres Filename-Handling
+* Design-Update
+
+v3.0 (19.07.2016)
+----
++ Massives Update
++ Fixed: Falsche Benamsung doppelter Dateien
++ Fixed: Etliche kleinere Sachen
++ Fixed: Falsche Erkennung von Ordnern
++ Added: Neues Uploadformular (Kompression VOR dem Upload)
+	+ Tabelle der Alben aktualisiert sich ohne Seitenreload
++ Changed: technische Änderungen
++ Added: Randompic der Woche
++ Fixed: HTML5 Anpassungen
++ Added: Bilder können zum Randompic der Woche vor dem Upload freigegeben werden
+
+v3.1 (11.10.2016)
+----
++ Added: Möglichkeit der Suche nach geposteten Bildern eines Users
++ Added: Möglichkeit, Bilder auf dem Server zu überschreiben
++ Fixed: Fixes beim Suchen von gleichen Alben mit anderen Datumsformaten (Positionen und Formate)
++ Fixed: Fehler beim Randompic, wenn keine Bilder freigegeben wurden
++ Fixed: Kein Resize, wenn Haken nicht gesetzt
++ Fixed: Buttons bei altem Uploadformular deaktivieren, wenn Upload getriggert wurde
+
+v3.2 (XX.XX.XXXX)
+----
++ Changed: roter Rand bei neuem Uploadformular verschiebt sich weiter nach unten
+
+Installation
+############
+
+Lade die alle Dateien in der Struktur von /Installation/wbb2/ in deinen Forenordner.
+Importiere das Template --> cachen --> nur neue Templates cachen
+
+Templates: newthread, addreply, editpost (für alle drei durchführen)
+=========  ---------  --------  --------
+
+Suche:
+<input type="button" value="{$lang->items['LANG_POSTINGS_OPTIONS']}" class="input" onclick="toggleMenu('newthreadOptions', this);" />
+
+Füge darunter ein:
+<input type="button" value="Bilder in dein Verzeichnis laden" class="input" onclick="open_picupload('');">
+
+
+Templates: newthread, addreply
+=========  ---------  --------
+
+Suche:
+<body>
+
+Ersetze mit:
+<body onload="$js_execute">
+
+
+Template: headinclude
+========  -----------
+
+Füge ganz am Ende ein:
+<script src="./js/jquery.js" type="text/javascript"></script>
+<script src="./js/upload.js" type="text/javascript"></script>
+<script src="./js/resize.js" type="text/javascript"></script>
+<script src="./js/picupload.js" type="text/javascript"></script>
+
+
+Datei: addreply.php
+====== ------------
+
+Suche:
+eval("\$tpl->output(\"".$tpl->get("addreply")."\");");
+
+Füge darüber ein:
+if (isset($_POST['inhalt']) && trim($_POST['inhalt']) != '') {
+	if (isset($_POST['autosubmit']) && trim($_POST['autosubmit']) == "true") {
+		$autosubmit = 1;
+	} else {
+		$autosubmit = 0;
+	}
+
+	$js_execute = "do_form_submit_newthread('','" . htmlentities(str_replace("\n", '\n', trim(base64_decode(trim($_POST['inhalt'])))), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1') . "', '{$autosubmit}');";
+}
+
+
+Datei: newthread.php
+====== -------------
+
+Suche:
+eval("\$tpl->output(\"".$tpl->get("newthread")."\");");
+
+Füge darüber ein:
+if (isset($_POST['inhalt']) && trim($_POST['inhalt']) != '' && isset($_POST['title']) && trim($_POST['title']) != '') {
+	if (isset($_POST['autosubmit']) && trim($_POST['autosubmit']) == "true") {
+		$autosubmit = 1;
+	} else {
+		$autosubmit = 0;
+	}
+
+	$js_execute = "do_form_submit_newthread('" . htmlentities(str_replace(array("'", "\n"), "", trim(base64_decode(trim($_POST['title'])))), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1') . "','" . htmlentities(str_replace("\n", '\n', trim(base64_decode(trim($_POST['inhalt'])))), ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1') . "', '{$autosubmit}');";
+}
+
+Datei: profile.php
+====== -------------
+
+Suche:
+eval("\$tpl->output(\"" . $tpl->get("profile") . "\");");
+
+Füge darunter ein:
+/* Picupload-Suchlink by kill0rz 10.10.2016 */
+require './picupload_config.php';
+$picupload_searchlink = '';
+if (isset($fotoalben_board_id) && $fotoalben_board_id > 0) {
+	eval("\$picupload_searchlink .= \"" . $tpl->get("picupload_searchlink") . "\";");
+}
+/* Picupload-Suchlink by kill0rz 10.10.2016 */
+
+Template: profile.tpl
+========  -----------
+
+Suche:
+<if($showlanguageinprofile==1)>
+<then>
+<tr align="left">
+ <td><span class="normalfont"><b>{$lang->items['LANG_MEMBERS_PROFILE_LANGUAGE']}</b></span></td>
+ <td><span class="normalfont">$languagepackname</span></td>
+</tr>
+</then>
+</if>
+
+Füge darunter ein:
+$picupload_searchlink
+
+Konfiguration anpassen: picupload_config.php
+======================= --------------------
+
+Oben in der Datei findest du mehrere Einträge, die angepasst werden müssen (nicht per ACP einstellbar).
+=> $subordner = "Fotoalben"; //ohne / am Ende
+Hier trägst du den Namen für den ordner ein, in dem später einmal alle Bilder gespeichert werden sollen.
+
+=> $erlaubtegruppen = array("1","2","3");
+In das Array trägst du nach dem vorgegebenen Muster alls Gruppen-IDs ein, denen das Benutzen des Scriptes erlaubt sein soll!
+Du findest die Gruppen-IDs im ACP --> Gruppen bearbeiten (dann ganz links)
+
+=> $fotoalben_board_id = 1;
+Wenn du in deinem Forum ein Board bereitgestellt hast, in das die Fotoalben alle reinkommen, dann stelle hier die ID des Forums ein.
+Hast du soetwas nicht, setze den Wert auf 0.
+
+=> $use_randompic = false;
+true / false; siehe unten
+
+
+Randompic der Woche:
+====================
+
+Wenn du die XY Megashoutbox Version 1.3 installiert hast, kannst du es deinen Nutzern ermöglichen, dass jede Woche ein Zufallsbild in der Shoutbox erscheint.
+Jeder Nutzer hat die Möglichkeit, seine Alben für das Zufallsbild der Woche freizugeben.
+Du musst nun die Datei pic2shoutbox.php immer dann aufrufen, wenn das Bild gepostet werden soll. Dies kann z.B. per Cronjob jeden Sonntag erfolgen. Wichtig ist, dass du (aus Sicherheitsgründen) den ersten Parameter 1 setzt. Das sieht dann etwa so aus:
+
+:~# php pic2shoutbox.php 1
+
+Daraufhin wird zufällig einer von zwei Algorithmen gestartet, die wiederum zufällig das Bild bestimmen.
+Der erste Algorithmus nimmt sich alle freigegebenen Bilder und sucht davon zufällig ein Bild aus.
+Der zweite Algorithmus sucht zufällig einen Nutzer, danach zufällig ein Album und dann zufällig nach einem Bild.
+
+
+
+
+FERTIG!
+Nun können du und alle User in den erlaubten Gruppen das Script benutzen!
+Alle Ordner werden vom Script angelegt, wenn sie gebraucht werden.
+
+Viel Spaß bei der Verwendung,
+kill0rz
+http://kill0rz.com/
+Stand: 11.10.2016
