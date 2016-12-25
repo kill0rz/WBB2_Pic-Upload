@@ -23,3 +23,10 @@
 -------
 
 kill0rz Unilicence v1.0 from 08.08.2014
+
+
+
+---
+
+Teile des Telegram-Bots sind von Viktors VGPost übernommen und abgeändert.
+Viktor - https://v-gn.de/wbb/

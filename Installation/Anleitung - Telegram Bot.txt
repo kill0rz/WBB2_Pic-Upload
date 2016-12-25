@@ -9,6 +9,8 @@ Telegram ist - ähnlich wie WhatsApp - ein Plattformunabhängiger Messanger.
 Dieser Bot hier überwacht einen oder mehrere Chats oder Gruppen und merkt sich Bilder, die dort gepostet wurden.
 Später können diese über den Bot bequem in ein (bereits vorhandenes) Fotoalbum importiert und im Forum gepostet werden.
 
+Die Full-Version kann noch einige Sachen mehr, siehe dazu die Feature-Liste im jeweiligen Ordner.
+
 
 Bot erstellen
 -------------
