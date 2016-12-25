@@ -43,3 +43,22 @@ CREATE TABLE `tb_word_stats` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `word` (`word`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `tb_votes`;
+CREATE TABLE `tb_votes` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `vote_option_id` int(11) NOT NULL,
+  `telegram_id` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `telegram_id` (`telegram_id`),
+  KEY `vote_option_id` (`vote_option_id`),
+  CONSTRAINT `tb_votes_ibfk_2` FOREIGN KEY (`vote_option_id`) REFERENCES `tb_vote_options` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+DROP TABLE IF EXISTS `tb_vote_options`;
+CREATE TABLE `tb_vote_options` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `vote_option` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

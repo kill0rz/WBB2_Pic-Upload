@@ -6,6 +6,7 @@ Funktionen aus der Lite-Version:
 	+ Neuen Thread erstellen oder
 	+ Vorhandenen Thread suchen und antworten
 + Nichtgewollte Bilder via Telegram löschen
++ Abstimmungen erstellen --> /startvote
 
 
 Plus:

@@ -104,6 +104,11 @@ v3.2 (25.12.2016)
 		+ Erzählen eines Witzes
 		+ Anzeige, wann ein Nutzer das letzte mal online war
 
+v3.3 (XX.XX.XXXX)
+----
++ Telegram-Bot (Full Version):
+	+ Möglichkeit, Abstimmungen zu erstellen und durchzuführen
+
 Installation
 ############
 
