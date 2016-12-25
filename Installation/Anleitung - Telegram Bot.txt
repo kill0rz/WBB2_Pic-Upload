@@ -15,7 +15,7 @@ Die Full-Version kann noch einige Sachen mehr, siehe dazu die Feature-Liste im j
 Bot erstellen
 -------------
 
-Wie ihr einen Telegram-Bot via WebHook erstellt, entnehmt ihr bitte der offiziellen Dokumentation.
+Wie ihr einen Telegram-Bot über WebHook erstellt, entnehmt ihr bitte der offiziellen Dokumentation.
 
 
 Bot installieren und konfigurieren
@@ -24,3 +24,6 @@ Bot installieren und konfigurieren
 Wo du die Dateien deines Bots (aus dem Verzeichnis html) ablegst, ist egal. Es empfielt sich, diese im selben Verzeichnis wie den wbb2/-Ordner abzulegen, ist aber keine Pflicht.
 Erstelle eine neue Datenbank und importiere die mitgelieferte .sql-Datei.
 Öffne die config.php des Bots und passe die Konfiguration an. Beachte hierbei die unterschiedlichen Datenbanken!
+
+
+Wenn du noch Fragen hast, wende dich bitte an kill0rz auf v-gn.de/wbb oder kill0rz.com - Danke!

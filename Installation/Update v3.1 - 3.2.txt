@@ -1,5 +1,10 @@
 Ersetze den Inhalt der Templates "picupload" durch den Inhalt des mitgelieferten Templates.
 
+Telegram-Bot:
+=============
+
+Wenn du den Telegram-Bot nutzen möchtest, dann schaue bitte in den Telegram-Bot-Ordner von dem Bot, den du installieren möchtest. Dort findest du weiterführende Anleitungen.
+Dieser Bot ist nicht Bestandteil des Hacks, sondern nur eine Verknüpfung zwischen WBB2 und Telegram. Er wird nicht zwingend benötigt!
 
 Fertig! :)
 
@@ -7,4 +12,4 @@ Fertig! :)
 Viel Spaß bei der Verwendung,
 kill0rz
 http://kill0rz.com/
-Stand: XX.XX.XXXX
+Stand: 25.12.2016

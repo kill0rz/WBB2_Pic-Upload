@@ -1,0 +1,8 @@
+Funktionen der Lite-Version:
+
++ Überwachen von privaten Chats und Gruppen, Zwischenspeichern aller geposteten Bilder
++ Der Admin kann mit dem Befehl /nextpic Threadnamen für jedes Bild festlegen
++ Automatisches Posten aller belegten Bilder in dein Forum
+	+ Neuen Thread erstellen oder
+	+ Vorhandenen Thread suchen und antworten
++ Nichtgewollte Bilder via Telegram löschen

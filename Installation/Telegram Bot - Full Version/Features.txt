@@ -1,2 +1,16 @@
-Alles, was die Lite-Version kann, plus:
+Funktionen aus der Lite-Version:
 
++ Überwachen von privaten Chats und Gruppen, Zwischenspeichern aller geposteten Bilder
++ Der Admin kann mit dem Befehl /nextpic Threadnamen für jedes Bild festlegen
++ Automatisches Posten aller belegten Bilder in dein Forum
+	+ Neuen Thread erstellen oder
+	+ Vorhandenen Thread suchen und antworten
++ Nichtgewollte Bilder via Telegram löschen
+
+
+Plus:
+
++ Ermahnung, wenn ein Nutzer das Wort "Hurensohn" benutzt
++ Statistiken zu im Chat geschriebenen Wörtern --> /stats
++ Erzählen eines unnötig langen, nicht lustigen Hitlerwitzes --> /hitlerwitz
++ Anzeigen, wann ein Nutzer das letzte mal online war --> /lastseen {Username}

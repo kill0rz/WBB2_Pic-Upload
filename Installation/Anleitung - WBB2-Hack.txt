@@ -88,9 +88,21 @@ v3.1 (11.10.2016)
 + Fixed: Kein Resize, wenn Haken nicht gesetzt
 + Fixed: Buttons bei altem Uploadformular deaktivieren, wenn Upload getriggert wurde
 
-v3.2 (XX.XX.XXXX)
+v3.2 (25.12.2016)
 ----
 + Changed: roter Rand bei neuem Uploadformular verschiebt sich weiter nach unten
++ Telegram-Bot
+	+ Lite Version:
+		+ Überwachung von Chats und Gruppen nach geposteten Bildern
+		+ Zuordnung und Aussortieren direkt über Telegram
+		+ Automatisiertes Posten ins Forum
+		+ Kontrolle durch den Admin des Bots
+	+ Full Version:
+		+ alles aus der Lite-Version
+		+ Wortstatistiken
+		+ Ermahnung bei Schimpfwort
+		+ Erzählen eines Witzes
+		+ Anzeige, wann ein Nutzer das letzte mal online war
 
 Installation
 ############
@@ -226,7 +238,11 @@ Daraufhin wird zufällig einer von zwei Algorithmen gestartet, die wiederum zufäl
 Der erste Algorithmus nimmt sich alle freigegebenen Bilder und sucht davon zufällig ein Bild aus.
 Der zweite Algorithmus sucht zufällig einen Nutzer, danach zufällig ein Album und dann zufällig nach einem Bild.
 
+Telegram-Bot:
+=============
 
+Wenn du den Telegram-Bot nutzen möchtest, dann schaue bitte in den Telegram-Bot-Ordner von dem Bot, den du installieren möchtest. Dort findest du weiterführende Anleitungen.
+Dieser Bot ist nicht Bestandteil des Hacks, sondern nur eine Verknüpfung zwischen WBB2 und Telegram. Er wird nicht zwingend benötigt!
 
 
 FERTIG!
@@ -236,4 +252,4 @@ Alle Ordner werden vom Script angelegt, wenn sie gebraucht werden.
 Viel Spaß bei der Verwendung,
 kill0rz
 http://kill0rz.com/
-Stand: 11.10.2016
+Stand: 25.12.2016
