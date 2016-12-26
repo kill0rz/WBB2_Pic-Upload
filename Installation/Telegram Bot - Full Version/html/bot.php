@@ -576,9 +576,9 @@ if (isset($update["message"])) {
 					post_reply($text);
 
 					//reset everything
-					$sql = "DELETE FROM tb_vote_options;";
-					$mysqli->query($sql);
 					$sql = "DELETE FROM tb_votes;";
+					$mysqli->query($sql);
+					$sql = "DELETE FROM tb_vote_options;";
 					$mysqli->query($sql);
 					post_reply("Erfolgreich zurückgesetzt!\nNeue Abstimmung mit /startvote");
 				} else {
