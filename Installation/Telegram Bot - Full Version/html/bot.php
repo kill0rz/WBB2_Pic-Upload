@@ -531,7 +531,7 @@ if (isset($update["message"])) {
 					$sql = "SELECT * FROM tb_vote_options;";
 					$result = $mysqli->query($sql);
 					if ($result->num_rows > 0) {
-						post_reply("Es gibt bereits eine Abstimmung. Bitte schließe dir zuerst!\n/closevote");
+						post_reply("Es gibt bereits eine Abstimmung. Bitte schließe diese zuerst!\n/closevote");
 					} else {
 						// check if all params are set
 						// unique array at first
