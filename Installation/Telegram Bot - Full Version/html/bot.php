@@ -195,7 +195,7 @@ if (isset($update["message"])) {
 						// VGPOST bei Viktor - v-gn.de *Anfang*
 					}
 					post_reply("Es wurden " . $done_counter . " Bilder ins Forum gepostet.");
-					call_post_help();
+					// call_post_help();
 				} else {
 					post_reply("Sorry, das darf nur der Admin!");
 				}
@@ -555,32 +555,59 @@ if (isset($update["message"])) {
 				}
 				break;
 
+			case '/voteintermediateresult':
+				// print stats
+				$sql = "SELECT tb_vote_options.vote_option, COUNT(tb_vote_options.vote_option) AS count FROM tb_votes JOIN tb_vote_options ON tb_vote_options.ID=tb_votes.vote_option_id GROUP BY vote_option_id ORDER BY count DESC;";
+				$result = $mysqli->query($sql);
+				$count = 0;
+				$merk = 0;
+
+				$text = "Der derzeitige Zwischenstand sieht so aus:\n\n";
+				while ($row = $result->fetch_object()) {
+					// test if Gleichstand
+					if ($merk != $row->count) {
+						$count++;
+					}
+					$text .= "Platz " . $count . ": " . $row->vote_option . " mit " . $row->count . " Stimmen,\n";
+					$merk = $row->count;
+				}
+				$text = substr($text, 0, -2);
+				post_reply($text);
+				break;
+
 			case '/closevote':
 				if ($update["message"]["from"]["id"] == $admin_id) {
-					// print stats
-					$sql = "SELECT tb_vote_options.vote_option, COUNT(tb_vote_options.vote_option) AS count FROM tb_votes JOIN tb_vote_options ON tb_vote_options.ID=tb_votes.vote_option_id GROUP BY vote_option_id ORDER BY count DESC;";
+					// check if there is a vote already
+					$sql = "SELECT * FROM tb_vote_options;";
 					$result = $mysqli->query($sql);
-					$count = 0;
-					$merk = 0;
+					if ($result->num_rows == 0) {
+						post_reply("Es gibt keine Abstimmung. Bitte eröffne eine neue!\n/startvote");
+					} else {
+						// print stats
+						$sql = "SELECT tb_vote_options.vote_option, COUNT(tb_vote_options.vote_option) AS count FROM tb_votes JOIN tb_vote_options ON tb_vote_options.ID=tb_votes.vote_option_id GROUP BY vote_option_id ORDER BY count DESC;";
+						$result = $mysqli->query($sql);
+						$count = 0;
+						$merk = 0;
 
-					$text = "Ergebis der letzten Abstimmung:\n\n";
-					while ($row = $result->fetch_object()) {
-						// test if Gleichstand
-						if ($merk != $row->count) {
-							$count++;
+						$text = "Ergebis der letzten Abstimmung:\n\n";
+						while ($row = $result->fetch_object()) {
+							// test if Gleichstand
+							if ($merk != $row->count) {
+								$count++;
+							}
+							$text .= "Platz " . $count . ": " . $row->vote_option . " mit " . $row->count . " Stimmen,\n";
+							$merk = $row->count;
 						}
-						$text .= "Platz " . $count . ": " . $row->vote_option . " mit " . $row->count . " Stimmen,\n";
-						$merk = $row->count;
-					}
-					$text = substr($text, 0, -2);
-					post_reply($text);
+						$text = substr($text, 0, -2);
+						post_reply($text);
 
-					//reset everything
-					$sql = "DELETE FROM tb_votes;";
-					$mysqli->query($sql);
-					$sql = "DELETE FROM tb_vote_options;";
-					$mysqli->query($sql);
-					post_reply("Erfolgreich zurückgesetzt!\nNeue Abstimmung mit /startvote");
+						//reset everything
+						$sql = "DELETE FROM tb_votes;";
+						$mysqli->query($sql);
+						$sql = "DELETE FROM tb_vote_options;";
+						$mysqli->query($sql);
+						post_reply("Erfolgreich zurückgesetzt!\nNeue Abstimmung mit /startvote");
+					}
 				} else {
 					post_reply("Sorry, das darf nur der Admin!");
 				}
@@ -651,7 +678,7 @@ if (isset($update["message"])) {
 			$mysqli->query($sql);
 
 			// compose reply
-			post_reply("Danke, " . $update["message"]["from"]["first_name"] . "! Das Bild wurde für das Forum vorgemerkt!");
+			// post_reply("Danke, " . $update["message"]["from"]["first_name"] . "! Das Bild wurde für das Forum vorgemerkt!");
 		} else {
 			post_reply("Es gab leider einen Fehler beim vormerken des Bildes! :( @" . $admin_name);
 		}
