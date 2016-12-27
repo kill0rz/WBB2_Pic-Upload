@@ -92,11 +92,16 @@ if (isset($update["message"])) {
 						$sql3 = "SELECT q.postedby,u.username FROM tb_pictures_queue q JOIN tb_lastseen_users u ON q.postedby=u.userid GROUP BY postedby;";
 						$result3 = $mysqli->query($sql3);
 						while ($row3 = $result3->fetch_object()) {
-							$links .= "Bilder von " . $row3->username . ":\n";
+							$trigger_poster_name = true;
 
-							$sql2 = "SELECT * FROM tb_pictures_queue WHERE TRIM(threadname)='" . $row->threadname . "'";
+							$sql2 = "SELECT * FROM tb_pictures_queue WHERE TRIM(threadname)='" . $row->threadname . "' AND postedby='" . $row3->postedby . "'";
 							$result2 = $mysqli->query($sql2);
 							while ($row2 = $result2->fetch_object()) {
+								if ($trigger_poster_name) {
+									$links .= "Bilder von " . $row3->username . ":\n";
+									$trigger_poster_name = false;
+								}
+
 								$thema = strtr(strtolower(trim($row->threadname)), $ersetzen);
 
 								// ggf. Ordner erstellen und directory listing verhindern
@@ -124,6 +129,7 @@ if (isset($update["message"])) {
 								@unlink("./img/" . $row2->location);
 								$done_counter++;
 							}
+							$links .= "\n\n";
 						}
 
 						// VGPOST bei Viktor - v-gn.de *Anfang*
@@ -138,25 +144,29 @@ if (isset($update["message"])) {
 						$vgp_username = $user_info['username'];
 
 						// Thread schon vorhanden oder neuen erstellen?
+						$hasbeenpostetasareply = true;
 						if ($usenumber == 0) {
-							// neuer thread
+							// neuer Thread
+							$subjekt = $posting_thema;
+
 							$db->query("INSERT INTO bb" . $n . "_threads (boardid,prefix,topic,iconid,starttime,starterid,starter,lastposttime,lastposterid,lastposter,attachments,pollid,important,visible)
-									VALUES ('" . $bot_boardid . "', '" . addslashes($posting_prefix) . "', '" . addslashes($posting_thema) . "', '0', '" . $time . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '" . $time . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '0', '0', '0', '1')");
+												VALUES ('" . $bot_boardid . "', '" . addslashes($posting_prefix) . "', '" . addslashes($posting_thema) . "', '0', '" . $time . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '" . $time . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '0', '0', '0', '1')");
 							$threadid = $db->insert_id;
 							$hasbeenpostetasareply = false;
 							post_reply("Erstelle neuen Thread: " . $posting_thema);
 						} else {
 							// antworte auf
 							$threadid = $usenumber;
+							$subjekt = "[" . $posting_prefix . "] " . $posting_thema;
+
 							post_reply("Antworte auf Thread: " . $usetopic);
 						}
 
 						$b_thread = $links;
 
 						/* Post erstellen */
-						$subjekt = $posting_thema;
 						$db->query("INSERT INTO bb" . $n . "_posts (threadid,userid,username,iconid,posttopic,posttime,message,attachments,allowsmilies,allowhtml,allowbbcode,allowimages,showsignature,ipaddress,visible)
-								VALUES ('" . $threadid . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '0', '" . addslashes($subjekt) . "', '" . $time . "', '" . addslashes($b_thread) . "', '0', '1', '0', '1', '1', '1', '127.0.0.1', '1')");
+											VALUES ('" . $threadid . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '0', '" . addslashes($subjekt) . "', '" . $time . "', '" . addslashes($b_thread) . "', '0', '1', '0', '1', '1', '1', '127.0.0.1', '1')");
 						$postid = $db->insert_id;
 
 						/* Board updaten */
@@ -181,7 +191,7 @@ if (isset($update["message"])) {
 						// VGPOST bei Viktor - v-gn.de *Anfang*
 					}
 					post_reply("Es wurden " . $done_counter . " Bilder ins Forum gepostet.");
-					call_post_help();
+					// call_post_help();
 				} else {
 					post_reply("Sorry, das darf nur der Admin!");
 				}
