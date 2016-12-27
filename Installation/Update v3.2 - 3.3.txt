@@ -1,4 +1,4 @@
-Telegram-Bot (full Version):
+Telegram-Bot (Full Version): (nur, wenn installiert, sonst überspringen!)
 ============================
 
 Ersetze die bot.php
@@ -23,6 +23,25 @@ CREATE TABLE `tb_vote_options` (
   `vote_option` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `tb_pictures_queue`
+ADD `postedby` varchar(500) COLLATE 'latin1_swedish_ci' NOT NULL;
+
+
+
+
+
+Telegram-Bot (Lite Version): (nur, wenn installiert, sonst überspringen!)
+============================
+
+
+Ersetze die bot.php
+Führe folgende SQL-Befehle aus:
+
+
+ALTER TABLE `tb_pictures_queue`
+ADD `postedby` varchar(500) COLLATE 'latin1_swedish_ci' NOT NULL;
+
 
 
 

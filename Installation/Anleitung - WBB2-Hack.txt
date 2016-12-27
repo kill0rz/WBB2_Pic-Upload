@@ -108,6 +108,8 @@ v3.3 (XX.XX.XXXX)
 ----
 + Telegram-Bot (Full Version):
 	+ Möglichkeit, Abstimmungen zu erstellen und durchzuführen
++ Telegram-Bot (Full&Lite Version):
+	+ Bilder werden beim Posten gruppiert und der Quell-Nutzer drüber geschrieben
 
 Installation
 ############

@@ -17,7 +17,9 @@ CREATE TABLE `tb_pictures_queue` (
   `threadname` varchar(500) DEFAULT NULL,
   `current` tinyint(1) NOT NULL DEFAULT '0',
   `telegramfileid` varchar(500) NOT NULL,
-  PRIMARY KEY (`id`)
+  `postedby` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `postedby` (`postedby`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

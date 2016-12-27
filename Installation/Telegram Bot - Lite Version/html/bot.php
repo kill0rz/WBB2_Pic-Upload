@@ -88,35 +88,42 @@ if (isset($update["message"])) {
 						$usenumber = 0;
 						get_thread($row->threadname);
 
-						$sql2 = "SELECT * FROM tb_pictures_queue WHERE TRIM(threadname)='" . $row->threadname . "'";
-						$result2 = $mysqli->query($sql2);
-						while ($row2 = $result2->fetch_object()) {
-							$thema = strtr(strtolower(trim($row->threadname)), $ersetzen);
+						// Jetzt nach Nutzernamen Gruppieren
+						$sql3 = "SELECT q.postedby,u.username FROM tb_pictures_queue q JOIN tb_lastseen_users u ON q.postedby=u.userid GROUP BY postedby;";
+						$result3 = $mysqli->query($sql3);
+						while ($row3 = $result3->fetch_object()) {
+							$links .= "Bilder von " . $row3->username . ":\n";
 
-							// ggf. Ordner erstellen und directory listing verhindern
-							if (!is_dir($subordner)) {
-								mkdir($subordner, 0777);
-							}
-							if (!is_dir($subordner . "/" . $bot_userid)) {
-								mkdir($subordner . "/" . $bot_userid, 0777);
-							}
-							if (!is_dir($subordner . "/" . $bot_userid . "/" . $thema)) {
-								mkdir($subordner . "/" . $bot_userid . "/" . $thema, 0777);
-							}
-							makeindex($subordner . "/" . $bot_userid . "/" . $thema . "/");
-							makeindex($subordner . "/" . $bot_userid . "/");
-							makeindex($subordner . "/");
-							$umaskold = umask(0);
+							$sql2 = "SELECT * FROM tb_pictures_queue WHERE TRIM(threadname)='" . $row->threadname . "'";
+							$result2 = $mysqli->query($sql2);
+							while ($row2 = $result2->fetch_object()) {
+								$thema = strtr(strtolower(trim($row->threadname)), $ersetzen);
 
-							$DateiName = strtr($row2->filename, $ersetzen);
-							resizeImage("./img/" . $row2->location, $subordner . "/" . $bot_userid . "/" . $thema . "/" . $DateiName, 1300, 1, 1);
-							$links .= "[IMG]" . $albenurl . "/" . $bot_userid . "/" . $thema . "/" . $DateiName . "[/IMG]\n";
+								// ggf. Ordner erstellen und directory listing verhindern
+								if (!is_dir($subordner)) {
+									mkdir($subordner, 0777);
+								}
+								if (!is_dir($subordner . "/" . $bot_userid)) {
+									mkdir($subordner . "/" . $bot_userid, 0777);
+								}
+								if (!is_dir($subordner . "/" . $bot_userid . "/" . $thema)) {
+									mkdir($subordner . "/" . $bot_userid . "/" . $thema, 0777);
+								}
+								makeindex($subordner . "/" . $bot_userid . "/" . $thema . "/");
+								makeindex($subordner . "/" . $bot_userid . "/");
+								makeindex($subordner . "/");
+								$umaskold = umask(0);
 
-							// remove pic from queue
-							$sql3 = "DELETE FROM tb_pictures_queue WHERE id='" . $row2->id . "'";
-							$mysqli->query($sql3);
-							@unlink("./img/" . $row2->location);
-							$done_counter++;
+								$DateiName = strtr($row2->filename, $ersetzen);
+								resizeImage("./img/" . $row2->location, $subordner . "/" . $bot_userid . "/" . $thema . "/" . $DateiName, 1300, 1, 1);
+								$links .= "[IMG]" . $albenurl . "/" . $bot_userid . "/" . $thema . "/" . $DateiName . "[/IMG]\n";
+
+								// remove pic from queue
+								$sql3 = "DELETE FROM tb_pictures_queue WHERE id='" . $row2->id . "'";
+								$mysqli->query($sql3);
+								@unlink("./img/" . $row2->location);
+								$done_counter++;
+							}
 						}
 
 						// VGPOST bei Viktor - v-gn.de *Anfang*
@@ -319,7 +326,8 @@ if (isset($update["message"])) {
 		$sendto = API_URL_FILE . $file_path;
 		$savename = time() . rand(0, 1000) . rand(0, 1000) . rand(0, 1000) . rand(0, 1000);
 		if (file_put_contents("img/" . $savename, file_get_contents($sendto))) {
-			$sql = "INSERT INTO tb_pictures_queue (filename, location, telegramfileid) VALUES('" . $mysqli->real_escape_string($filename) . "', '" . $savename . "', '" . $file_id . "');";
+
+			$sql = "INSERT INTO tb_pictures_queue (filename, location, telegramfileid, postedby) VALUES('" . $mysqli->real_escape_string($filename) . "', '" . $savename . "', '" . $file_id . "', '" . $mysqli->real_escape_string($update["message"]["from"]["id"]) . "');";
 			$mysqli->query($sql);
 
 			// compose reply
