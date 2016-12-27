@@ -1,6 +1,5 @@
 neues Formular
 --------------
-+ Wenn der Ordner, in dem die Bilder geschrieben werden sollen, nicht existiert kommt als Link nur ein undefined zurück.
 -> Checkpoint für Transport
 
 
