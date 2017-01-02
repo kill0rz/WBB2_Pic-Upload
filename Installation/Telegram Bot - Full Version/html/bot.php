@@ -243,7 +243,7 @@ if (isset($update["message"])) {
 							$sql3 = "UPDATE tb_pictures_queue SET current=1 WHERE id='" . $id . "'";
 							$mysqli->query($sql3);
 
-							$sql2 = "SELECT * FROM tb_pictures_queue WHERE TRIM(threadname) IS NULL AND current=1 LIMIT 1;";
+							$sql2 = "SELECT q.*,u.username FROM tb_pictures_queue q JOIN tb_lastseen_users u ON q.postedby=u.userid WHERE TRIM(threadname) IS NULL AND current=1 LIMIT 1;";
 							$result2 = $mysqli->query($sql2);
 							while ($row2 = $result2->fetch_object()) {
 								send_photo($row2->telegramfileid);
@@ -252,7 +252,9 @@ if (isset($update["message"])) {
 								while ($row3 = $result3->fetch_object()) {
 									$oldname = $row3->topicname;
 								}
-								post_reply("In welches Thema soll ich das Bild posten?\n/settopic {Name} [" . $oldname . "]\n/delpic --> Bild löschen");
+								$text = "Gepostet von " . $row2->username . " am " . date("d.m.Y", $row2->postedat) . " um " . date("H:i", $row2->postedat) . "\n";
+								$text .= "In welches Thema soll ich das Bild posten?\n/settopic {Name} [" . $oldname . "]\n/delpic --> Bild löschen";
+								post_reply($text);
 							}
 						}
 					} else {
@@ -690,7 +692,7 @@ if (isset($update["message"])) {
 		$sendto = API_URL_FILE . $file_path;
 		$savename = time() . rand(0, 1000) . rand(0, 1000) . rand(0, 1000) . rand(0, 1000);
 		if (file_put_contents("img/" . $savename, file_get_contents($sendto))) {
-			$sql = "INSERT INTO tb_pictures_queue (filename, location, telegramfileid, postedby) VALUES('" . $mysqli->real_escape_string($filename) . "', '" . $savename . "', '" . $file_id . "', '" . $mysqli->real_escape_string($update["message"]["from"]["id"]) . "');";
+			$sql = "INSERT INTO tb_pictures_queue (filename, location, telegramfileid, postedby, postedat) VALUES('" . $mysqli->real_escape_string($filename) . "', '" . $savename . "', '" . $file_id . "', '" . $mysqli->real_escape_string($update["message"]["from"]["id"]) . "', '" . time() . "');";
 			$mysqli->query($sql);
 
 			// compose reply

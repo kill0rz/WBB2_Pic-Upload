@@ -26,7 +26,8 @@ CREATE TABLE `tb_vote_options` (
 
 ALTER TABLE `tb_pictures_queue`
 ADD `postedby` varchar(500) COLLATE 'latin1_swedish_ci' NOT NULL;
-
+ALTER TABLE `tb_pictures_queue`
+ADD `postedat` varchar(15) COLLATE 'latin1_swedish_ci' NOT NULL;
 
 
 
@@ -41,7 +42,8 @@ Führe folgende SQL-Befehle aus:
 
 ALTER TABLE `tb_pictures_queue`
 ADD `postedby` varchar(500) COLLATE 'latin1_swedish_ci' NOT NULL;
-
+ALTER TABLE `tb_pictures_queue`
+ADD `postedat` varchar(15) COLLATE 'latin1_swedish_ci' NOT NULL;
 
 
 
