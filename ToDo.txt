@@ -1,3 +1,8 @@
+Telegram Bot
+------------
++ RandomPic der Woche integrieren
++ Alle bilder eines Albums holen und posten
+
 neues Formular
 --------------
 -> Checkpoint für Transport
