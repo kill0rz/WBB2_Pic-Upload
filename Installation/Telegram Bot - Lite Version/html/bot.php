@@ -72,7 +72,6 @@ if (isset($update["message"])) {
 			case '/postall':
 				if ($update["message"]["from"]["id"] == $admin_id) {
 					$done_counter = 0;
-					$links = '';
 					$albenurl = $url2board;
 
 					// Schließe die Bearbeitung aller Bilder:
@@ -83,6 +82,7 @@ if (isset($update["message"])) {
 					$sql = "SELECT threadname FROM tb_pictures_queue WHERE TRIM(threadname) IS NOT NULL GROUP BY threadname";
 					$result = $mysqli->query($sql);
 					while ($row = $result->fetch_object()) {
+						$links = '';
 
 						// prüfen, ob der Thread schon existiert
 						$usenumber = 0;
