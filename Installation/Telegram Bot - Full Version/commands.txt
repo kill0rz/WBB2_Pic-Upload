@@ -1,0 +1,12 @@
+postall - Poste alle Bilder
+nextpic - Arbeite Bilder fürs Forum ab
+delpic - Lösche aktuelles Bild
+settopic - Setze den Threadnamen
+lastseen - Zeigt dir an, wann der Nutzer das letzte mal online war
+stats - Zeigt Statistiken
+hitlerwitz - Tells the infamous Hitlerwitz!
+help - Hilfe
+startvote - Starte ein neues Voting
+voteintermediateresult - Zeige Votingszwischenstand
+closevote - Schließe Voting
+vote - Gibt eine Stimme ab
