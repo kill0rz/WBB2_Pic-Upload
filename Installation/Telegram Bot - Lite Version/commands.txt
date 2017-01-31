@@ -1,0 +1,5 @@
+postall - Poste alle Bilder
+nextpic - Arbeite Bilder fürs Forum ab
+delpic - Lösche aktuelles Bild
+settopic - Setze den Threadnamen
+help - Hilfe
