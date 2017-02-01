@@ -32,6 +32,9 @@ $subordner = "../wbb2/Fotoalben";
 // URL zu deinen Fotoalben - OHNE / AM ENDE!
 $url2board = "https://example.com/wbb2/Fotoalben";
 
+// Zufallsbild der Woche (nur, wenn du es nutzt)
+$randompic_chatID = "-123456";
+
 // nicht editieren
 define('API_URL', 'https://api.telegram.org/bot' . BOT_TOKEN . '/');
 define('API_URL_FILE', 'https://api.telegram.org/file/bot' . BOT_TOKEN . '/');
