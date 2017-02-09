@@ -112,7 +112,7 @@ if (!count($useralbums) > 0) {
 	die("Keine Alben zum indexieren!");
 }
 
-$result = $db->unbuffered_query("SELECT username FROM bb1_users WHERE userid='{$userid}'");
+$result = $db->unbuffered_query("SELECT username FROM bb" . $n . "_users WHERE userid='{$userid}'");
 while ($row = $db->fetch_array($result)) {
 	$nutzername = $row['username'];
 }
