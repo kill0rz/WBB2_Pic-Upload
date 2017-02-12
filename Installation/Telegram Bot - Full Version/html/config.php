@@ -38,6 +38,11 @@ $url2board = "https://example.com/wbb2/Fotoalben";
 // Zufallsbild der Woche (nur, wenn du es nutzt)
 $randompic_chatID = "-123456";
 
+// Worttrigger-Wort: Nach welchem Wort soll gesucht werden?
+$triggerword = "wort";
+// Worttrigger-Sticker: Mit welchem Sticker soll geantwortet werden? (ID eintragen)
+$triggerstricker = "";
+
 // nicht editieren
 define('API_URL', 'https://api.telegram.org/bot' . BOT_TOKEN . '/');
 define('API_URL_FILE', 'https://api.telegram.org/file/bot' . BOT_TOKEN . '/');

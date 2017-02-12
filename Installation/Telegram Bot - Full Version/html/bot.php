@@ -86,6 +86,13 @@ if (isset($update["message"])) {
 			exit();
 		}
 
+		// Sticker-Filter
+		if (str_replace($triggerword, "", strtolower($update["message"]["text"])) != strtolower($update["message"]["text"])) {
+			$sendto = API_URL . "sendsticker?chat_id=" . $chatID . "&sticker=" . $triggerstricker;
+			file_get_contents($sendto);
+			exit();
+		}
+
 		$befehle = explode(" ", $update["message"]["text"]);
 
 		switch (str_replace($bot_atname, "", strtolower($befehle[0]))) {
@@ -182,7 +189,7 @@ if (isset($update["message"])) {
 							post_reply("Antworte auf Thread: " . utf8_decode($subjekt));
 						}
 
-						$b_thread = $links;
+						$b_thread = trim($links);
 
 						/* Post erstellen */
 						$db->query("INSERT INTO bb" . $n . "_posts (threadid,userid,username,iconid,posttopic,posttime,message,attachments,allowsmilies,allowhtml,allowbbcode,allowimages,showsignature,ipaddress,visible)
@@ -562,7 +569,7 @@ if (isset($update["message"])) {
 								$mysqli->query($sql);
 								$text .= "Stimmst du für [[" . $befehle[$i] . "]], dann schreibe\n/vote " . $befehle[$i] . "\n\n";
 							}
-							$text .= "Möge der Bessere gewinnen!";
+							// $text .= "Möge der Bessere gewinnen!";
 							post_reply($text);
 						} else {
 							post_reply("Du musst mindestens zwei Optionen angeben!");
