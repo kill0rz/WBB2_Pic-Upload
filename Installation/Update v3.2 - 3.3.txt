@@ -68,20 +68,24 @@ $chatID = $randompic_chatID;
 post_reply($message);
 send_photo($imgurl);
 
-
 Die Pfade bei "include" müssen an deine Location angepasst werden.
 
 
 Öffne die config.php von deinem Telegram-Bot und füge am Ende ein:
 ---------------------------
 
-
 // Zufallsbild der Woche (nur, wenn du es nutzt)
 $randompic_chatID = "-123456";
 
-
+// Sollen immer alle Bilder zum Randompic der Woche freigegeben werden? Ja = true; Nein = false
+$config_always_allow_randompic = true;
 ---------------------------
 und editiere die Gruppenchat-ID.
+
+
+
+Ersetze danach deine bot.php
+
 
 
 

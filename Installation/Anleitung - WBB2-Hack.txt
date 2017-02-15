@@ -112,6 +112,7 @@ v3.3 (XX.XX.XXXX)
 	+ Bilder werden beim Posten gruppiert und der Quell-Nutzer drüber geschrieben
 	+ Anzeige, wann ein Bild gepostet wurde
 	+ RandomPic der Woche posten
+	+ Bilder können standardmäßig zum RandomPic freigegeben werden
 
 Installation
 ############

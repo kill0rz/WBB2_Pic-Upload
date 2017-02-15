@@ -119,6 +119,14 @@ if (isset($update["message"])) {
 								makeindex($subordner . "/");
 								$umaskold = umask(0);
 
+								// allow to randompic of the week
+								if ($config_always_allow_randompic) {
+									try {
+										file_put_contents($subordner . "/" . $bot_userid . "/" . $thema . "/allowtorandompic", "");
+									} catch (Exception $e) {
+									}
+								}
+
 								$DateiName = strtr($row2->filename, $ersetzen);
 								resizeImage("./img/" . $row2->location, $subordner . "/" . $bot_userid . "/" . $thema . "/" . $DateiName, 1300, 1, 1);
 								$links .= "[IMG]" . $albenurl . "/" . $bot_userid . "/" . $thema . "/" . $DateiName . "[/IMG]\n";

@@ -31,6 +31,8 @@ $n = 1;
 $subordner = "../wbb2/Fotoalben";
 // URL zu deinen Fotoalben - OHNE / AM ENDE!
 $url2board = "https://example.com/wbb2/Fotoalben";
+// Sollen immer alle Bilder zum Randompic der Woche freigegeben werden? Ja = true; Nein = false
+$config_always_allow_randompic = true;
 
 // Zufallsbild der Woche (nur, wenn du es nutzt)
 $randompic_chatID = "-123456";
