@@ -6,3 +6,4 @@ Funktionen der Lite-Version:
 	+ Neuen Thread erstellen oder
 	+ Vorhandenen Thread suchen und antworten
 + Nichtgewollte Bilder via Telegram löschen
++ Freigabe zum Zufallsbild der Woche kann standardmäßig erteilt werden

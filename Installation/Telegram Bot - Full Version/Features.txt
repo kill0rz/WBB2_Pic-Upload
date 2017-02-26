@@ -6,7 +6,7 @@ Funktionen aus der Lite-Version:
 	+ Neuen Thread erstellen oder
 	+ Vorhandenen Thread suchen und antworten
 + Nichtgewollte Bilder via Telegram löschen
-+ Abstimmungen erstellen --> /startvote
++ Freigabe zum Zufallsbild der Woche kann standardmäßig erteilt werden
 
 
 Plus:
@@ -18,3 +18,4 @@ Plus:
 + Suche nach einem frei konfigurierbarem Wort und der Bot antwortet mit einem wählbaren Smiley
 + The famous excuser!
 + Datei post_interval.php kann per Cronjob aufgerufen werden und postet dann einen definierten Text und/oder ein Video
++ Abstimmungen erstellen --> /startvote
