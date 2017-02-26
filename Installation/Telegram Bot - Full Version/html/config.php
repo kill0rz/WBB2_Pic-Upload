@@ -45,6 +45,11 @@ $triggerword = "wort";
 // Worttrigger-Sticker: Mit welchem Sticker soll geantwortet werden? (ID eintragen)
 $triggerstricker = "";
 
+// Intervallaufruf Text
+$post_interval_text = "";
+// Intervallaufruf Video (ID eintragen)
+$post_interval_video_id = "";
+
 // nicht editieren
 define('API_URL', 'https://api.telegram.org/bot' . BOT_TOKEN . '/');
 define('API_URL_FILE', 'https://api.telegram.org/file/bot' . BOT_TOKEN . '/');

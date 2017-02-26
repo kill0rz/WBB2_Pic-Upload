@@ -17,3 +17,4 @@ Plus:
 + Anzeigen, wann ein Nutzer das letzte mal online war --> /lastseen {Username}
 + Suche nach einem frei konfigurierbarem Wort und der Bot antwortet mit einem wählbaren Smiley
 + The famous excuser!
++ Datei post_interval.php kann per Cronjob aufgerufen werden und postet dann einen definierten Text und/oder ein Video
