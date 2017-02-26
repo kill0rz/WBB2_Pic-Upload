@@ -21,6 +21,18 @@ function send_photo($fileid) {
 	file_get_contents($sendto);
 }
 
+function send_video($fileid) {
+	global $chatID;
+	$sendto = API_URL . "sendvideo?chat_id=" . $chatID . "&video=" . urlencode($fileid);
+	file_get_contents($sendto);
+}
+
+function send_document($fileid) {
+	global $chatID;
+	$sendto = API_URL . "senddocument?chat_id=" . $chatID . "&document=" . urlencode($fileid);
+	file_get_contents($sendto);
+}
+
 function update_lastseen($username, $userid) {
 	global $mysqli;
 	if (trim($username) != '') {
@@ -191,6 +203,7 @@ function parse_dateformats($ordnername) {
 }
 
 function get_thread($ordner) {
+	// todo neue DB-Verbidnung aufbauen
 	global $db, $bot_boardid, $usenumber, $usetopic, $ersetzen;
 
 	$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $bot_boardid . ";";
