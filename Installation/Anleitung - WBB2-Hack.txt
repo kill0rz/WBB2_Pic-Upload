@@ -113,6 +113,7 @@ v3.3 (XX.XX.XXXX)
 	+ Anzeige, wann ein Bild gepostet wurde
 	+ RandomPic der Woche posten
 	+ Bilder können standardmäßig zum RandomPic freigegeben werden
+	+ Bilder vor dem Speichern im Forum rechts und links herum drehen können
 
 Installation
 ############

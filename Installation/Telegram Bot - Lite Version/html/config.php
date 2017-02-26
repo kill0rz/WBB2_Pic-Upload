@@ -37,6 +37,9 @@ $config_always_allow_randompic = true;
 // Zufallsbild der Woche (nur, wenn du es nutzt)
 $randompic_chatID = "-123456";
 
+// URL zu deinem Bot (ohne / am Ende)
+$url2bot = "https://board.tld/telegram_bot";
+
 // nicht editieren
 define('API_URL', 'https://api.telegram.org/bot' . BOT_TOKEN . '/');
 define('API_URL_FILE', 'https://api.telegram.org/file/bot' . BOT_TOKEN . '/');

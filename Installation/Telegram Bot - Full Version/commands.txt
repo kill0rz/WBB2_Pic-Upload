@@ -1,5 +1,7 @@
 postall - Poste alle Bilder
 nextpic - Arbeite Bilder fürs Forum ab
+rotagepicright - Drehe das aktuelle Bild nach rechts
+rotagepicleft - Drehe das aktuelle Bild nach links
 delpic - Lösche aktuelles Bild
 settopic - Setze den Threadnamen
 lastseen - Zeigt dir an, wann der Nutzer das letzte mal online war

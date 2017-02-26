@@ -281,6 +281,70 @@ if (isset($update["message"])) {
 				}
 				break;
 
+			case '/rotagepicleft':
+				if ($update["message"]["from"]["id"] == $admin_id) {
+					$sql = "SELECT q.*,u.username  FROM tb_pictures_queue q JOIN tb_lastseen_users u ON q.postedby=u.userid WHERE current=1 AND TRIM(threadname) IS NULL LIMIT 1;";
+					$result = $mysqli->query($sql);
+					if ($result->num_rows > 0) {
+						while ($row = $result->fetch_object()) {
+							// Es gibt ein Bild, dass abgearbeitet werden kann
+
+							RotateJpg("./img/" . $row->location, 90);
+							$uniquefilename = time() . rand(1, 1000);
+							if (copy("./img/" . $row->location, "./img_tmp/" . $uniquefilename . ".jpg")) {
+								send_photo($url2bot . "/img_tmp/" . $uniquefilename . ".jpg");
+								unlink("./img_tmp/" . $uniquefilename . ".jpg");
+							}
+
+							$sql3 = "SELECT topicname FROM tb_set_topic LIMIT 1;";
+							$result3 = $mysqli->query($sql3);
+							while ($row3 = $result3->fetch_object()) {
+								$oldname = $row3->topicname;
+							}
+							$text = "Gepostet von " . $row->username . " am " . date("d.m.Y", $row->postedat) . " um " . date("H:i", $row->postedat) . "\n";
+							afterpic_opertaions();
+						}
+					} else {
+						post_reply("Es befindet sich kein Bild in der Queue.");
+						call_post_help();
+					}
+				} else {
+					post_reply("Sorry, das darf nur der Admin!");
+				}
+				break;
+
+			case '/rotagepicright':
+				if ($update["message"]["from"]["id"] == $admin_id) {
+					$sql = "SELECT q.*,u.username  FROM tb_pictures_queue q JOIN tb_lastseen_users u ON q.postedby=u.userid WHERE current=1 AND TRIM(threadname) IS NULL LIMIT 1;";
+					$result = $mysqli->query($sql);
+					if ($result->num_rows > 0) {
+						while ($row = $result->fetch_object()) {
+							// Es gibt ein Bild, dass abgearbeitet werden kann
+
+							RotateJpg("./img/" . $row->location, 270);
+							$uniquefilename = time() . rand(1, 1000);
+							if (copy("./img/" . $row->location, "./img_tmp/" . $uniquefilename . ".jpg")) {
+								send_photo($url2bot . "/img_tmp/" . $uniquefilename . ".jpg");
+								unlink("./img_tmp/" . $uniquefilename . ".jpg");
+							}
+
+							$sql3 = "SELECT topicname FROM tb_set_topic LIMIT 1;";
+							$result3 = $mysqli->query($sql3);
+							while ($row3 = $result3->fetch_object()) {
+								$oldname = $row3->topicname;
+							}
+							$text = "Gepostet von " . $row->username . " am " . date("d.m.Y", $row->postedat) . " um " . date("H:i", $row->postedat) . "\n";
+							afterpic_opertaions();
+						}
+					} else {
+						post_reply("Es befindet sich kein Bild in der Queue.");
+						call_post_help();
+					}
+				} else {
+					post_reply("Sorry, das darf nur der Admin!");
+				}
+				break;
+
 			case '/delpic':
 				if ($update["message"]["from"]["id"] == $admin_id) {
 					$sql = "SELECT id, location FROM tb_pictures_queue WHERE current=1 AND TRIM(threadname) IS NULL LIMIT 1;";

@@ -4,7 +4,7 @@ Telegram Bot
 	+ nur bei privaten Chats
 + Bot schreibt Nutzer via Telegram an bei neuer Nachricht
 	+ UserID mit Telegram-ID verknüpfen in DB
-+ Bot kann per Befehl Bilder um 90° nach rechts oder links drehen
+
 
 neues Formular
 --------------

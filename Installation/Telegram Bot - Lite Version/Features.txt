@@ -7,3 +7,4 @@ Funktionen der Lite-Version:
 	+ Vorhandenen Thread suchen und antworten
 + Nichtgewollte Bilder via Telegram löschen
 + Freigabe zum Zufallsbild der Woche kann standardmäßig erteilt werden
++ Bilder vor dem Speichern im Forum rechts und links herum drehen können

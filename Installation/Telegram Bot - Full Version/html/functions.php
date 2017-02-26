@@ -51,6 +51,16 @@ function insert_or_update_word($word, $username) {
 	}
 }
 
+function afterpic_opertaions() {
+	global $oldname;
+	$text = "In welches Thema soll ich das Bild posten?\n";
+	$text .= "/settopic {Name} [" . $oldname . "]\n";
+	$text .= "/rotagepicright --> Bild rechtsrum drehen\n";
+	$text .= "/rotagepicleft --> Bild linksrum drehen\n";
+	$text .= "/delpic --> Bild löschen";
+	post_reply($text);
+}
+
 function resizeImage($filepath_old, $filepath_new, $image_dimension, $scale_mode = 0, $overwrite = 0) {
 	if ($overwrite == 1) {
 		if (!(file_exists($filepath_old))) {
@@ -233,6 +243,13 @@ function query_first($db, $query_string) {
 	$result = $db->query($query_string);
 	$returnarray = $result->fetch_array();
 	return $returnarray;
+}
+
+function RotateJpg($filename = '', $angle = 0) {
+	$original = imagecreatefromjpeg($filename);
+	$rotated = imagerotate($original, $angle, 0);
+	imagejpeg($rotated, $filename);
+	imagedestroy($rotated);
 }
 
 $ersetzen = array('ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'Ä' => 'ae', 'Ö' => 'oe', 'Ü' => 'ue', 'ß' => 'ss', ' ' => '_', '\\' => '-', '/' => '-', "http://" => "", "http" => "", "//" => "", ":" => "", ";" => "", "[" => "", "]" => "", "{" => "", "}" => "", "%" => "", "$" => "", "?" => "", "!" => "", "=" => "", "'" => "_", "(" => "_", ")" => "_");

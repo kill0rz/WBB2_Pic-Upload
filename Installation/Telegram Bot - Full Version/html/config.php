@@ -50,6 +50,9 @@ $post_interval_text = "";
 // Intervallaufruf Video (ID eintragen)
 $post_interval_video_id = "";
 
+// URL zu deinem Bot (ohne / am Ende)
+$url2bot = "https://board.tld/telegram_bot";
+
 // nicht editieren
 define('API_URL', 'https://api.telegram.org/bot' . BOT_TOKEN . '/');
 define('API_URL_FILE', 'https://api.telegram.org/file/bot' . BOT_TOKEN . '/');

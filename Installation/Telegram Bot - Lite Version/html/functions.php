@@ -21,6 +21,46 @@ function send_photo($fileid) {
 	file_get_contents($sendto);
 }
 
+function send_video($fileid) {
+	global $chatID;
+	$sendto = API_URL . "sendvideo?chat_id=" . $chatID . "&video=" . urlencode($fileid);
+	file_get_contents($sendto);
+}
+
+function send_document($fileid) {
+	global $chatID;
+	$sendto = API_URL . "senddocument?chat_id=" . $chatID . "&document=" . urlencode($fileid);
+	file_get_contents($sendto);
+}
+
+function update_lastseen($username, $userid) {
+	global $mysqli;
+	if (trim($username) != '') {
+		$sql = "INSERT INTO tb_lastseen_users (userid, time, username) VALUES('" . $mysqli->real_escape_string($userid) . "', '" . time() . "', '" . $username . "') ON DUPLICATE KEY UPDATE time=" . time() . ", username='" . $username . "';";
+		$mysqli->query($sql);
+	}
+}
+
+function insert_or_update_word($word, $username) {
+	global $mysqli;
+
+	if (trim($word) != '' && preg_match("/[a-zA-Z]*/", $word)) {
+		$word = preg_replace('/\PL/u', '', $word);
+		$sql = "INSERT INTO tb_word_stats (word, firstusedby, firstusedat, lastusedby,lastusedat) VALUES('" . $mysqli->real_escape_string($word) . "','" . $mysqli->real_escape_string($username) . "','" . time() . "', '" . $mysqli->real_escape_string($username) . "', '" . time() . "') ON DUPLICATE KEY UPDATE count=count+1, lastusedby='" . $mysqli->real_escape_string($username) . "', lastusedat='" . time() . "';";
+		$mysqli->query($sql);
+	}
+}
+
+function afterpic_opertaions() {
+	global $oldname;
+	$text = "In welches Thema soll ich das Bild posten?\n";
+	$text .= "/settopic {Name} [" . $oldname . "]\n";
+	$text .= "/rotagepicright --> Bild rechtsrum drehen\n";
+	$text .= "/rotagepicleft --> Bild linksrum drehen\n";
+	$text .= "/delpic --> Bild löschen";
+	post_reply($text);
+}
+
 function resizeImage($filepath_old, $filepath_new, $image_dimension, $scale_mode = 0, $overwrite = 0) {
 	if ($overwrite == 1) {
 		if (!(file_exists($filepath_old))) {
@@ -203,6 +243,13 @@ function query_first($db, $query_string) {
 	$result = $db->query($query_string);
 	$returnarray = $result->fetch_array();
 	return $returnarray;
+}
+
+function RotateJpg($filename = '', $angle = 0) {
+	$original = imagecreatefromjpeg($filename);
+	$rotated = imagerotate($original, $angle, 0);
+	imagejpeg($rotated, $filename);
+	imagedestroy($rotated);
 }
 
 $ersetzen = array('ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'Ä' => 'ae', 'Ö' => 'oe', 'Ü' => 'ue', 'ß' => 'ss', ' ' => '_', '\\' => '-', '/' => '-', "http://" => "", "http" => "", "//" => "", ":" => "", ";" => "", "[" => "", "]" => "", "{" => "", "}" => "", "%" => "", "$" => "", "?" => "", "!" => "", "=" => "", "'" => "_", "(" => "_", ")" => "_");

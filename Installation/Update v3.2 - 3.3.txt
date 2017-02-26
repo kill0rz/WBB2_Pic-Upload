@@ -2,6 +2,7 @@ Telegram-Bot (Full Version): (nur, wenn installiert, sonst überspringen!)
 ============================
 
 Ersetze die bot.php
+Kopiere den Ordner img_tmp auf deinen Server.
 Führe folgende SQL-Befehle aus:
 
 
