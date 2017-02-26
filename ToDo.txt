@@ -6,7 +6,6 @@ Telegram Bot
 	+ UserID mit Telegram-ID verknüpfen in DB
 + Freigabe zum Randompic der Woche per default
 + Bot kann per Befehl Bilder um 90° nach rechts oder links drehen
-+ Excuser implementieren
 
 neues Formular
 --------------

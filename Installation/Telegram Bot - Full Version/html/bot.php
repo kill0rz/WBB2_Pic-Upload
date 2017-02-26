@@ -674,6 +674,25 @@ if (isset($update["message"])) {
 				}
 				break;
 
+			case 'excuse':
+				if (isset($befehle[1])) {
+					switch (strtolower($befehle[1])) {
+						case 'me':
+							post_reply("You may be excused!");
+							break;
+
+						case '1337':
+							for ($i = 0; $i < 50; $i++) {
+								post_reply(rand(1, 1000));
+							}
+							break;
+
+						default:
+							post_reply($befehle[1] . " may be excused!");
+							break;
+					}
+				}
+
 			default:
 				// Stats
 				$all_words = explode(" ", str_replace("\n", "", $update["message"]["text"]));

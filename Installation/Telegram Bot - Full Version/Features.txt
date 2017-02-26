@@ -16,3 +16,4 @@ Plus:
 + Erzählen eines unnötig langen, nicht lustigen Hitlerwitzes --> /hitlerwitz
 + Anzeigen, wann ein Nutzer das letzte mal online war --> /lastseen {Username}
 + Suche nach einem frei konfigurierbarem Wort und der Bot antwortet mit einem wählbaren Smiley
++ The famous excuser!
