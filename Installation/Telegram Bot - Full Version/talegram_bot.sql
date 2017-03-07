@@ -64,3 +64,14 @@ CREATE TABLE `tb_vote_options` (
   `vote_option` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `tb_kennzeichen`;
+CREATE TABLE `tb_kennzeichen` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
+  `kennzeichen` varchar(500) NOT NULL,
+  `notified` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `kennzeichen` (`kennzeichen`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
