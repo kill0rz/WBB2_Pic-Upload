@@ -745,14 +745,24 @@ if (isset($update["message"])) {
 							post_reply("You may be excused!");
 							break;
 
-						case '1337':
-							for ($i = 0; $i < 50; $i++) {
-								post_reply(rand(1, 1000));
-							}
-							break;
+						// case '1337':
+						// for ($i = 0; $i < 50; $i++) {
+						// post_reply(rand(1, 1000));
+						// }
+						// break;
 
 						default:
-							post_reply($befehle[1] . " may be excused!");
+							$text = '';
+							for ($i = 1; $i < count($befehle); $i++) {
+								if ($i == 1) {
+									$text .= ucfirst($befehle[$i]) . " ";
+								} else {
+									$text .= $befehle[$i] . " ";
+								}
+
+							}
+							post_reply($text . "may be excused!");
+
 							break;
 					}
 				}
