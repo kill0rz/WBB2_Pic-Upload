@@ -29,7 +29,8 @@ ALTER TABLE `tb_pictures_queue`
 ADD `postedby` varchar(500) COLLATE 'latin1_swedish_ci' NOT NULL;
 ALTER TABLE `tb_pictures_queue`
 ADD `postedat` varchar(15) COLLATE 'latin1_swedish_ci' NOT NULL;
-
+ALTER TABLE `tb_lastseen_users`
+ADD `wbb_userid` int(50) NULL;
 
 
 
@@ -45,7 +46,8 @@ ALTER TABLE `tb_pictures_queue`
 ADD `postedby` varchar(500) COLLATE 'latin1_swedish_ci' NOT NULL;
 ALTER TABLE `tb_pictures_queue`
 ADD `postedat` varchar(15) COLLATE 'latin1_swedish_ci' NOT NULL;
-
+ALTER TABLE `tb_lastseen_users`
+ADD `wbb_userid` int(50) NULL;
 
 
 Zufallsbild der Woche

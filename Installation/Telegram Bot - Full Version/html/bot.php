@@ -22,45 +22,11 @@ function call_post_help() {
 	$text = "Bitte gib an, was genau du machen willst:\n";
 	$text .= "/nextpic --> bearbeite das nächste Bild\n";
 	$text .= "/delpic --> lösche aktuelles Bild\n";
+	$text .= "/rotagepicright --> Bild rechtsherum drehen\n";
+	$text .= "/rotagepicleft --> Bild linksherum drehen\n";
 	$text .= "/postall --> Schreibe alle Bilder ins Forum\n";
 	$text .= "/help --> Allgemeine Hilfe\n";
 	post_reply($text);
-}
-
-// MySQL-Config
-
-function mysqli_db_connect() {
-	global $mysqli, $chatID, $mysql_server, $mysql_user, $mysql_password, $mysql_db, $admin_name;
-
-	try {
-		$mysqli = new mysqli($mysql_server, $mysql_user, $mysql_password, $mysql_db);
-	} catch (Exception $e) {
-		post_reply("Datenbankfehler! @" . $admin_name);
-		exit();
-	}
-
-	if ($mysqli->connect_errno) {
-		post_reply("Datenbankfehler! @" . $admin_name);
-		exit();
-	}
-	$mysqli->set_charset("utf8");
-}
-
-function db_connect() {
-	global $db, $chatID, $mysql_server, $mysql_user, $mysql_password, $db_db, $admin_name;
-
-	try {
-		$db = new mysqli($mysql_server, $mysql_user, $mysql_password, $db_db);
-	} catch (Exception $e) {
-		post_reply("Datenbankfehler! @" . $admin_name);
-		exit();
-	}
-
-	if ($db->connect_errno) {
-		post_reply("Datenbankfehler! @" . $admin_name);
-		exit();
-	}
-	$db->set_charset("utf8");
 }
 
 // read incoming info and grab the chatID
@@ -74,6 +40,7 @@ if (isset($update["message"])) {
 	// logging($chatID, $update);
 	update_lastseen($update["message"]["from"]["first_name"], $update["message"]["from"]["id"]);
 
+	// Text
 	if (isset($update["message"]["text"])) {
 		// Hurensohn-Filter
 		if (str_replace("hurensohn", "", strtolower($update["message"]["text"])) != strtolower($update["message"]["text"])) {
@@ -83,14 +50,14 @@ if (isset($update["message"])) {
 				$text = "Du sollst nicht Hurensohn sagen!";
 			}
 			post_reply($text);
-			exit();
 		}
 
-		// Sticker-Filter
-		if (str_replace($triggerword, "", strtolower($update["message"]["text"])) != strtolower($update["message"]["text"])) {
-			$sendto = API_URL . "sendsticker?chat_id=" . $chatID . "&sticker=" . $triggerstricker;
-			file_get_contents($sendto);
-			exit();
+		// Trigger-Filter
+		foreach ($triggerstricker as $triggerword => $triggerstrickerid) {
+			if (preg_replace($triggerword, "", strtolower($update["message"]["text"])) != strtolower($update["message"]["text"])) {
+				send_sticker($triggerstrickerid);
+				exit();
+			}
 		}
 
 		$befehle = explode(" ", $update["message"]["text"]);
@@ -109,22 +76,30 @@ if (isset($update["message"])) {
 					$sql = "SELECT threadname FROM tb_pictures_queue WHERE TRIM(threadname) IS NOT NULL GROUP BY threadname";
 					$result = $mysqli->query($sql);
 					while ($row = $result->fetch_object()) {
-						$links = '';
-
 						// prüfen, ob der Thread schon existiert
 						$usenumber = 0;
 						get_thread($row->threadname);
 
-						// Jetzt nach Nutzernamen Gruppieren
-						$sql3 = "SELECT q.postedby,u.username FROM tb_pictures_queue q JOIN tb_lastseen_users u ON q.postedby=u.userid GROUP BY postedby;";
+						// Jetzt nach Nutzernamen gruppieren
+						$sql3 = "SELECT q.postedby,u.username,u.wbb_userid FROM tb_pictures_queue q JOIN tb_lastseen_users u ON q.postedby=u.userid GROUP BY postedby;";
 						$result3 = $mysqli->query($sql3);
 						while ($row3 = $result3->fetch_object()) {
+							$links = '';
 							$trigger_poster_name = true;
 
+							if (isset($row3->wbb_userid) && trim($row3->wbb_userid) != '') {
+								$pic_userid = $row3->wbb_userid;
+								$userid_set = true;
+							} else {
+								$pic_userid = $bot_userid;
+								$userid_set = false;
+							}
+
+							// für jedes Bild
 							$sql2 = "SELECT * FROM tb_pictures_queue WHERE TRIM(threadname)='" . $row->threadname . "' AND postedby='" . $row3->postedby . "'";
 							$result2 = $mysqli->query($sql2);
 							while ($row2 = $result2->fetch_object()) {
-								if ($trigger_poster_name) {
+								if ($userid_set && $trigger_poster_name) {
 									$links .= "Bilder von " . $row3->username . ":\n";
 									$trigger_poster_name = false;
 								}
@@ -135,28 +110,28 @@ if (isset($update["message"])) {
 								if (!is_dir($subordner)) {
 									mkdir($subordner, 0777);
 								}
-								if (!is_dir($subordner . "/" . $bot_userid)) {
-									mkdir($subordner . "/" . $bot_userid, 0777);
+								if (!is_dir($subordner . "/" . $pic_userid)) {
+									mkdir($subordner . "/" . $pic_userid, 0777);
 								}
-								if (!is_dir($subordner . "/" . $bot_userid . "/" . $thema)) {
-									mkdir($subordner . "/" . $bot_userid . "/" . $thema, 0777);
+								if (!is_dir($subordner . "/" . $pic_userid . "/" . $thema)) {
+									mkdir($subordner . "/" . $pic_userid . "/" . $thema, 0777);
 								}
-								makeindex($subordner . "/" . $bot_userid . "/" . $thema . "/");
-								makeindex($subordner . "/" . $bot_userid . "/");
+								makeindex($subordner . "/" . $pic_userid . "/" . $thema . "/");
+								makeindex($subordner . "/" . $pic_userid . "/");
 								makeindex($subordner . "/");
 								$umaskold = umask(0);
 
 								// allow to randompic of the week
 								if ($config_always_allow_randompic) {
 									try {
-										file_put_contents($subordner . "/" . $bot_userid . "/" . $thema . "/allowtorandompic", "");
+										file_put_contents($subordner . "/" . $pic_userid . "/" . $thema . "/allowtorandompic", "");
 									} catch (Exception $e) {
 									}
 								}
 
 								$DateiName = strtr($row2->filename, $ersetzen);
-								resizeImage("./img/" . $row2->location, $subordner . "/" . $bot_userid . "/" . $thema . "/" . $DateiName, 1300, 1, 1);
-								$links .= "[IMG]" . $albenurl . "/" . $bot_userid . "/" . $thema . "/" . $DateiName . "[/IMG]\n";
+								resizeImage("./img/" . $row2->location, $subordner . "/" . $pic_userid . "/" . $thema . "/" . $DateiName, 1300, 1, 1);
+								$links .= "[IMG]" . $albenurl . "/" . $pic_userid . "/" . $thema . "/" . $DateiName . "[/IMG]\n";
 
 								// remove pic from queue
 								$sql3 = "DELETE FROM tb_pictures_queue WHERE id='" . $row2->id . "'";
@@ -165,65 +140,65 @@ if (isset($update["message"])) {
 								$done_counter++;
 							}
 							$links .= "\n\n";
-						}
 
-						// VGPOST bei Viktor - v-gn.de *Anfang*
-						$time = time();
+							// VGPOST bei Viktor - v-gn.de *Anfang*
+							$time = time();
 
-						/* Thread erstellen */
-						$posting_thema = $row->threadname;
-						$posting_prefix = 'Telegram';
+							/* Thread erstellen */
+							$posting_thema = $row->threadname;
+							$posting_prefix = 'Telegram';
 
-						/* Username holen */
-						$user_info = query_first($db, "SELECT username FROM bb" . $n . "_users WHERE userid = '" . $bot_userid . "'");
-						$vgp_username = $user_info['username'];
+							/* Username holen */
+							$user_info = query_first($db, "SELECT username FROM bb" . $n . "_users WHERE userid = '" . $bot_userid . "'");
+							$vgp_username = $user_info['username'];
 
-						// Thread schon vorhanden oder neuen erstellen?
-						$hasbeenpostetasareply = true;
-						if ($usenumber == 0) {
-							// neuer Thread
-							$subjekt = $posting_thema;
+							// Thread schon vorhanden oder neuen erstellen?
+							$hasbeenpostetasareply = true;
+							if ($usenumber == 0) {
+								// neuer Thread
+								$subjekt = $posting_thema;
 
-							$db->query("INSERT INTO bb" . $n . "_threads (boardid,prefix,topic,iconid,starttime,starterid,starter,lastposttime,lastposterid,lastposter,attachments,pollid,important,visible)
+								$db->query("INSERT INTO bb" . $n . "_threads (boardid,prefix,topic,iconid,starttime,starterid,starter,lastposttime,lastposterid,lastposter,attachments,pollid,important,visible)
 									VALUES ('" . $bot_boardid . "', '" . addslashes($posting_prefix) . "', '" . addslashes($posting_thema) . "', '0', '" . $time . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '" . $time . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '0', '0', '0', '1')");
-							$threadid = $db->insert_id;
-							$hasbeenpostetasareply = false;
-							post_reply("Erstelle neuen Thread: " . $posting_thema);
-						} else {
-							// antworte auf
-							$threadid = $usenumber;
-							$subjekt = "[" . $posting_prefix . "] " . $posting_thema;
+								$threadid = $db->insert_id;
+								$hasbeenpostetasareply = false;
+								post_reply("Erstelle neuen Thread: " . $posting_thema);
+							} else {
+								// antworte auf
+								$threadid = $usenumber;
+								$subjekt = "[" . $posting_prefix . "] " . $posting_thema;
 
-							post_reply("Antworte auf Thread: " . utf8_decode($subjekt));
-						}
+								post_reply("Antworte auf Thread: " . utf8_decode($subjekt));
+							}
 
-						$b_thread = trim($links);
+							$b_thread = trim($links);
 
-						/* Post erstellen */
-						$db->query("INSERT INTO bb" . $n . "_posts (threadid,userid,username,iconid,posttopic,posttime,message,attachments,allowsmilies,allowhtml,allowbbcode,allowimages,showsignature,ipaddress,visible)
+							/* Post erstellen */
+							$db->query("INSERT INTO bb" . $n . "_posts (threadid,userid,username,iconid,posttopic,posttime,message,attachments,allowsmilies,allowhtml,allowbbcode,allowimages,showsignature,ipaddress,visible)
 								VALUES ('" . $threadid . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '0', '" . addslashes($subjekt) . "', '" . $time . "', '" . addslashes($b_thread) . "', '0', '1', '0', '1', '1', '1', '127.0.0.1', '1')");
-						$postid = $db->insert_id;
+							$postid = $db->insert_id;
 
-						/* Board updaten */
-						$boardstr = query_first($db, "SELECT parentlist FROM bb" . $n . "_boards WHERE boardid = '" . $bot_boardid . "'");
-						$parentlist = $boardstr['parentlist'];
+							/* Board updaten */
+							$boardstr = query_first($db, "SELECT parentlist FROM bb" . $n . "_boards WHERE boardid = '" . $bot_boardid . "'");
+							$parentlist = $boardstr['parentlist'];
 
-						/* update thread info */
-						$db->query("UPDATE bb" . $n . "_threads SET lastposttime = '" . $time . "', lastposterid = '" . $bot_userid . "', lastposter = '" . addslashes($user_info['username']) . "', replycount = replycount+1 WHERE threadid = '{$threadid}'", 1);
+							/* update thread info */
+							$db->query("UPDATE bb" . $n . "_threads SET lastposttime = '" . $time . "', lastposterid = '" . $bot_userid . "', lastposter = '" . addslashes($user_info['username']) . "', replycount = replycount+1 WHERE threadid = '{$threadid}'", 1);
 
-						/* update board info */
-						$db->query("UPDATE bb" . $n . "_boards SET postcount=postcount+1, lastthreadid='{$threadid}', lastposttime='" . $time . "', lastposterid='" . $bot_userid . "', lastposter='" . addslashes($user_info['username']) . "' WHERE boardid IN ({$parentlist},{$bot_boardid})", 1);
+							/* update board info */
+							$db->query("UPDATE bb" . $n . "_boards SET postcount=postcount+1, lastthreadid='{$threadid}', lastposttime='" . $time . "', lastposterid='" . $bot_userid . "', lastposter='" . addslashes($user_info['username']) . "' WHERE boardid IN ({$parentlist},{$bot_boardid})", 1);
 
-						$db->query("UPDATE bb" . $n . "_users SET userposts=userposts+1 WHERE userid = '" . $bot_userid . "'", 1);
+							$db->query("UPDATE bb" . $n . "_users SET userposts=userposts+1 WHERE userid = '" . $bot_userid . "'", 1);
 
-						/* Statistik updaten */
-						if ($hasbeenpostetasareply) {
-							$db->query("UPDATE bb" . $n . "_stats SET threadcount=threadcount+1, postcount=postcount+1", 1);
-						} else {
-							$db->query("UPDATE bb" . $n . "_stats SET postcount=postcount+1", 1);
+							/* Statistik updaten */
+							if ($hasbeenpostetasareply) {
+								$db->query("UPDATE bb" . $n . "_stats SET threadcount=threadcount+1, postcount=postcount+1", 1);
+							} else {
+								$db->query("UPDATE bb" . $n . "_stats SET postcount=postcount+1", 1);
+							}
+
+							// VGPOST bei Viktor - v-gn.de *Anfang*
 						}
-
-						// VGPOST bei Viktor - v-gn.de *Anfang*
 					}
 					post_reply("Es wurden " . $done_counter . " Bilder ins Forum gepostet.");
 					// call_post_help();
@@ -274,6 +249,28 @@ if (isset($update["message"])) {
 						}
 					} else {
 						post_reply("Es gibt derzeit keine Bilder, die abgearbeitet werden können.");
+						call_post_help();
+					}
+				} else {
+					post_reply("Sorry, das darf nur der Admin!");
+				}
+				break;
+
+			case '/delpic':
+				if ($update["message"]["from"]["id"] == $admin_id) {
+					$sql = "SELECT id, location FROM tb_pictures_queue WHERE current=1 AND TRIM(threadname) IS NULL LIMIT 1;";
+					$result = $mysqli->query($sql);
+					if ($result->num_rows > 0) {
+						while ($row = $result->fetch_object()) {
+							// Es gibt ein Bild, dass gelöscht werden kann
+							// --> Löschen des Tupel
+							$sql2 = "DELETE FROM tb_pictures_queue WHERE id='" . $row->id . "';";
+							$mysqli->query($sql2);
+							@unlink("./img/" . $row->location);
+							post_reply("Bild erfolgreich gelöscht!\n/nextpic");
+						}
+					} else {
+						post_reply("Es befindet sich kein Bild in der Queue.");
 						call_post_help();
 					}
 				} else {
@@ -335,28 +332,6 @@ if (isset($update["message"])) {
 							}
 							$text = "Gepostet von " . $row->username . " am " . date("d.m.Y", $row->postedat) . " um " . date("H:i", $row->postedat) . "\n";
 							afterpic_opertaions();
-						}
-					} else {
-						post_reply("Es befindet sich kein Bild in der Queue.");
-						call_post_help();
-					}
-				} else {
-					post_reply("Sorry, das darf nur der Admin!");
-				}
-				break;
-
-			case '/delpic':
-				if ($update["message"]["from"]["id"] == $admin_id) {
-					$sql = "SELECT id, location FROM tb_pictures_queue WHERE current=1 AND TRIM(threadname) IS NULL LIMIT 1;";
-					$result = $mysqli->query($sql);
-					if ($result->num_rows > 0) {
-						while ($row = $result->fetch_object()) {
-							// Es gibt ein Bild, dass gelöscht werden kann
-							// --> Löschen des Tupel
-							$sql2 = "DELETE FROM tb_pictures_queue WHERE id='" . $row->id . "';";
-							$mysqli->query($sql2);
-							@unlink("./img/" . $row->location);
-							post_reply("Bild erfolgreich gelöscht!\n/nextpic");
 						}
 					} else {
 						post_reply("Es befindet sich kein Bild in der Queue.");
@@ -510,7 +485,7 @@ if (isset($update["message"])) {
 							}
 
 							$text = str_pad($toc[0]["word"], $maxlengtharray["word"]) . "|" . str_pad($toc[0]["count"], $maxlengtharray["count"]) . "|" . str_pad($toc[0]["firstusedby"], $maxlengtharray["firstusedby"]) . "|" . str_pad($toc[0]["firstusedat"], $maxlengtharray["firstusedat"]) . "|" . str_pad($toc[0]["lastusedby"], $maxlengtharray["lastusedby"]) . "|" . str_pad($toc[0]["lastusedat"], $maxlengtharray["lastusedat"]) . "\n\n";
-							// $text .= str_pad("_", $maxlengtharray["word"], "_") . "+" . str_pad("_", $maxlengtharray["count"], "_") . "+" . str_pad("_", $maxlengtharray["firstusedby"], "_") . "+" . str_pad("_", $maxlengtharray["firstusedat"], "_") . "+" . str_pad("_", $maxlengtharray["lastusedby"], "_") . "+" . str_pad("_", $maxlengtharray["lastusedat"], "_") . "\n";
+							$text .= str_pad("_", $maxlengtharray["word"], "_") . "+" . str_pad("_", $maxlengtharray["count"], "_") . "+" . str_pad("_", $maxlengtharray["firstusedby"], "_") . "+" . str_pad("_", $maxlengtharray["firstusedat"], "_") . "+" . str_pad("_", $maxlengtharray["lastusedby"], "_") . "+" . str_pad("_", $maxlengtharray["lastusedat"], "_") . "\n";
 
 							for ($i = 1; $i < count($toc); $i++) {
 								$text .= str_pad($toc[$i]["word"], $maxlengtharray["word"]) . "|" . str_pad($toc[$i]["count"], $maxlengtharray["count"]) . "|" . str_pad($toc[$i]["firstusedby"], $maxlengtharray["firstusedby"]) . "|" . str_pad($toc[$i]["firstusedat"], $maxlengtharray["firstusedat"]) . "|" . str_pad($toc[$i]["lastusedby"], $maxlengtharray["lastusedby"]) . "|" . str_pad($toc[$i]["lastusedat"], $maxlengtharray["lastusedat"]) . "\n";
@@ -608,8 +583,7 @@ if (isset($update["message"])) {
 				$text .= "Da sagt das Kind: 'Mein Vater hat gesagt, wenn der Führer ins Gras beißt, wird alles besser!'";
 				post_reply($text);
 
-				$sendto = API_URL . "sendsticker?chat_id=" . $chatID . "&sticker=BQADAgADRAIAAiHtuwM4RQnJhcQXrwI";
-				file_get_contents($sendto);
+				send_sticker("BQADAgADRAIAAiHtuwM4RQnJhcQXrwI");
 				break;
 
 			case '/help':
@@ -745,23 +719,30 @@ if (isset($update["message"])) {
 							post_reply("You may be excused!");
 							break;
 
-						// case '1337':
-						// for ($i = 0; $i < 50; $i++) {
-						// post_reply(rand(1, 1000));
-						// }
-						// break;
+						case '1337':
+							for ($i = 0; $i < 50; $i++) {
+								post_reply(rand(1, 1000));
+							}
+							break;
 
 						default:
 							$text = '';
-							for ($i = 1; $i < count($befehle); $i++) {
-								if ($i == 1) {
-									$text .= ucfirst($befehle[$i]) . " ";
+							if (preg_match("/[^a-zA-Z]/", substr($befehle[1], -1, 1))) {
+								if (strtolower(substr($befehle[1], 0, strlen($befehle[1]) - 1)) == "me") {
+									post_reply("You may be excused!");
 								} else {
-									$text .= $befehle[$i] . " ";
+									post_reply(ucfirst(substr($befehle[1], 0, strlen($befehle[1]) - 1) . " may be excused!"));
 								}
-
+							} else {
+								for ($i = 1; $i < count($befehle); $i++) {
+									if ($i == 1) {
+										$text .= ucfirst($befehle[$i]) . " ";
+									} else {
+										$text .= $befehle[$i] . " ";
+									}
+								}
+								post_reply($text . "may be excused!");
 							}
-							post_reply($text . "may be excused!");
 
 							break;
 					}
@@ -780,8 +761,31 @@ if (isset($update["message"])) {
 	// check if file is attached
 	if (isset($update["message"]["photo"]) && @isset($update["message"]["photo"][count($update["message"]["photo"]) - 1]["file_id"])) {
 		// komprimierte Bilder
-		$file_id = $update["message"]["photo"][count($update["message"]["photo"]) - 1]["file_id"];
-		$filename = isset($update["message"]["photo"][count($update["message"]["photo"]) - 1]["file_path"]) ? str_replace("photo/", "", $update["message"]["photo"][count($update["message"]["photo"]) - 1]["file_path"]) : time() . ".jpg";
+		// check if facefilter is triggered
+		if (@isset($update["message"]["caption"]) && trim($update["message"]["caption"]) != '' && substr($update["message"]["caption"], 0, 5) === "/face") {
+			// download file
+			$sendto = API_URL . "getfile?file_id=" . $update["message"]["photo"][count($update["message"]["photo"]) - 1]["file_id"];
+			$resp = json_decode(file_get_contents($sendto), true);
+			$file_path = $resp["result"]["file_path"];
+
+			$sendto = API_URL_FILE . $file_path;
+			$savename = "facefile.jpg";
+			$savename_rand = time() . rand(0, 1000) . rand(0, 1000) . rand(0, 1000) . rand(0, 1000) . ".jpg";
+
+			if (file_put_contents("img/" . $savename, file_get_contents($sendto))) {
+				// downloaded the pic; now process it
+				post_reply("Sekunde...");
+				@shell_exec("cd ./chrisify && ./chrisify ../img/" . $savename . " > ../img_tmp/" . $savename_rand);
+				send_photo($url2bot . "/img_tmp/" . $savename_rand);
+				unlink("./img_tmp/" . $savename_rand);
+				unlink("./img/" . $savename);
+			} else {
+				post_reply("Es gab leider einen Fehler beim Download des Bildes! :( @" . $admin_name);
+			}
+		} else {
+			$file_id = $update["message"]["photo"][count($update["message"]["photo"]) - 1]["file_id"];
+			$filename = isset($update["message"]["photo"][count($update["message"]["photo"]) - 1]["file_path"]) ? str_replace("photo/", "", $update["message"]["photo"][count($update["message"]["photo"]) - 1]["file_path"]) : time() . ".jpg";
+		}
 	} elseif (isset($update["message"]["document"]["file_id"])) {
 		// unkomprimierte Bilder und Dateianhänge
 		if (strtolower(substr($update["message"]["document"]["mime_type"], 0, 5)) == "image") {

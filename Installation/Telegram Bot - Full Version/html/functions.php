@@ -32,6 +32,11 @@ function send_document($fileid) {
 	$sendto = API_URL . "senddocument?chat_id=" . $chatID . "&document=" . urlencode($fileid);
 	file_get_contents($sendto);
 }
+function send_sticker($fileid) {
+	global $chatID;
+	$sendto = API_URL . "sendsticker?chat_id=" . $chatID . "&sticker=" . urlencode($fileid);
+	file_get_contents($sendto);
+}
 
 function update_lastseen($username, $userid) {
 	global $mysqli;
@@ -252,4 +257,84 @@ function RotateJpg($filename = '', $angle = 0) {
 	imagedestroy($rotated);
 }
 
-$ersetzen = array('ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'Ä' => 'ae', 'Ö' => 'oe', 'Ü' => 'ue', 'ß' => 'ss', ' ' => '_', '\\' => '-', '/' => '-', "http://" => "", "http" => "", "//" => "", ":" => "", ";" => "", "[" => "", "]" => "", "{" => "", "}" => "", "%" => "", "$" => "", "?" => "", "!" => "", "=" => "", "'" => "_", "(" => "_", ")" => "_");
+function execute($ho, $state, $array, $newsess) {
+	$log_hoster = $array;
+	$ch = curl_init();
+
+	$url = $log_hoster[$ho][0];
+	$postdata = $log_hoster[$ho][1];
+	$ref = $log_hoster[$ho][2];
+
+	curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+	curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+	curl_setopt($ch, CURLOPT_COOKIESESSION, $newsess);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($ch, CURLOPT_HEADER, false);
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+	curl_setopt($ch, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
+	curl_setopt($ch, CURLOPT_REFERER, $ref);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)");
+	$retu = curl_exec($ch);
+	sleep(1);
+	return $retu;
+}
+
+function getsite($zielurl, $postdata = "", $ref = "", $newsess = true) {
+	$log_hoster = array(
+		array($zielurl, $postdata, $ref),
+	);
+	$temp = execute(0, true, $log_hoster, $newsess);
+	return $temp;
+}
+
+// MySQL-Config
+
+function mysqli_db_connect() {
+	global $mysqli, $chatID, $mysql_server, $mysql_user, $mysql_password, $mysql_db, $admin_name;
+
+	try {
+		$mysqli = new mysqli($mysql_server, $mysql_user, $mysql_password, $mysql_db);
+	} catch (Exception $e) {
+		post_reply("Datenbankfehler! @" . $admin_name);
+		exit();
+	}
+
+	if ($mysqli->connect_errno) {
+		post_reply("Datenbankfehler! @" . $admin_name);
+		exit();
+	}
+	$mysqli->set_charset("utf8");
+}
+
+function db_connect() {
+	global $db, $chatID, $mysql_server, $mysql_user, $mysql_password, $db_db, $admin_name;
+
+	try {
+		$db = new mysqli($mysql_server, $mysql_user, $mysql_password, $db_db);
+	} catch (Exception $e) {
+		post_reply("Datenbankfehler! @" . $admin_name);
+		exit();
+	}
+
+	if ($db->connect_errno) {
+		post_reply("Datenbankfehler! @" . $admin_name);
+		exit();
+	}
+	$db->set_charset("utf8");
+}
+
+function replace_umlaute($string) {
+	$umlaute = array(
+		"&auml;" => "ä",
+		"&ouml;" => "ö",
+		"&uuml;" => "ü",
+		"&Auml;" => "Ä",
+		"&Ouml;" => "Ö",
+		"&Uuml;" => "Ü",
+	);
+	return strtr($string, $umlaute);
+}
