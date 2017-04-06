@@ -149,7 +149,7 @@ if (isset($update["message"])) {
 							$posting_prefix = 'Telegram';
 
 							/* Username holen */
-							$user_info = query_first($db, "SELECT username FROM bb" . $n . "_users WHERE userid = '" . $bot_userid . "'");
+							$user_info = query_first($db, "SELECT username FROM bb" . $n . "_users WHERE userid = '" . $pic_userid . "'");
 							$vgp_username = $user_info['username'];
 
 							// Thread schon vorhanden oder neuen erstellen?
@@ -159,7 +159,7 @@ if (isset($update["message"])) {
 								$subjekt = $posting_thema;
 
 								$db->query("INSERT INTO bb" . $n . "_threads (boardid,prefix,topic,iconid,starttime,starterid,starter,lastposttime,lastposterid,lastposter,attachments,pollid,important,visible)
-									VALUES ('" . $bot_boardid . "', '" . addslashes($posting_prefix) . "', '" . addslashes($posting_thema) . "', '0', '" . $time . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '" . $time . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '0', '0', '0', '1')");
+									VALUES ('" . $bot_boardid . "', '" . addslashes($posting_prefix) . "', '" . addslashes($posting_thema) . "', '0', '" . $time . "', '" . $pic_userid . "', '" . addslashes($user_info['username']) . "', '" . $time . "', '" . $pic_userid . "', '" . addslashes($user_info['username']) . "', '0', '0', '0', '1')");
 								$threadid = $db->insert_id;
 								$hasbeenpostetasareply = false;
 								post_reply("Erstelle neuen Thread: " . $posting_thema);
@@ -175,7 +175,7 @@ if (isset($update["message"])) {
 
 							/* Post erstellen */
 							$db->query("INSERT INTO bb" . $n . "_posts (threadid,userid,username,iconid,posttopic,posttime,message,attachments,allowsmilies,allowhtml,allowbbcode,allowimages,showsignature,ipaddress,visible)
-								VALUES ('" . $threadid . "', '" . $bot_userid . "', '" . addslashes($user_info['username']) . "', '0', '" . addslashes($subjekt) . "', '" . $time . "', '" . addslashes($b_thread) . "', '0', '1', '0', '1', '1', '1', '127.0.0.1', '1')");
+								VALUES ('" . $threadid . "', '" . $pic_userid . "', '" . addslashes($user_info['username']) . "', '0', '" . addslashes($subjekt) . "', '" . $time . "', '" . addslashes($b_thread) . "', '0', '1', '0', '1', '1', '1', '127.0.0.1', '1')");
 							$postid = $db->insert_id;
 
 							/* Board updaten */
@@ -183,12 +183,12 @@ if (isset($update["message"])) {
 							$parentlist = $boardstr['parentlist'];
 
 							/* update thread info */
-							$db->query("UPDATE bb" . $n . "_threads SET lastposttime = '" . $time . "', lastposterid = '" . $bot_userid . "', lastposter = '" . addslashes($user_info['username']) . "', replycount = replycount+1 WHERE threadid = '{$threadid}'", 1);
+							$db->query("UPDATE bb" . $n . "_threads SET lastposttime = '" . $time . "', lastposterid = '" . $pic_userid . "', lastposter = '" . addslashes($user_info['username']) . "', replycount = replycount+1 WHERE threadid = '{$threadid}'", 1);
 
 							/* update board info */
-							$db->query("UPDATE bb" . $n . "_boards SET postcount=postcount+1, lastthreadid='{$threadid}', lastposttime='" . $time . "', lastposterid='" . $bot_userid . "', lastposter='" . addslashes($user_info['username']) . "' WHERE boardid IN ({$parentlist},{$bot_boardid})", 1);
+							$db->query("UPDATE bb" . $n . "_boards SET postcount=postcount+1, lastthreadid='{$threadid}', lastposttime='" . $time . "', lastposterid='" . $pic_userid . "', lastposter='" . addslashes($user_info['username']) . "' WHERE boardid IN ({$parentlist},{$bot_boardid})", 1);
 
-							$db->query("UPDATE bb" . $n . "_users SET userposts=userposts+1 WHERE userid = '" . $bot_userid . "'", 1);
+							$db->query("UPDATE bb" . $n . "_users SET userposts=userposts+1 WHERE userid = '" . $pic_userid . "'", 1);
 
 							/* Statistik updaten */
 							if ($hasbeenpostetasareply) {
