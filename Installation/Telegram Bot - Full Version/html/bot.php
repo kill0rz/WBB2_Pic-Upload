@@ -99,7 +99,7 @@ if (isset($update["message"])) {
 							$sql2 = "SELECT * FROM tb_pictures_queue WHERE TRIM(threadname)='" . $row->threadname . "' AND postedby='" . $row3->postedby . "'";
 							$result2 = $mysqli->query($sql2);
 							while ($row2 = $result2->fetch_object()) {
-								if ($userid_set && $trigger_poster_name) {
+								if (!$userid_set && $trigger_poster_name) {
 									$links .= "Bilder von " . $row3->username . ":\n";
 									$trigger_poster_name = false;
 								}
