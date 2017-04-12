@@ -27,42 +27,6 @@ function call_post_help() {
 	post_reply($text);
 }
 
-// MySQL-Config
-
-function mysqli_db_connect() {
-	global $mysqli, $chatID, $mysql_server, $mysql_user, $mysql_password, $mysql_db, $admin_name;
-
-	try {
-		$mysqli = new mysqli($mysql_server, $mysql_user, $mysql_password, $mysql_db);
-	} catch (Exception $e) {
-		post_reply("Datenbankfehler! @" . $admin_name);
-		exit();
-	}
-
-	if ($mysqli->connect_errno) {
-		post_reply("Datenbankfehler! @" . $admin_name);
-		exit();
-	}
-	$mysqli->set_charset("utf8");
-}
-
-function db_connect() {
-	global $db, $chatID, $mysql_server, $mysql_user, $mysql_password, $db_db, $admin_name;
-
-	try {
-		$db = new mysqli($mysql_server, $mysql_user, $mysql_password, $db_db);
-	} catch (Exception $e) {
-		post_reply("Datenbankfehler! @" . $admin_name);
-		exit();
-	}
-
-	if ($db->connect_errno) {
-		post_reply("Datenbankfehler! @" . $admin_name);
-		exit();
-	}
-	$db->set_charset("utf8");
-}
-
 // read incoming info and grab the chatID
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
@@ -99,7 +63,7 @@ if (isset($update["message"])) {
 			case '/postall':
 				if ($update["message"]["from"]["id"] == $admin_id) {
 					$done_counter = 0;
-					$albenurl = $url2board;
+					$albenurl = $url2board_fotoalbum;
 
 					// Schließe die Bearbeitung aller Bilder:
 					$sql = "UPDATE tb_pictures_queue SET current=0;";

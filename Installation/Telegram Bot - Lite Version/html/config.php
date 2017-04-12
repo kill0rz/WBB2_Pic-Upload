@@ -30,7 +30,7 @@ $n = 1;
 // Relativer Pfad zu den Fotoalben auf dem Webspace - OHNE / AM ENDE!
 $subordner = "../wbb2/Fotoalben";
 // URL zu deinen Fotoalben - OHNE / AM ENDE!
-$url2board = "https://example.com/wbb2/Fotoalben";
+$url2board_fotoalbum = "https://example.com/wbb2/Fotoalben";
 // Sollen immer alle Bilder zum Randompic der Woche freigegeben werden? Ja = true; Nein = false
 $config_always_allow_randompic = true;
 

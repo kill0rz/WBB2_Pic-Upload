@@ -72,7 +72,7 @@ if (isset($update["message"])) {
 			case '/postall':
 				if ($update["message"]["from"]["id"] == $admin_id) {
 					$done_counter = 0;
-					$albenurl = $url2board;
+					$albenurl = $url2board_fotoalbum;
 
 					// Schließe die Bearbeitung aller Bilder:
 					$sql = "UPDATE tb_pictures_queue SET current=0;";

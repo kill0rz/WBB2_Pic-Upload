@@ -5,6 +5,11 @@ Telegram Bot
 + Bot schreibt Nutzer via Telegram an bei neuer Nachricht
 	+ UserID mit Telegram-ID verknüpfen in DB
 
++ Rückport ins Repo:
+	+ Telegram Notiz wenn Thread erstellt wird, auf Thread geantwortet wird.
+	+ addreply.php / Template
+	+ newthread.php / Template
+
 
 neues Formular
 --------------

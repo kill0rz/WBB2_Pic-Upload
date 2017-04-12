@@ -15,6 +15,12 @@ function post_reply($reply) {
 	file_get_contents($sendto);
 }
 
+function send_sticker($fileid) {
+	global $chatID;
+	$sendto = API_URL . "sendsticker?chat_id=" . $chatID . "&sticker=" . $fileid;
+	file_get_contents($sendto);
+}
+
 function send_photo($fileid) {
 	global $chatID;
 	$sendto = API_URL . "sendphoto?chat_id=" . $chatID . "&photo=" . urlencode($fileid);
@@ -250,6 +256,41 @@ function RotateJpg($filename = '', $angle = 0) {
 	$rotated = imagerotate($original, $angle, 0);
 	imagejpeg($rotated, $filename);
 	imagedestroy($rotated);
+}
+
+// MySQL-Config
+function mysqli_db_connect() {
+	global $mysqli, $chatID, $mysql_server, $mysql_user, $mysql_password, $mysql_db, $admin_name;
+
+	try {
+		$mysqli = new mysqli($mysql_server, $mysql_user, $mysql_password, $mysql_db);
+	} catch (Exception $e) {
+		post_reply("Datenbankfehler! @" . $admin_name);
+		exit();
+	}
+
+	if ($mysqli->connect_errno) {
+		post_reply("Datenbankfehler! @" . $admin_name);
+		exit();
+	}
+	$mysqli->set_charset("utf8");
+}
+
+function db_connect() {
+	global $db, $chatID, $mysql_server, $mysql_user, $mysql_password, $db_db, $admin_name;
+
+	try {
+		$db = new mysqli($mysql_server, $mysql_user, $mysql_password, $db_db);
+	} catch (Exception $e) {
+		post_reply("Datenbankfehler! @" . $admin_name);
+		exit();
+	}
+
+	if ($db->connect_errno) {
+		post_reply("Datenbankfehler! @" . $admin_name);
+		exit();
+	}
+	$db->set_charset("utf8");
 }
 
 $ersetzen = array('ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'Ä' => 'ae', 'Ö' => 'oe', 'Ü' => 'ue', 'ß' => 'ss', ' ' => '_', '\\' => '-', '/' => '-', "http://" => "", "http" => "", "//" => "", ":" => "", ";" => "", "[" => "", "]" => "", "{" => "", "}" => "", "%" => "", "$" => "", "?" => "", "!" => "", "=" => "", "'" => "_", "(" => "_", ")" => "_");
