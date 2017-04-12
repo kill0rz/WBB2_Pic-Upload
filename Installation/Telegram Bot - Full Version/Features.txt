@@ -20,3 +20,4 @@ Plus:
 + The famous excuser!
 + Datei post_interval.php kann per Cronjob aufgerufen werden und postet dann einen definierten Text und/oder ein Video
 + Abstimmungen erstellen --> /startvote
++ Facefinder implementiert
