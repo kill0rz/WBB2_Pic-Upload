@@ -75,3 +75,11 @@ CREATE TABLE `tb_kennzeichen` (
   UNIQUE KEY `kennzeichen` (`kennzeichen`),
   KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `tb_todolist`;
+CREATE TABLE `tb_todolist` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `content` varchar(500) COLLATE utf8_german2_ci NOT NULL,
+  `isactive` smallint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_german2_ci;
