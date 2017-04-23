@@ -4,6 +4,7 @@ Telegram Bot
 	+ nur bei privaten Chats
 + Bot schreibt Nutzer via Telegram an bei neuer Nachricht
 	+ UserID mit Telegram-ID verknüpfen in DB
++ Suchfunktion für Fotoalben: /album [Begriff] --> Antwort sind alle Fotoalben, die den Begriff beinhalten (Name + Link)
 
 + Rückport ins Repo:
 	+ Telegram Notiz wenn Thread erstellt wird, auf Thread geantwortet wird.
