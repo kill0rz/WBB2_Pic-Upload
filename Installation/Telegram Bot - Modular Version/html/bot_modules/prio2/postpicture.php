@@ -34,10 +34,13 @@ if ($glob_switcher == '/postall') {
 			$sql3 = "SELECT q.postedby,u.username,u.wbb_userid FROM tb_pictures_queue q JOIN tb_lastseen_users u ON q.postedby=u.userid GROUP BY postedby;";
 			$result3 = $mysqli->query($sql3);
 			while ($queue = $result3->fetch_object()) {
+				unset($links);
+				unset($trigger_poster_name);
+				unset($pic_userid);
+				unset($wbb_userid);
 				$links = '';
 				$trigger_poster_name = true;
 
-				unset($wbb_userid);
 				if (isset($queue->wbb_userid) && trim($queue->wbb_userid) != '') {
 					$pic_userid = $queue->wbb_userid;
 					$userid_set = true;
@@ -131,8 +134,7 @@ if ($glob_switcher == '/postall') {
 					$b_thread = trim($links);
 
 					/* Post erstellen */
-					$db->query("INSERT INTO bb" . $n . "_posts (threadid,userid,username,iconid,posttopic,posttime,message,attachments,allowsmilies,allowhtml,allowbbcode,allowimages,showsignature,ipaddress,visible)
-								VALUES ('" . $threadid . "', '" . $pic_userid . "', '" . addslashes($user_info['username']) . "', '0', '" . addslashes($subjekt) . "', '" . $time . "', '" . addslashes($b_thread) . "', '0', '1', '0', '1', '1', '1', '127.0.0.1', '1')");
+					$db->query("INSERT INTO bb" . $n . "_posts (threadid,userid,username,iconid,posttopic,posttime,message,attachments,allowsmilies,allowhtml,allowbbcode,allowimages,showsignature,ipaddress,visible) VALUES ('" . $threadid . "', '" . $pic_userid . "', '" . addslashes($user_info['username']) . "', '0', '" . addslashes($subjekt) . "', '" . $time . "', '" . addslashes($b_thread) . "', '0', '1', '0', '1', '1', '1', '127.0.0.1', '1')");
 					$postid = $db->insert_id;
 
 					/* Board updaten */
@@ -153,7 +155,6 @@ if ($glob_switcher == '/postall') {
 					} else {
 						$db->query("UPDATE bb" . $n . "_stats SET postcount=postcount+1", 1);
 					}
-
 					// VGPOST bei Viktor - v-gn.de *Anfang*
 				}
 			}
