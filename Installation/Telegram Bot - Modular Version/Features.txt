@@ -1,0 +1,23 @@
+Funktionen aus der Lite-Version:
+
++ Überwachen von privaten Chats und Gruppen, Zwischenspeichern aller geposteten Bilder
++ Der Admin kann mit dem Befehl /nextpic Threadnamen für jedes Bild festlegen
++ Automatisches Posten aller belegten Bilder in dein Forum
+	+ Neuen Thread erstellen oder
+	+ Vorhandenen Thread suchen und antworten
++ Nichtgewollte Bilder via Telegram löschen
++ Freigabe zum Zufallsbild der Woche kann standardmäßig erteilt werden
++ Bilder vor dem Speichern im Forum rechts und links herum drehen können
+
+
+Plus:
+
++ Ermahnung, wenn ein Nutzer das Wort "Hurensohn" benutzt
++ Statistiken zu im Chat geschriebenen Wörtern --> /stats
++ Erzählen eines unnötig langen, nicht lustigen Hitlerwitzes --> /hitlerwitz
++ Anzeigen, wann ein Nutzer das letzte mal online war --> /lastseen {Username}
++ Suche nach einem frei konfigurierbarem Wort und der Bot antwortet mit einem wählbaren Smiley
++ The famous excuser!
++ Datei post_interval.php kann per Cronjob aufgerufen werden und postet dann einen definierten Text und/oder ein Video
++ Abstimmungen erstellen --> /startvote
++ Facefinder implementiert
