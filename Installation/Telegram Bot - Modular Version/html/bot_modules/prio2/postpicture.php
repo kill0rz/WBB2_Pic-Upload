@@ -25,20 +25,21 @@ if ($glob_switcher == '/postall') {
 		// Hole zuerst alle Topic-Names
 		$sql = "SELECT threadname FROM tb_pictures_queue WHERE TRIM(threadname) IS NOT NULL GROUP BY threadname";
 		$result = $mysqli->query($sql);
-		while ($row = $result->fetch_object()) {
+		while ($thread = $result->fetch_object()) {
 			// prüfen, ob der Thread schon existiert
 			$usenumber = 0;
-			get_thread($row->threadname);
+			get_thread($thread->threadname);
 
 			// Jetzt nach Nutzernamen gruppieren
 			$sql3 = "SELECT q.postedby,u.username,u.wbb_userid FROM tb_pictures_queue q JOIN tb_lastseen_users u ON q.postedby=u.userid GROUP BY postedby;";
 			$result3 = $mysqli->query($sql3);
-			while ($row3 = $result3->fetch_object()) {
+			while ($queue = $result3->fetch_object()) {
 				$links = '';
 				$trigger_poster_name = true;
 
-				if (isset($row3->wbb_userid) && trim($row3->wbb_userid) != '') {
-					$pic_userid = $row3->wbb_userid;
+				unset($wbb_userid);
+				if (isset($queue->wbb_userid) && trim($queue->wbb_userid) != '') {
+					$pic_userid = $queue->wbb_userid;
 					$userid_set = true;
 				} else {
 					$pic_userid = $bot_userid;
@@ -46,15 +47,15 @@ if ($glob_switcher == '/postall') {
 				}
 
 				// für jedes Bild
-				$sql2 = "SELECT * FROM tb_pictures_queue WHERE TRIM(threadname)='" . $row->threadname . "' AND postedby='" . $row3->postedby . "'";
+				$sql2 = "SELECT * FROM tb_pictures_queue WHERE TRIM(threadname)='" . $thread->threadname . "' AND postedby='" . $queue->postedby . "'";
 				$result2 = $mysqli->query($sql2);
-				while ($row2 = $result2->fetch_object()) {
+				while ($queue_pic = $result2->fetch_object()) {
 					if (!$userid_set && $trigger_poster_name) {
-						$links .= "Bilder von " . $row3->username . ":\n";
+						$links .= "Bilder von " . $queue->username . ":\n";
 						$trigger_poster_name = false;
 					}
 
-					$thema = strtr(strtolower(trim($row->threadname)), $ersetzen);
+					$thema = strtr(strtolower(trim($thread->threadname)), $ersetzen);
 
 					// ggf. Ordner erstellen und directory listing verhindern
 					if (!is_dir($subordner)) {
@@ -79,75 +80,82 @@ if ($glob_switcher == '/postall') {
 						}
 					}
 
-					$DateiName = strtr($row2->filename, $ersetzen);
-					resizeImage("./img/" . $row2->location, $subordner . "/" . $pic_userid . "/" . $thema . "/" . $DateiName, 1300, 1, 1);
+					$DateiName = strtr($queue_pic->filename, $ersetzen);
+					while (file_exists($subordner . "/" . $pic_userid . "/" . $thema . "/" . $DateiName)) {
+						sleep(1);
+						$DateiName = time() . $DateiName;
+					}
+					resizeImage("./img/" . $queue_pic->location, $subordner . "/" . $pic_userid . "/" . $thema . "/" . $DateiName, 1300, 1, 1);
 					$links .= "[IMG]" . $albenurl . "/" . $pic_userid . "/" . $thema . "/" . $DateiName . "[/IMG]\n";
 
 					// remove pic from queue
-					$sql3 = "DELETE FROM tb_pictures_queue WHERE id='" . $row2->id . "'";
+					$sql3 = "DELETE FROM tb_pictures_queue WHERE id='" . $queue_pic->id . "'";
 					$mysqli->query($sql3);
-					@unlink("./img/" . $row2->location);
+					@unlink("./img/" . $queue_pic->location);
 					$done_counter++;
 				}
-				$links .= "\n\n";
 
-				// VGPOST bei Viktor - v-gn.de *Anfang*
-				$time = time();
+				if (isset($links) && trim($links) != '') {
 
-				/* Thread erstellen */
-				$posting_thema = $row->threadname;
-				$posting_prefix = 'Telegram';
+					// VGPOST bei Viktor - v-gn.de *Anfang*
+					$time = time();
 
-				/* Username holen */
-				$user_info = query_first($db, "SELECT username FROM bb" . $n . "_users WHERE userid = '" . $pic_userid . "'");
-				$vgp_username = $user_info['username'];
+					/* Thread erstellen */
+					$posting_thema = $thread->threadname;
+					$posting_prefix = 'Telegram';
 
-				// Thread schon vorhanden oder neuen erstellen?
-				$hasbeenpostetasareply = true;
-				if ($usenumber == 0) {
-					// neuer Thread
-					$subjekt = $posting_thema;
+					/* Username holen */
+					$user_info = query_first($db, "SELECT username FROM bb" . $n . "_users WHERE userid = '" . $pic_userid . "'");
+					$vgp_username = $user_info['username'];
 
-					$db->query("INSERT INTO bb" . $n . "_threads (boardid,prefix,topic,iconid,starttime,starterid,starter,lastposttime,lastposterid,lastposter,attachments,pollid,important,visible)
+					// Thread schon vorhanden oder neuen erstellen?
+					$hasbeenpostetasareply = true;
+					if ($usenumber == 0) {
+						// neuer Thread
+						$subjekt = $posting_thema;
+
+						$db->query("INSERT INTO bb" . $n . "_threads (boardid,prefix,topic,iconid,starttime,starterid,starter,lastposttime,lastposterid,lastposter,attachments,pollid,important,visible)
 									VALUES ('" . $bot_boardid . "', '" . addslashes($posting_prefix) . "', '" . addslashes($posting_thema) . "', '0', '" . $time . "', '" . $pic_userid . "', '" . addslashes($user_info['username']) . "', '" . $time . "', '" . $pic_userid . "', '" . addslashes($user_info['username']) . "', '0', '0', '0', '1')");
-					$threadid = $db->insert_id;
-					$hasbeenpostetasareply = false;
-					post_reply("Erstelle neuen Thread: " . $posting_thema);
-				} else {
-					// antworte auf
-					$threadid = $usenumber;
-					$subjekt = "[" . $posting_prefix . "] " . $posting_thema;
+						$usenumber = $db->insert_id;
+						$threadid = $db->insert_id;
+						$hasbeenpostetasareply = false;
+						post_reply("Erstelle neuen Thread: " . $posting_thema);
+					} else {
+						// antworte auf
+						$threadid = $usenumber;
+						$subjekt = "[" . $posting_prefix . "] " . $posting_thema;
 
-					post_reply("Antworte auf Thread: " . utf8_decode($subjekt));
-				}
+						post_reply("Antworte auf Thread: " . utf8_decode($subjekt));
+					}
 
-				$b_thread = trim($links);
+					$b_thread = trim($links);
 
-				/* Post erstellen */
-				$db->query("INSERT INTO bb" . $n . "_posts (threadid,userid,username,iconid,posttopic,posttime,message,attachments,allowsmilies,allowhtml,allowbbcode,allowimages,showsignature,ipaddress,visible)
+					/* Post erstellen */
+					$db->query("INSERT INTO bb" . $n . "_posts (threadid,userid,username,iconid,posttopic,posttime,message,attachments,allowsmilies,allowhtml,allowbbcode,allowimages,showsignature,ipaddress,visible)
 								VALUES ('" . $threadid . "', '" . $pic_userid . "', '" . addslashes($user_info['username']) . "', '0', '" . addslashes($subjekt) . "', '" . $time . "', '" . addslashes($b_thread) . "', '0', '1', '0', '1', '1', '1', '127.0.0.1', '1')");
-				$postid = $db->insert_id;
+					$postid = $db->insert_id;
 
-				/* Board updaten */
-				$boardstr = query_first($db, "SELECT parentlist FROM bb" . $n . "_boards WHERE boardid = '" . $bot_boardid . "'");
-				$parentlist = $boardstr['parentlist'];
+					/* Board updaten */
+					$boardstr = query_first($db, "SELECT parentlist FROM bb" . $n . "_boards WHERE boardid = '" . $bot_boardid . "'");
+					$parentlist = $boardstr['parentlist'];
 
-				/* update thread info */
-				$db->query("UPDATE bb" . $n . "_threads SET lastposttime = '" . $time . "', lastposterid = '" . $pic_userid . "', lastposter = '" . addslashes($user_info['username']) . "', replycount = replycount+1 WHERE threadid = '{$threadid}'", 1);
+					/* update thread info */
+					$db->query("UPDATE bb" . $n . "_threads SET lastposttime = '" . $time . "', lastposterid = '" . $pic_userid . "', lastposter = '" . addslashes($user_info['username']) . "', replycount = replycount+1 WHERE threadid = '{$threadid}'", 1);
 
-				/* update board info */
-				$db->query("UPDATE bb" . $n . "_boards SET postcount=postcount+1, lastthreadid='{$threadid}', lastposttime='" . $time . "', lastposterid='" . $pic_userid . "', lastposter='" . addslashes($user_info['username']) . "' WHERE boardid IN ({$parentlist},{$bot_boardid})", 1);
+					/* update board info */
+					$db->query("UPDATE bb" . $n . "_boards SET postcount=postcount+1, lastthreadid='{$threadid}', lastposttime='" . $time . "', lastposterid='" . $pic_userid . "', lastposter='" . addslashes($user_info['username']) . "' WHERE boardid IN ({$parentlist},{$bot_boardid})", 1);
 
-				$db->query("UPDATE bb" . $n . "_users SET userposts=userposts+1 WHERE userid = '" . $pic_userid . "'", 1);
+					$db->query("UPDATE bb" . $n . "_users SET userposts=userposts+1 WHERE userid = '" . $pic_userid . "'", 1);
 
-				/* Statistik updaten */
-				if ($hasbeenpostetasareply) {
-					$db->query("UPDATE bb" . $n . "_stats SET threadcount=threadcount+1, postcount=postcount+1", 1);
-				} else {
-					$db->query("UPDATE bb" . $n . "_stats SET postcount=postcount+1", 1);
+					/* Statistik updaten */
+					if ($hasbeenpostetasareply) {
+						$db->query("UPDATE bb" . $n . "_stats SET threadcount=threadcount+1, postcount=postcount+1", 1);
+					} else {
+						$db->query("UPDATE bb" . $n . "_stats SET postcount=postcount+1", 1);
+					}
+
+					// VGPOST bei Viktor - v-gn.de *Anfang*
 				}
-
-				// VGPOST bei Viktor - v-gn.de *Anfang*
 			}
 		}
 		post_reply("Es wurden " . $done_counter . " Bilder ins Forum gepostet.");
