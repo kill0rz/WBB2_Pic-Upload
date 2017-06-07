@@ -1,5 +1,8 @@
 <?php
 
+$ersetzen = array('ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'Ä' => 'ae', 'Ö' => 'oe', 'Ü' => 'ue', 'ß' => 'ss', ' ' => '_', '\\' => '-', '/' => '-', "http://" => "", "http" => "", "//" => "", ":" => "", ";" => "", "[" => "", "]" => "", "{" => "", "}" => "", "%" => "", "$" => "", "?" => "", "!" => "", "=" => "", "'" => "_", "(" => "_", ")" => "_");
+$helptext = array();
+
 function logging($chatID, $update) {
 	$myFile = "log.txt";
 	$updateArray = print_r($update, TRUE);
@@ -299,7 +302,6 @@ function getsite($zielurl, $postdata = "", $ref = "", $newsess = true) {
 	return $temp;
 }
 
-$ersetzen = array('ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'Ä' => 'ae', 'Ö' => 'oe', 'Ü' => 'ue', 'ß' => 'ss', ' ' => '_', '\\' => '-', '/' => '-', "http://" => "", "http" => "", "//" => "", ":" => "", ";" => "", "[" => "", "]" => "", "{" => "", "}" => "", "%" => "", "$" => "", "?" => "", "!" => "", "=" => "", "'" => "_", "(" => "_", ")" => "_");
 function replace_umlaute($string) {
 	$umlaute = array(
 		"&auml;" => "ä",
@@ -310,4 +312,26 @@ function replace_umlaute($string) {
 		"&Uuml;" => "Ü",
 	);
 	return strtr($string, $umlaute);
+}
+
+function add_to_help($text) {
+	global $helptext;
+	$helptext[] = $text;
+}
+
+function call_help() {
+	global $helptext;
+
+	natsort($helptext);
+	$text = "/help --> Dieses Menü\n";
+	foreach ($helptext as $textline) {
+		$text .= $textline . "\n";
+	}
+	post_reply($text);
+}
+
+function include_prio($prio) {
+	foreach (glob("bot_modules/prio{$prio}/*.php") as $filename) {
+		include $filename;
+	}
 }

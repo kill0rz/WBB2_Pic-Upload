@@ -1,5 +1,18 @@
 <?php
 
+add_to_help("/nextpic --> Bearbeite Bilder fürs Forum");
+
+function call_post_help() {
+	$text = "Bitte gib an, was genau du machen willst:\n";
+	$text .= "/nextpic --> bearbeite das nächste Bild\n";
+	$text .= "/delpic --> lösche aktuelles Bild\n";
+	$text .= "/rotagepicright --> Bild rechtsherum drehen\n";
+	$text .= "/rotagepicleft --> Bild linksherum drehen\n";
+	$text .= "/postall --> Schreibe alle Bilder ins Forum\n";
+	$text .= "/help --> Allgemeine Hilfe\n";
+	post_reply($text);
+}
+
 if ($glob_switcher == '/postall') {
 	if ($update["message"]["from"]["id"] == $admin_id) {
 		$done_counter = 0;

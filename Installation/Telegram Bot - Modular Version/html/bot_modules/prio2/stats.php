@@ -1,5 +1,16 @@
 <?php
 
+add_to_help("/stats --> Zeigt Statistiken");
+
+function call_stats_help() {
+	$text = "Bitte gib an, welche Statistiken du sehen willst:\n";
+	$text .= "/stats allwords --> Zeigt Statistiken zu allen Worten\n";
+	$text .= "/stats word {Wort} --> Zeigt Statistiken zu einem Wort\n";
+	$text .= "/stats common --> Zeigt allgemeine Statistiken\n";
+	$text .= "/stats me --> Zeigt Statistiken zu dir\n";
+	post_reply($text);
+}
+
 if ($glob_switcher == '/stats') {
 	if (isset($befehle[1])) {
 		switch (strtolower($befehle[1])) {

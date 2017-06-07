@@ -1,5 +1,7 @@
 <?php
 
+add_to_help("/hitlerwitz --> Tells the infamous Hitlerwitz!");
+
 if ($glob_switcher == '/hitlerwitz') {
 	$text = "Hitler marschiert in Polen ein.\n";
 	$text .= "Er läuft mittig vor zwei Solden. Einer rechts und einer links an seiner Seite.\n";

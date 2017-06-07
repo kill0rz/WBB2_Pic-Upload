@@ -1,5 +1,7 @@
 <?php
 
+add_to_help("/lastseen {NUTZERNAME} --> Zeigt dir an, wann der Nutzer das letzte mal online war.");
+
 if ($glob_switcher == '/lastseen') {
 	if (count($befehle) > 1) {
 		for ($i = 1; $i < count($befehle); $i++) {
