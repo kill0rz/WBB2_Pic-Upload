@@ -335,8 +335,8 @@ function parse_dateformats($ordnername) {
 }
 
 function get_thread() {
-	global $db, $fotoalben_board_id, $ersetzen, $usenumber, $usetopic, $ordner_utf8;
-	$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $fotoalben_board_id . ";";
+	global $db, $fotoalben_board_id, $fotoalben_hidden_board_id, $ersetzen, $usenumber, $usetopic, $ordner_utf8;
+	$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $fotoalben_board_id . " OR boardid = " . $fotoalben_hidden_board_id . " ORDER BY threadid DESC;";
 	$result = $db->unbuffered_query($sql);
 	while ($row = $db->fetch_array($result)) {
 		$name = trim(strtr(strtolower(utf8_encode($row['topic'])), $ersetzen));
