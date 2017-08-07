@@ -112,12 +112,22 @@ if (!count($useralbums) > 0) {
 	die("Keine Alben zum indexieren!");
 }
 
-$result = $db->unbuffered_query("SELECT username FROM bb" . $n . "_users WHERE userid='{$userid}'");
-while ($row = $db->fetch_array($result)) {
-	$nutzername = $row['username'];
-}
-
+// Insert into Shoutbox
 $imgurl_encoded = str_replace("https%3A%2F%2F", "https://", urlencode($imgurl));
 $message = "Das Zufallsbild der Woche kommt heute von [b]{$nutzername}[/b] aus dem Album [b]{$albumname}[/b]: [url={$imgurl_encoded}]{$imgurl}[/url]";
 $result = $db->query("INSERT INTO bb" . $n . "_xy_shoutbox SET `name`='Random-Bot',`comment`='" . addslashes($message) . "',`date`='" . time() . "'");
+
+// Post to Telegram
+include "../telegram_bot/config.php";
+include "../telegram_bot/functions.php";
+
+$message = "Das Zufallsbild der Woche kommt heute von {$nutzername} aus dem Album {$albumname}:";
+$chatID = $randompic_chatID;
+post_reply($message);
+if (strtolower(substr($imgurl, -4, 4)) == ".gif") {
+	send_video($imgurl);
+} else {
+	send_photo($imgurl);
+}
+
 die();
