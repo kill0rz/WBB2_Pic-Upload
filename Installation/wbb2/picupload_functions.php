@@ -335,14 +335,14 @@ function parse_dateformats($ordnername) {
 }
 
 function get_thread() {
-	global $db, $fotoalben_board_id, $fotoalben_hidden_board_id, $ersetzen, $usenumber, $usetopic, $ordner_utf8;
+	global $db, $fotoalben_board_id, $fotoalben_hidden_board_id, $ersetzen, $usenumber, $usetopic, $ordner;
 	$sql = "SELECT threadid, topic FROM bb1_threads WHERE boardid = " . $fotoalben_board_id . " OR boardid = " . $fotoalben_hidden_board_id . " ORDER BY threadid DESC;";
 	$result = $db->unbuffered_query($sql);
 	while ($row = $db->fetch_array($result)) {
-		$name = trim(strtr(strtolower(utf8_encode($row['topic'])), $ersetzen));
-		if (parse_dateformats($name) == parse_dateformats($ordner_utf8)) {
+		$name = trim(strtr(strtolower($row['topic']), $ersetzen));
+		if (parse_dateformats($name) == parse_dateformats($ordner)) {
 			$usenumber = $row['threadid'];
-			$usetopic = htmlentities($row['topic'], ENT_NOQUOTES | ENT_HTML401, 'ISO-8859-1');
+			$usetopic = htmlentities($row['topic']);
 		}
 	}
 }
