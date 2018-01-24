@@ -17,6 +17,16 @@ function getgentime() {
 
 }
 
+function get_next_birthday($birthday) {
+	$date = new DateTime($birthday);
+	$date->modify('+' . date('Y') - $date->format('Y') . ' years');
+	if ($date < new DateTime()) {
+		$date->modify('+1 year');
+	}
+
+	return $date->format('Y-m-d');
+}
+
 $phpversion = phpversion();
 
 require './acp/lib/config.inc.php';
@@ -37,9 +47,8 @@ include "../telegram_bot/functions.php";
 
 $result = $db->unbuffered_query("SELECT username,birthday FROM bb" . $n . "_users WHERE birthday<>'0000-00-00'");
 while ($row = $db->fetch_array($result)) {
-
 	// Ist in 3 Tagen Geburtstag?
-	$birthday_dt = new DateTime($row['birthday']);
+	$birthday_dt = new DateTime(get_next_birthday($row['birthday']));
 	if ($birthday_dt->diff($today_dt)->format("%a") == 3) {
 		$message = "In 3 Tagen hat {$row['username']} Geburtstag!";
 		$chatID = $birthday_chatID;
@@ -47,7 +56,7 @@ while ($row = $db->fetch_array($result)) {
 	}
 
 	// Ist heute Geburtstag?
-	$birthday_dt = new DateTime($row['birthday']);
+	$birthday_dt = new DateTime(get_next_birthday($row['birthday']));
 	if ($birthday_dt == $today_dt) {
 		$message = "Wir gratulieren {$row['username']} zum Geburtstag! =)";
 		$chatID = $birthday_chatID;
