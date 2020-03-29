@@ -51,6 +51,8 @@
 									<br /> oder neuer Ordner:
 									<br />
 									<input type="text" name="newdir" size="30" value="$ordner_anz" id="ordner_name_new" />
+									<button onclick="appandDateToFoldername('yesterday');" id="appandDateToFoldernameYesterday" type="button">&larr; gestriges Datum einfügen</button>
+									<button onclick="appandDateToFoldername('today');" id="appandDateToFoldernameToday" type="button">&larr; heutiges Datum einfügen</button>
 									<br />
 								</div>
 								<br />
@@ -96,6 +98,7 @@
 												<th>Anteil freigegebener Bilder</th>
 											</then>
 										</if>
+										<th>Zuletzt Bilder hochgeladen am</th>
 									</tr>
 									$statsinhalt
 								</table>

@@ -215,6 +215,10 @@ function generate_stats() {
 					$usersdata[$f]['pictures_allowed'] = 0;
 				}
 
+				//last upload date
+				$latestUploadDate = trim(shell_exec("cd ./" . $subordner . "/" . $f . "/ && ls -tl . | sed -n 2p |  awk '{print $6 $7 $8}'"));
+				$usersdata[$f]['lastupload'] = date_create_from_format((strlen($latestUploadDate) == 9 ? "MjY" : "MjH:i"), $latestUploadDate);
+
 				$album = scandir("./" . $subordner . "/" . $f . "/");
 				foreach ($album as $a) {
 					if (is_dir("./" . $subordner . "/" . $f . "/" . $a . "/") && $f != '.' && $f != '..') {
@@ -251,6 +255,7 @@ function generate_stats() {
 			if ($use_randompic) {
 				$statsinhalt .= "<td>{$data['pictures_allowed']}</td><td>{$prz_pic_allowed}%</td>";
 			}
+			$statsinhalt .= "<td>" . date_format($data['lastupload'], "d.m.Y") . "</td>";
 			$statsinhalt .= "</tr>";
 		}
 		if ($gesamtbilder_allowed > 0 && $gesamtbilder > 0) {

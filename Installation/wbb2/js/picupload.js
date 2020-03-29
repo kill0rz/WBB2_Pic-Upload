@@ -2,7 +2,7 @@
 //
 
 //
-// Pic-Upload Script v3.1 by kill0rz
+// Pic-Upload Script v3.0 by kill0rz
 //
 
 //
@@ -22,7 +22,7 @@ function open_picupload(threadname) {
 	}
 	title = btoa(title);
 	var d = new Date();
-	window.open('picupload.php?title=' + encodeURI(title), 'picupload' + d.getTime());
+	window.location = 'picupload.php?title=' + encodeURI(title), 'picupload' + d.getTime();
 }
 
 function addreplaytothread(inhalt, threadid) {
@@ -127,4 +127,50 @@ function uploadFile(fileid) {
 
 function uploadAbort() {
 	if (client instanceof XMLHttpRequest) client.abort();
+}
+
+var toggle = 1;
+
+function changedivs() {
+	if (toggle == 1) {
+		$('#changedivs').html("&darr; Bilder ausw&auml;hlen");
+		$('#ordner').css('border-color', 'black');
+		$('#links').css('border-color', 'red');
+		$('#ordner').find('input, textarea, button, select').prop("disabled", true);
+		$('#links').find('input, textarea, button, select').prop("disabled", false);
+		toggle = 2;
+	} else {
+		$('#changedivs').html("&uarr; Ordner ausw&auml;hlen");
+		$('#ordner').find('input, textarea, button, select').prop("disabled", false);
+		$('#links').find('input, textarea, button, select').prop("disabled", true);
+		$('#ordner').css('border-color', 'red');
+		$('#links').css('border-color', 'black');
+		toggle = 1;
+	}
+}
+
+function appandDateToFoldername(day) {
+	Date.prototype.ddmmyyyy = function() {
+		var yyyy = this.getFullYear().toString();
+		var mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+		var dd = this.getDate().toString();
+		return (dd[1] ? dd : "0" + dd[0]) + "." + (mm[1] ? mm : "0" + mm[0]) + "." + yyyy; // padding
+	};
+
+	var date = new Date();
+	var formattedDate;
+	switch (day) {
+		case "today":
+			formattedDate = date.ddmmyyyy();
+			break;
+		case "yesterday":
+			date.setDate(date.getDate() - 1);
+			formattedDate = date.ddmmyyyy();
+			break;
+	}
+
+	$('#ordner_name_new').val($('#ordner_name_new').val().trim() + " " + formattedDate);
+	$('#ordner_name_new').focus();
+
+	return;
 }
